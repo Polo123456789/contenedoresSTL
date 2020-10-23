@@ -18,7 +18,7 @@
  *
  *  LegacyRandomAccesIterator
  *
- *      Es un LegacyBidirectionalIterator que se puede mover a cualquier
+ *      Es un LegacyRandAccesIter que se puede mover a cualquier
  *      elemtento en timempo constante.
  *
  * */
@@ -26,18 +26,23 @@
 #ifndef PSG_ITERATOR_LEGACY_RANDOM_ACCES_ITERATOR_HPP
 #define PSG_ITERATOR_LEGACY_RANDOM_ACCES_ITERATOR_HPP
 
-#include "legacy_bidirectional_iterator.hpp"
-
 namespace psg {
 namespace imp {
 
-template<typename Container, typename value_type>
-class LegacyRandomAccesIterator
-    : public LegacyBidirectionalIterator<Container, value_type> {
+template<typename value_type>
+class LegacyRandomAccesIterator {
     using LegacyRandAccesIter =
-        LegacyRandomAccesIterator<Container, value_type>;
+        LegacyRandomAccesIterator<value_type>;
 
    public:
+    LegacyRandAccesIter &operator--(void);
+    LegacyRandAccesIter operator--(int);
+    LegacyRandAccesIter& operator++(void);
+    LegacyRandAccesIter operator++(int);
+    bool operator==(const LegacyRandAccesIter &other);
+    bool operator!=(const LegacyRandAccesIter &other);
+    value_type& operator*(void);
+    value_type *operator->();
     LegacyRandAccesIter &operator+=(int);
     LegacyRandAccesIter operator+(int) const;
     LegacyRandAccesIter &operator-=(int);

@@ -2,6 +2,6 @@
 
 int main(void) {
     constexpr int arr_size = 10;
-    psg::array<int, arr_size> array;
+    psg::array<const int, arr_size> array;
     return 0;
 }

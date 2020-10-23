@@ -16,29 +16,37 @@
  *
  * Descripcion de la clase:
  *
- *  LegacyBidirectionalIterator:
+ *  LegacyForwardIterator:
  *
- *      Es un LegacyForwardIterator que se puede mover en ambas direcciones.
+ *      Es un iterador que puede leer de el elemento al que apunta. Este es
+ *      valido para algoritmos de mas de una pasada.
+ *
+ *  Requisitos:
+ *
+ *      * Es un LegacyIterator
+ *      * Es EqualityComparable (bool operator==)
  *
  * */
-#ifndef PSG_ITERATOR_LEGACY_BIDIRECTIONAL_ITERATOR_HPP
-#define PSG_ITERATOR_LEGACY_BIDIRECTIONAL_ITERATOR_HPP
+#ifndef PSG_ITERATOR_LEGACY_FORWARD_ITERATOR_HPP
+#define PSG_ITERATOR_LEGACY_FORWARD_ITERATOR_HPP
 
-#include "legacy_forward_iterator.hpp"
+#include "legacy_iterator.hpp"
 
 namespace psg {
 namespace imp {
 
-template<typename Container, typename value_type>
-class LegacyBidirectionalIterator
-    : public LegacyForwardIterator<Container, value_type> {
-
-    using LegacyBidirectionalIter =
-        LegacyBidirectionalIterator<Container, value_type>;
+template<typename value_type>
+class LegacyForwardIterator {
+    using LegacyForwardIter = LegacyForwardIterator<value_type>;
 
    public:
-    LegacyBidirectionalIter &operator--(void);
-    LegacyBidirectionalIter operator--(int);
+    bool operator==(const LegacyForwardIter &other);
+    bool operator!=(const LegacyForwardIter &other);
+
+    value_type& operator*(void);
+    value_type *operator->();
+    LegacyForwardIter& operator++(void);
+    LegacyForwardIter operator++(int);
 };
 
 }; // namespace imp
