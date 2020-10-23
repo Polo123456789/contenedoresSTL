@@ -40,7 +40,21 @@ class array {
     void swap(array<T, arr_size> &other);
 
    private:
+    T data[arr_size];
 };
+
+template<typename T, const size_t arr_size>
+using ArrayIter = typename array<T, arr_size>::iterator;
+
+template<typename T, const size_t arr_size>
+ArrayIter<T, arr_size> array<T, arr_size>::begin() {
+    return ArrayIter<T, arr_size>(data, 0);
+}
+
+template<typename T, const size_t arr_size>
+ArrayIter<T, arr_size> array<T, arr_size>::end() {
+    return ArrayIter<T, arr_size>(data, arr_size);
+}
 
 } // namespace psg
 
