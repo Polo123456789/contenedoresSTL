@@ -1,29 +1,39 @@
 #ifndef PSG_ARRAY_CPP
 #define PSG_ARRAY_CPP
 
-namespace algo {
-  
-template <typename T, const size_t arr_size>
+#include "iterator.hpp"
+
+namespace psg {
+
+template<typename T, const size_t arr_size>
 class array {
-  public:
+   public:
     // Funcionen miembro
-    array(void);
-    array(const array<T, arr_size>& rhs);
-    array(array<T, arr_size>&& rhs) noexcept;
-    array& operator=(const array<T, arr_size>& rhs);
-    array& operator=(array<T, arr_size>&& rhs) noexcept;
-    ~array(void);
+    array(void) = default;
+    array(const array<T, arr_size> &rhs);
+    array(array<T, arr_size> &&rhs) noexcept = delete;
+    array &operator=(const array<T, arr_size> &rhs);
+    array &operator=(array<T, arr_size> &&rhs) noexcept = delete;
+    ~array(void) = default;
 
     // Acceso a elementos
-    T& at(int position);
-    T& operator[](int position);
-    T& front(void);
-    T& back(void);
+    T &at(int position);
+    T &operator[](int position);
+    T &front(void);
+    T &back(void);
 
     // Iteradores
-    class iterator;
-    class const_iterator;
-    class reverse_iterator;
+    using iterator = imp::LegacyRandomAccesIterator<array<T, arr_size>, T>;
+    using const_iterator =
+        imp::LegacyRandomAccesIterator<array<T, arr_size>, const T>;
+    using reverse_iterator =
+        imp::LegacyRandomAccesIterator<array<T, arr_size>, T>;
+    iterator begin();
+    iterator end();
+    const_iterator cbegin();
+    const_iterator cend();
+    reverse_iterator rbegin();
+    reverse_iterator rend();
 
     // Capacidad
     bool empty(void);
@@ -31,36 +41,12 @@ class array {
     size_t max_size(void);
 
     // Operaciones
-    void fill(const T& value);
-    void swap(array<T, arr_size>& other);
-  private:
-};
+    void fill(const T &value);
+    void swap(array<T, arr_size> &other);
 
-// TODO (pablo): Terminar la clase iterador. Puede ser mejor pasarla a una base
-
-template <typename T, const size_t arr_size>
-class array<T, arr_size>::iterator {
-   public:
-    // Funciones miembro
-    iterator();
-    ~iterator();
-    iterator(const iterator& i);
-    iterator(iterator&& i) noexcept;
-    iterator& operator=(const iterator& i);
-    iterator& operator=(iterator&& i) noexcept;
-
-    // Operadores aritmeticos
-    void operator++();
-    iterator operator++(int);
-    void operator--();
-    iterator operator--(int);
-
-    // Dereferencia
-    iterator& operator*();
    private:
 };
 
-
-}  // namespace algo
+}; // namespace psg
 
 #endif
