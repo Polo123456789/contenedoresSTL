@@ -3,5 +3,6 @@
 
 #include "array/array_class.hpp"
 #include "array/array_iterator_class.hpp"
+#include "array/array_const_iterator_class.hpp"
 
 #endif

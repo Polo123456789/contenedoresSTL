@@ -8,6 +8,7 @@ namespace psg {
 template<typename T, const size_t arr_size>
 class array<T, arr_size>::iterator {
    public:
+    iterator() = default;
     explicit iterator(T * /*first*/, int /*position*/);
     explicit iterator(T* /*pos*/);
     iterator &operator--(void);
@@ -27,7 +28,7 @@ class array<T, arr_size>::iterator {
     bool operator>(const iterator &rhs) const;
     bool operator<=(const iterator &rhs) const;
     bool operator>=(const iterator &rhs) const;
-    T &operator[](int);
+    T &operator[](int /*pos*/);
 
    private:
     T *object = nullptr;
@@ -53,7 +54,7 @@ template<typename T, const size_t arr_size>
 ArrayIter<T, arr_size> array<T, arr_size>::iterator::operator--(int) {
     ArrayIter<T, arr_size> tmp = *this;
     --object;
-    return temp;
+    return tmp;
 }
 
 template<typename T, const size_t arr_size>
@@ -66,7 +67,7 @@ template<typename T, const size_t arr_size>
 ArrayIter<T, arr_size> array<T, arr_size>::iterator::operator++(int) {
     ArrayIter<T, arr_size> tmp = *this;
     ++object;
-    return temp;
+    return tmp;
 }
 
 template<typename T, const size_t arr_size>
