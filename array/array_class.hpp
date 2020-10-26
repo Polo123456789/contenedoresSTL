@@ -1,6 +1,7 @@
 #ifndef PSG_ARRAY_ARRAY_CLASS_HPP
 #define PSG_ARRAY_ARRAY_CLASS_HPP
 
+#include "../utility.hpp"
 #include "../algorithm.hpp"
 #include "../exception.hpp"
 
@@ -70,7 +71,7 @@ T &array<T, arr_size>::at(int position) {
         return data[position];
     }
     throw exception("exception en el psg::array al llamar la funcion at(), "
-                   "elemento fuera de rango");
+                   "elemento fuera de rango. ");
 }
 
 template<typename T, const size_t arr_size>
@@ -101,28 +102,46 @@ template<typename T, const size_t arr_size>
 using ArrayConstRevIter = typename array<T, arr_size>::const_reverse_iterator;
 
 template<typename T, const size_t arr_size>
-ArrayIter<T, arr_size> array<T, arr_size>::begin() {
+ArrayIter<T, arr_size> array<T, arr_size>::begin(void) {
     return ArrayIter<T, arr_size>(data, 0);
 }
 
 template<typename T, const size_t arr_size>
-ArrayIter<T, arr_size> array<T, arr_size>::end() {
+ArrayIter<T, arr_size> array<T, arr_size>::end(void) {
     return ArrayIter<T, arr_size>(data, arr_size);
 }
 
 template<typename T, const size_t arr_size>
-ArrayConstIter<T, arr_size> array<T, arr_size>::cbegin() const {
+ArrayConstIter<T, arr_size> array<T, arr_size>::cbegin(void) const {
     return ArrayConstIter<T, arr_size>(data, 0);
 }
 
 template<typename T, const size_t arr_size>
-ArrayConstIter<T, arr_size> array<T, arr_size>::cend() const {
+ArrayConstIter<T, arr_size> array<T, arr_size>::cend(void) const {
     return ArrayConstIter<T, arr_size>(data, arr_size);
 }
 
-//
-//TODO (pablo): Implementar las demas funciones de los iteradores.
-//
+template<typename T, const size_t arr_size>
+ArrayRevIter<T, arr_size> array<T, arr_size>::rbegin(void) {
+    T* last_element = data + arr_size - 1;
+    return ArrayRevIter<T, arr_size>(last_element, 0);
+}
+
+template<typename T, const size_t arr_size>
+ArrayRevIter<T, arr_size> array<T, arr_size>::rend(void) {
+    T* last_element = data + arr_size - 1;
+    return ArrayRevIter<T, arr_size>(last_element, arr_size);
+}
+
+template<typename T, const size_t arr_size>
+ArrayConstRevIter<T, arr_size> array<T, arr_size>::crbegin(void) const {
+    return ArrayConstRevIter<T, arr_size>(data, 0);
+}
+
+template<typename T, const size_t arr_size>
+ArrayConstRevIter<T, arr_size> array<T, arr_size>::crend(void) const {
+    return ArrayConstRevIter<T, arr_size>(data, arr_size);
+}
 
 template<typename T, const size_t arr_size>
 constexpr bool array<T, arr_size>::empty(void) const {
