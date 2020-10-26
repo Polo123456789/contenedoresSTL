@@ -135,12 +135,14 @@ ArrayRevIter<T, arr_size> array<T, arr_size>::rend(void) {
 
 template<typename T, const size_t arr_size>
 ArrayConstRevIter<T, arr_size> array<T, arr_size>::crbegin(void) const {
-    return ArrayConstRevIter<T, arr_size>(data, 0);
+    const T* last_element = data + arr_size - 1;
+    return ArrayConstRevIter<T, arr_size>(last_element, 0);
 }
 
 template<typename T, const size_t arr_size>
 ArrayConstRevIter<T, arr_size> array<T, arr_size>::crend(void) const {
-    return ArrayConstRevIter<T, arr_size>(data, arr_size);
+    const T* last_element = data + arr_size - 1;
+    return ArrayConstRevIter<T, arr_size>(last_element, arr_size);
 }
 
 template<typename T, const size_t arr_size>
