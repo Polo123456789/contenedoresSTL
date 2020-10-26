@@ -1,6 +1,6 @@
 #include <iostream>
 //#include <array>
-#include "array.hpp"
+#include "array_s.hpp"
 
 using namespace psg;
 //using namespace std;
