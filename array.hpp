@@ -20,31 +20,31 @@ class array { // NOLINT No necesita los que son por movimiento
     using size_type = size_t;
     using difference_type = ptrdiff_t;
 
-    constexpr array(void) = default;
-    constexpr array(const array<T, arr_size> &rhs);
-    constexpr array &operator=(const array<T, arr_size> &rhs);
+    array(void) = default;
+    array(const array<T, arr_size> &rhs);
+    array &operator=(const array<T, arr_size> &rhs);
 
-    constexpr reference at(int position);
-    constexpr const_reference at(int position) const;
-    constexpr reference operator[](int position);
-    constexpr const_reference operator[](int position) const;
-    constexpr reference front(void);
-    constexpr const_reference front(void) const;
-    constexpr reference back(void);
-    constexpr const_reference back(void) const;
+    reference at(int position);
+    const_reference at(int position) const;
+    reference operator[](int position);
+    const_reference operator[](int position) const;
+    reference front(void);
+    const_reference front(void) const;
+    reference back(void);
+    const_reference back(void) const;
 
     class iterator;
     class const_iterator;
     class reverse_iterator;
     class const_reverse_iterator;
-    constexpr iterator begin(void) noexcept;
-    constexpr iterator end(void) noexcept;
-    constexpr const_iterator cbegin(void) const noexcept;
-    constexpr const_iterator cend(void) const noexcept;
-    constexpr reverse_iterator rbegin(void) noexcept;
-    constexpr reverse_iterator rend(void) noexcept;
-    constexpr const_reverse_iterator crbegin(void) const noexcept;
-    constexpr const_reverse_iterator crend(void) const noexcept;
+    iterator begin(void) noexcept;
+    iterator end(void) noexcept;
+    const_iterator cbegin(void) const noexcept;
+    const_iterator cend(void) const noexcept;
+    reverse_iterator rbegin(void) noexcept;
+    reverse_iterator rend(void) noexcept;
+    const_reverse_iterator crbegin(void) const noexcept;
+    const_reverse_iterator crend(void) const noexcept;
 
     [[nodiscard]] constexpr bool empty(void) const noexcept;
     constexpr size_t size(void) const noexcept;
@@ -53,8 +53,8 @@ class array { // NOLINT No necesita los que son por movimiento
     void fill(const T &value);
     void swap(array<T, arr_size> &other) noexcept;
 
-    constexpr pointer data() noexcept;
-    constexpr const_pointer data() const noexcept;
+    pointer data() noexcept;
+    const_pointer data() const noexcept;
 
    private:
     T object[arr_size]; // NOLINT Tiene que ser un array estilo C
