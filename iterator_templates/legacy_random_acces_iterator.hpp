@@ -82,7 +82,7 @@ class LegacyRandomAccesIterator {
     LegacyRandAccesIter operator+(size_type amount) const noexcept;
     LegacyRandAccesIter &operator-=(size_type amount) noexcept;
     LegacyRandAccesIter operator-(size_type amount) const noexcept;
-    int64_t operator-(const LegacyRandAccesIter &rhs) const noexcept;
+    difference_type operator-(const LegacyRandAccesIter &rhs) const noexcept;
     bool operator<(const LegacyRandAccesIter &rhs) const noexcept;
     bool operator>(const LegacyRandAccesIter &rhs) const noexcept;
     bool operator<=(const LegacyRandAccesIter &rhs) const noexcept;
@@ -177,7 +177,7 @@ LRAI<T, Operation> LRAI<T, Operation>::operator-(
 }
 
 template<typename T, typename Operation>
-int64_t LRAI<T, Operation>::operator-(
+typename LRAI<T, Operation>::difference_type LRAI<T, Operation>::operator-(
     const LegacyRandAccesIter &rhs) const noexcept {
     return object - rhs.object;
 }
