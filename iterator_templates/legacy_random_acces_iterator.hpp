@@ -212,6 +212,167 @@ typename LRAI<T, Operation>::reference LRAI<T, Operation>::operator[](
     return object[index];
 }
 
+namespace tmp {
+
+template<typename T, typename Operation = psg::plus<T>>
+class LegacyConstRandomAccesIterator {
+    using LegacyConstRandAccesIter = LegacyConstRandomAccesIterator<T, Operation>;
+
+   public:
+    using value_type = T;
+    using pointer = value_type *;
+    using const_pointer = const value_type *;
+    using reference = value_type &;
+    using const_reference = const value_type &;
+    using size_type = size_t;
+    using difference_type = ptrdiff_t;
+
+    LegacyConstRandomAccesIterator(pointer first_element,
+        size_type position) noexcept;
+    LegacyConstRandAccesIter &operator--(void) noexcept;
+    LegacyConstRandAccesIter operator--(int) noexcept;
+    LegacyConstRandAccesIter &operator++(void) noexcept;
+    LegacyConstRandAccesIter operator++(int) noexcept;
+    bool operator==(const LegacyConstRandAccesIter &other) noexcept;
+    bool operator!=(const LegacyConstRandAccesIter &other) noexcept;
+    reference operator*(void) noexcept;
+    pointer operator->() noexcept;
+    LegacyConstRandAccesIter &operator+=(size_type amount) noexcept;
+    LegacyConstRandAccesIter operator+(size_type amount) const noexcept;
+    LegacyConstRandAccesIter &operator-=(size_type amount) noexcept;
+    LegacyConstRandAccesIter operator-(size_type amount) const noexcept;
+    difference_type operator-(const LegacyConstRandAccesIter &rhs) const noexcept;
+    bool operator<(const LegacyConstRandAccesIter &rhs) const noexcept;
+    bool operator>(const LegacyConstRandAccesIter &rhs) const noexcept;
+    bool operator<=(const LegacyConstRandAccesIter &rhs) const noexcept;
+    bool operator>=(const LegacyConstRandAccesIter &rhs) const noexcept;
+    reference operator[](size_type index) noexcept;
+
+   private:
+    pointer object = nullptr;
+    Operation operation{};
+};
+
+template<typename T, typename Operation>
+using LCRAI = LegacyConstRandomAccesIterator<T, Operation>;
+
+template<typename T, typename Operation>
+LCRAI<T, Operation>::LegacyConstRandomAccesIterator(T *first_element,
+    size_t position) noexcept
+    : object(operation(first_element, position)) {}
+
+template<typename T, typename Operation>
+LCRAI<T, Operation> &LCRAI<T, Operation>::operator--() noexcept {
+    object = operation(object, -1LL);
+}
+
+template<typename T, typename Operation>
+LCRAI<T, Operation> LCRAI<T, Operation>::operator--(int) noexcept {
+    LCRAI<T, Operation> tmp = *this;
+    this->operator--();
+    return tmp;
+}
+
+template<typename T, typename Operation>
+LCRAI<T, Operation> &LCRAI<T, Operation>::operator++() noexcept {
+    object = operation(object, 1LL);
+}
+
+template<typename T, typename Operation>
+LCRAI<T, Operation> LCRAI<T, Operation>::operator++(int) noexcept {
+    LCRAI<T, Operation> tmp = *this;
+    this->operator++();
+    return tmp;
+}
+
+template<typename T, typename Operation>
+bool LCRAI<T, Operation>::operator==(const LegacyConstRandAccesIter &other) noexcept {
+    return object == other.object;
+}
+
+template<typename T, typename Operation>
+bool LCRAI<T, Operation>::operator!=(const LegacyConstRandAccesIter &other) noexcept {
+    return object != other.object;
+}
+
+template<typename T, typename Operation>
+typename LCRAI<T, Operation>::reference LCRAI<T, Operation>::operator*(
+    void) noexcept {
+
+    return *this;
+}
+
+template<typename T, typename Operation>
+typename LCRAI<T, Operation>::pointer LCRAI<T, Operation>::operator->() noexcept {
+    return object;
+}
+
+template<typename T, typename Operation>
+LCRAI<T, Operation> &LCRAI<T, Operation>::operator+=(size_type amount) noexcept {
+    object = operation(object, amount);
+    return *this;
+}
+
+template<typename T, typename Operation>
+LCRAI<T, Operation> LCRAI<T, Operation>::operator+(
+    size_type amount) const noexcept {
+    LCRAI<T, Operation> tmp;
+    tmp += amount;
+    return tmp;
+}
+
+template<typename T, typename Operation>
+LCRAI<T, Operation> &LCRAI<T, Operation>::operator-=(size_type amount) noexcept {
+    object = operation(object, -1 * amount);
+    return *this;
+}
+
+template<typename T, typename Operation>
+LCRAI<T, Operation> LCRAI<T, Operation>::operator-(
+    size_type amount) const noexcept {
+    LCRAI<T, Operation> tmp;
+    tmp -= amount;
+    return tmp;
+}
+
+template<typename T, typename Operation>
+typename LCRAI<T, Operation>::difference_type LCRAI<T, Operation>::operator-(
+    const LegacyConstRandAccesIter &rhs) const noexcept {
+    return object - rhs.object;
+}
+
+template<typename T, typename Operation>
+bool LCRAI<T, Operation>::operator<(
+    const LegacyConstRandAccesIter &rhs) const noexcept {
+    return object < rhs.object;
+}
+
+template<typename T, typename Operation>
+bool LCRAI<T, Operation>::operator>(
+    const LegacyConstRandAccesIter &rhs) const noexcept {
+    return object > rhs.object;
+}
+
+template<typename T, typename Operation>
+bool LCRAI<T, Operation>::operator<=(
+    const LegacyConstRandAccesIter &rhs) const noexcept {
+    return object <= rhs.object;
+}
+
+template<typename T, typename Operation>
+bool LCRAI<T, Operation>::operator>=(
+    const LegacyConstRandAccesIter &rhs) const noexcept {
+    return object >= rhs.object;
+}
+
+template<typename T, typename Operation>
+typename LCRAI<T, Operation>::reference LCRAI<T, Operation>::operator[](
+    size_type index) noexcept {
+    return object[index];
+}
+
+}  // namespace tmp 
+
 }; // namespace imp
 }; // namespace psg
 
