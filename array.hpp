@@ -20,6 +20,12 @@ class array { // NOLINT No necesita los que son por movimiento
     using const_reference = const T &;
     using size_type = size_t;
     using difference_type = ptrdiff_t;
+    using iterator = iterators::LegacyRandomAccesIterator<T>;
+    using reverse_iterator =
+        iterators::LegacyRandomAccesIterator<T, psg::minus<T>>;
+    using const_iterator = iterators::constant::LegacyRandomAccesIterator<T>;
+    using const_reverse_iterator =
+        iterators::constant::LegacyRandomAccesIterator<T, psg::minus<T>>;
 
     array(void) = default;
     array(const array<T, arr_size> &rhs);
@@ -34,10 +40,6 @@ class array { // NOLINT No necesita los que son por movimiento
     reference back(void);
     const_reference back(void) const;
 
-    class iterator;
-    class const_iterator;
-    class reverse_iterator;
-    class const_reverse_iterator;
     iterator begin(void) noexcept;
     iterator end(void) noexcept;
     const_iterator cbegin(void) const noexcept;
@@ -66,11 +68,13 @@ void swap(array<T, arr_size>& a, array<T, arr_size>& b) noexcept {
     a.swap(b);
 }
 
+/// Constructor por copia.
 template<typename T, const size_t arr_size>
 array<T, arr_size>::array(const array<T, arr_size> &rhs) {
     copy_n(rhs.cbegin(), arr_size, this->begin());
 }
 
+/// Asignacion por copia
 template<typename T, const size_t arr_size>
 array<T, arr_size> &array<T, arr_size>::operator=( // NOLINT Si lo maneja
     const array<T, arr_size> &rhs) {
@@ -82,14 +86,13 @@ array<T, arr_size> &array<T, arr_size>::operator=( // NOLINT Si lo maneja
     return *this;
 }
 
-/* Accede a un elemento del array. Verifica si la posición esta dentro del
- * array. Si no lo esta lanza un psg::exception
- *
- * Parametros:
- *  - Posición: Posicion a la que se quiere acceder
- */
+
+/// Regresa el elemento en la posicion solicitada con checkeo.
+///
+/// Este regresa una referencia a el elemento revisando que este dentro del
+/// array, si el elemento esta fuera de rango, esta lanza un psg::exception.
 template<typename T, const size_t arr_size>
-T &array<T, arr_size>::at(int position) {
+typename array<T, arr_size>::reference array<T, arr_size>::at(int position) {
     if (position >= 0 && position < arr_size) {
         return object[position];
     }
@@ -97,14 +100,15 @@ T &array<T, arr_size>::at(int position) {
                     "elemento fuera de rango. ");
 }
 
-/* Accede a un elemento del array. Verifica si la posición esta dentro del
- * array. Si no lo esta lanza un psg::exception
- *
- * Parametros:
- *  - Posición: Posicion a la que se quiere acceder
- */
+/// Regresa el elemento en la posicion solicitada con checkeo.
+///
+/// Este regresa una referencia constante a el elemento revisando que este
+/// dentro del array, si el elemento esta fuera de rango, esta lanza un
+/// psg::exception.
 template<typename T, const size_t arr_size>
-const T &array<T, arr_size>::at(int position) const {
+typename array<T, arr_size>::const_reference array<T, arr_size>::at(
+    int position) const {
+
     if (position >= 0 && position < arr_size) {
         return object[position];
     }
@@ -112,45 +116,48 @@ const T &array<T, arr_size>::at(int position) const {
                     "elemento fuera de rango. ");
 }
 
+/// Regresa una referencia a el elemento en la posicion solicitada sin
+/// checkeo.
 template<typename T, const size_t arr_size>
-T &array<T, arr_size>::operator[](int position) {
+typename array<T, arr_size>::reference array<T, arr_size>::operator[](
+    int position) {
+
     return object[position];
 }
 
+/// Regresa una referencia constante a el elemento en la posicion solicitada
+/// sin checkeo.
 template<typename T, const size_t arr_size>
-const T &array<T, arr_size>::operator[](int position) const {
+typename array<T, arr_size>::const_reference array<T, arr_size>::operator[](
+    int position) const {
+
     return object[position];
 }
 
-/*
- * Accede al primer elemento del array
- */
+/// Regresa una referencia al el primer elemento del array
 template<typename T, const size_t arr_size>
-T &array<T, arr_size>::front(void) {
+typename array<T, arr_size>::reference array<T, arr_size>::front(void) {
     return object[0];
 }
 
-/*
- * Accede al primer elemento del array
- */
+/// Regresa una referencia constante al el primer elemento del array
 template<typename T, const size_t arr_size>
-const T &array<T, arr_size>::front(void) const {
+typename array<T, arr_size>::const_reference array<T, arr_size>::front(
+    void) const {
     return object[0];
 }
 
-/*
- * Accede al ultimo elemento del array
- */
+/// Regresa una referencia al el primer elemento del array
 template<typename T, const size_t arr_size>
-T &array<T, arr_size>::back(void) {
+typename array<T, arr_size>::reference array<T, arr_size>::back(void) {
     return object[arr_size - 1];
 }
 
-/*
- * Accede al ultimo elemento del array
- */
+/// Regresa una referencia constante al el primer elemento del array
 template<typename T, const size_t arr_size>
-const T &array<T, arr_size>::back(void) const {
+typename array<T, arr_size>::const_reference array<T, arr_size>::back(
+    void) const {
+
     return object[arr_size - 1];
 }
 
@@ -166,55 +173,50 @@ using ArrayRevIter = typename array<T, arr_size>::reverse_iterator;
 template<typename T, const size_t arr_size>
 using ArrayConstRevIter = typename array<T, arr_size>::const_reverse_iterator;
 
-// Regresa un iterador al principio del array
+/// Regresa un iterador al principio del array
 template<typename T, const size_t arr_size>
 ArrayIter<T, arr_size> array<T, arr_size>::begin(void) noexcept {
     return ArrayIter<T, arr_size>(object, 0);
 }
 
-// Regresa un iterador pasado el final del array. NO SE DEBE ACCEDER AL ITERADOR
+/// Regresa un iterador pasado el final del array. NO SE DEBE SER DEREFERENCIADO
 template<typename T, const size_t arr_size>
 ArrayIter<T, arr_size> array<T, arr_size>::end(void) noexcept {
     return ArrayIter<T, arr_size>(object, arr_size);
 }
 
-/* Regresa un iterador al principio del array. Los valores dereferenciados no
- * pueden ser modificados.
- */
+/// Regresa un iterador al principio del array. Los valores dereferenciados no
+/// pueden ser modificados.
 template<typename T, const size_t arr_size>
 ArrayConstIter<T, arr_size> array<T, arr_size>::cbegin(void) const noexcept {
     return ArrayConstIter<T, arr_size>(object, 0);
 }
 
-/* Regresa un iterador pasado el final del array. Los valores dereferenciados no
- * pueden ser modificados.
- */
+/// Regresa un iterador pasado el final del array. Los valores dereferenciados
+/// no pueden ser modificados.
 template<typename T, const size_t arr_size>
 ArrayConstIter<T, arr_size> array<T, arr_size>::cend(void) const noexcept {
     return ArrayConstIter<T, arr_size>(object, arr_size);
 }
 
-/* Regresa un iterador al final del array. Este lo recorrera de el final hacia
- * el inicio.
- */
+/// Regresa un iterador al final del array. Este lo recorrera de el final hacia
+/// el inicio.
 template<typename T, const size_t arr_size>
 ArrayRevIter<T, arr_size> array<T, arr_size>::rbegin(void) noexcept {
     T *last_element = object + arr_size - 1;
     return ArrayRevIter<T, arr_size>(last_element, 0);
 }
 
-/* Regresa un iterador pasado el principio del array. NO DEBE ACCEDER AL
- * ITERADOR
- */
+/// Regresa un iterador pasado el principio del array. NO DEBE SER
+/// DEREFERENCIADO
 template<typename T, const size_t arr_size>
 ArrayRevIter<T, arr_size> array<T, arr_size>::rend(void) noexcept {
     T *last_element = object + arr_size - 1;
     return ArrayRevIter<T, arr_size>(last_element, arr_size);
 }
 
-/* Regresa un constante iterador al final del array. Este lo recorrera de el
- * final hacia el inicio.
- */
+/// Regresa un constante iterador al final del array. Este lo recorrera de el
+/// final hacia el inicio.
 template<typename T, const size_t arr_size>
 ArrayConstRevIter<T, arr_size> array<T, arr_size>::crbegin(
     void) const noexcept {
@@ -222,34 +224,36 @@ ArrayConstRevIter<T, arr_size> array<T, arr_size>::crbegin(
     return ArrayConstRevIter<T, arr_size>(last_element, 0);
 }
 
-/* Regresa un constante iterador pasado el principio del array. NO DEBE ACCEDER
- * AL ITERADOR
- */
+/// Regresa un constante iterador pasado el principio del array. NO DEBE SER
+/// DEREFERENCIADO
 template<typename T, const size_t arr_size>
 ArrayConstRevIter<T, arr_size> array<T, arr_size>::crend(void) const noexcept {
     const T *last_element = object + arr_size - 1;
     return ArrayConstRevIter<T, arr_size>(last_element, arr_size);
 }
 
-// Indica si el array esta vacio. Unicamente verdadero cuando el tamaño es 0
+/// Indica si el array esta vacio
+/// 
+/// Este sera unicamente verdadero cuando el array tiene un tamaño de 0. No me
+/// preguntes porque existe, no lo se.
 template<typename T, const size_t arr_size>
 [[nodiscard]] constexpr bool array<T, arr_size>::empty(void) const noexcept {
     return arr_size == 0;
 }
 
-// Regresa el tamaño del array
+/// Regresa el tamaño del array
 template<typename T, const size_t arr_size>
 constexpr size_t array<T, arr_size>::size(void) const noexcept {
     return arr_size;
 }
 
-// Regresa el tamaño del array
+/// Regresa el tamaño del array
 template<typename T, const size_t arr_size>
 constexpr size_t array<T, arr_size>::max_size(void) const noexcept {
     return arr_size;
 }
 
-// Llena el array con el valor dado
+/// Llena el array con el valor dado
 template<typename T, const size_t arr_size>
 void array<T, arr_size>::fill(const T &value) {
     auto assing_value = [&](T &element) -> void {
@@ -258,7 +262,9 @@ void array<T, arr_size>::fill(const T &value) {
     for_each(this->begin(), this->end(), assing_value);
 }
 
-// Intercambia dos arrays
+/// Intercambia dos arrays
+/// 
+/// Este tambien se usa para especializar el psg::swap
 template<typename T, const size_t arr_size>
 void array<T, arr_size>::swap(array<T, arr_size> &other) noexcept {
     array<T, arr_size> tmp = *this;
@@ -266,617 +272,18 @@ void array<T, arr_size>::swap(array<T, arr_size> &other) noexcept {
     other = tmp;
 }
 
+/// Regresa un puntero a los datos que este mantiene
 template<typename T, const size_t arr_size>
-T *array<T, arr_size>::data() noexcept {
+typename array<T, arr_size>::pointer array<T, arr_size>::data() noexcept {
     return object;
 }
 
+/// Regresa un puntero constante a los datos que este sostiene
 template<typename T, const size_t arr_size>
-const T *array<T, arr_size>::data() const noexcept {
+typename array<T, arr_size>::const_pointer
+    array<T, arr_size>::data() const noexcept {
+
     return object;
-}
-
-template<typename T, const size_t arr_size>
-class array<T, arr_size>::iterator {
-   public:
-    iterator() = default;
-    explicit iterator(T *first, int position);
-    explicit iterator(T *pos);
-    iterator &operator--(void);
-    iterator operator--(int);
-    iterator &operator++(void);
-    iterator operator++(int);
-    bool operator==(const iterator &other);
-    bool operator!=(const iterator &other);
-    T &operator*(void);
-    T *operator->();
-    iterator &operator+=(int val);
-    iterator operator+(int val) const;
-    iterator &operator-=(int val);
-    iterator operator-(int val) const;
-    int operator-(const iterator &rhs) const;
-    bool operator<(const iterator &rhs) const;
-    bool operator>(const iterator &rhs) const;
-    bool operator<=(const iterator &rhs) const;
-    bool operator>=(const iterator &rhs) const;
-    T &operator[](int pos);
-
-   private:
-    T *object = nullptr;
-};
-
-template<typename T, const size_t arr_size>
-array<T, arr_size>::iterator::iterator(T *first, int position) {
-    object = first + position;
-}
-
-template<typename T, const size_t arr_size>
-array<T, arr_size>::iterator::iterator(T *pos) {
-    object = pos;
-}
-
-template<typename T, const size_t arr_size>
-ArrayIter<T, arr_size> &array<T, arr_size>::iterator::operator--(void) {
-    --object;
-    return *this;
-}
-
-template<typename T, const size_t arr_size>
-ArrayIter<T, arr_size> array<T, arr_size>::iterator::operator--(int) {
-    ArrayIter<T, arr_size> tmp = *this;
-    --object;
-    return tmp;
-}
-
-template<typename T, const size_t arr_size>
-ArrayIter<T, arr_size> &array<T, arr_size>::iterator::operator++(void) {
-    ++object;
-    return *this;
-}
-
-template<typename T, const size_t arr_size>
-ArrayIter<T, arr_size> array<T, arr_size>::iterator::operator++(int) {
-    ArrayIter<T, arr_size> tmp = *this;
-    ++object;
-    return tmp;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::iterator::operator==(const iterator &other) {
-    return object == other.object;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::iterator::operator!=(const iterator &other) {
-    return object != other.object;
-}
-
-template<typename T, const size_t arr_size>
-T &array<T, arr_size>::iterator::operator*(void) {
-    return *object;
-}
-
-template<typename T, const size_t arr_size>
-T *array<T, arr_size>::iterator::operator->() {
-    return object;
-}
-
-template<typename T, const size_t arr_size>
-ArrayIter<T, arr_size> &array<T, arr_size>::iterator::operator+=(int val) {
-    object += val;
-    return *this;
-}
-
-template<typename T, const size_t arr_size>
-ArrayIter<T, arr_size> array<T, arr_size>::iterator::operator+(int val) const {
-    return ArrayIter<T, arr_size>(object + val);
-}
-
-template<typename T, const size_t arr_size>
-ArrayIter<T, arr_size> &array<T, arr_size>::iterator::operator-=(int val) {
-    object -= val;
-    return *this;
-}
-
-template<typename T, const size_t arr_size>
-ArrayIter<T, arr_size> array<T, arr_size>::iterator::operator-(int val) const {
-    return ArrayIter<T, arr_size>(object - val);
-}
-
-template<typename T, const size_t arr_size>
-int array<T, arr_size>::iterator::operator-(
-    const ArrayIter<T, arr_size> &rhs) const {
-    return static_cast<int>(object - rhs.object);
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::iterator::operator<(
-    const ArrayIter<T, arr_size> &rhs) const {
-    return object < rhs.object;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::iterator::operator>(
-    const ArrayIter<T, arr_size> &rhs) const {
-    return object > rhs.object;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::iterator::operator<=(
-    const ArrayIter<T, arr_size> &rhs) const {
-    return object <= rhs.object;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::iterator::operator>=(
-    const ArrayIter<T, arr_size> &rhs) const {
-    return object >= rhs.object;
-}
-
-template<typename T, const size_t arr_size>
-T &array<T, arr_size>::iterator::operator[](int pos) {
-    return *(object + pos);
-}
-
-template<typename T, const size_t arr_size>
-class array<T, arr_size>::const_iterator {
-   public:
-    const_iterator() = default;
-    explicit const_iterator(const T *first, int position);
-    explicit const_iterator(const T *pos);
-    const_iterator &operator--(void);
-    const_iterator operator--(int);
-    const_iterator &operator++(void);
-    const_iterator operator++(int);
-    bool operator==(const const_iterator &other);
-    bool operator!=(const const_iterator &other);
-    const T &operator*(void);
-    const T *operator->();
-    const_iterator &operator+=(int val);
-    const_iterator operator+(int val) const;
-    const_iterator &operator-=(int val);
-    const_iterator operator-(int val) const;
-    int operator-(const const_iterator &rhs) const;
-    bool operator<(const const_iterator &rhs) const;
-    bool operator>(const const_iterator &rhs) const;
-    bool operator<=(const const_iterator &rhs) const;
-    bool operator>=(const const_iterator &rhs) const;
-    T &operator[](int pos);
-
-   private:
-    const T *object = nullptr;
-};
-
-template<typename T, const size_t arr_size>
-array<T, arr_size>::const_iterator::const_iterator(const T *first,
-    int position) {
-    object = first + position;
-}
-
-template<typename T, const size_t arr_size>
-array<T, arr_size>::const_iterator::const_iterator(const T *pos) {
-    object = pos;
-}
-
-template<typename T, const size_t arr_size>
-ArrayConstIter<T, arr_size> &array<T, arr_size>::const_iterator::operator--(
-    void) {
-    --object;
-    return *this;
-}
-
-template<typename T, const size_t arr_size>
-ArrayConstIter<T, arr_size> array<T, arr_size>::const_iterator::operator--(
-    int) {
-    ArrayConstIter<T, arr_size> tmp = *this;
-    --object;
-    return tmp;
-}
-
-template<typename T, const size_t arr_size>
-ArrayConstIter<T, arr_size> &array<T, arr_size>::const_iterator::operator++(
-    void) {
-    ++object;
-    return *this;
-}
-
-template<typename T, const size_t arr_size>
-ArrayConstIter<T, arr_size> array<T, arr_size>::const_iterator::operator++(
-    int) {
-    ArrayConstIter<T, arr_size> tmp = *this;
-    ++object;
-    return tmp;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::const_iterator::operator==(
-    const const_iterator &other) {
-    return object == other.object;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::const_iterator::operator!=(
-    const const_iterator &other) {
-    return object != other.object;
-}
-
-template<typename T, const size_t arr_size>
-const T &array<T, arr_size>::const_iterator::operator*(void) {
-    return *object;
-}
-
-template<typename T, const size_t arr_size>
-const T *array<T, arr_size>::const_iterator::operator->() {
-    return object;
-}
-
-template<typename T, const size_t arr_size>
-ArrayConstIter<T, arr_size> &array<T, arr_size>::const_iterator::operator+=(
-    int val) {
-    object += val;
-    return *this;
-}
-
-template<typename T, const size_t arr_size>
-ArrayConstIter<T, arr_size> array<T, arr_size>::const_iterator::operator+(
-    int val) const {
-    return ArrayConstIter<T, arr_size>(object + val);
-}
-
-template<typename T, const size_t arr_size>
-ArrayConstIter<T, arr_size> &array<T, arr_size>::const_iterator::operator-=(
-    int val) {
-    object -= val;
-    return *this;
-}
-
-template<typename T, const size_t arr_size>
-ArrayConstIter<T, arr_size> array<T, arr_size>::const_iterator::operator-(
-    int val) const {
-    return ArrayConstIter<T, arr_size>(object - val);
-}
-
-template<typename T, const size_t arr_size>
-int array<T, arr_size>::const_iterator::operator-(
-    const ArrayConstIter<T, arr_size> &rhs) const {
-    return static_cast<int>(object - rhs.object);
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::const_iterator::operator<(
-    const ArrayConstIter<T, arr_size> &rhs) const {
-    return object < rhs.object;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::const_iterator::operator>(
-    const ArrayConstIter<T, arr_size> &rhs) const {
-    return object > rhs.object;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::const_iterator::operator<=(
-    const ArrayConstIter<T, arr_size> &rhs) const {
-    return object <= rhs.object;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::const_iterator::operator>=(
-    const ArrayConstIter<T, arr_size> &rhs) const {
-    return object >= rhs.object;
-}
-
-template<typename T, const size_t arr_size>
-T &array<T, arr_size>::const_iterator::operator[](int pos) {
-    return *(object + pos);
-}
-
-template<typename T, const size_t arr_size>
-class array<T, arr_size>::reverse_iterator {
-   public:
-    reverse_iterator() = default;
-    explicit reverse_iterator(T *last, int back_position);
-    explicit reverse_iterator(T *pos);
-    reverse_iterator &operator--(void);
-    reverse_iterator operator--(int);
-    reverse_iterator &operator++(void);
-    reverse_iterator operator++(int);
-    bool operator==(const reverse_iterator &other);
-    bool operator!=(const reverse_iterator &other);
-    T &operator*(void);
-    T *operator->();
-    reverse_iterator &operator+=(int val);
-    reverse_iterator operator+(int val) const;
-    reverse_iterator &operator-=(int val);
-    reverse_iterator operator-(int val) const;
-    int operator-(const reverse_iterator &rhs) const;
-    bool operator<(const reverse_iterator &rhs) const;
-    bool operator>(const reverse_iterator &rhs) const;
-    bool operator<=(const reverse_iterator &rhs) const;
-    bool operator>=(const reverse_iterator &rhs) const;
-    T &operator[](int pos);
-
-   private:
-    T *object = nullptr;
-};
-
-template<typename T, const size_t arr_size>
-array<T, arr_size>::reverse_iterator::reverse_iterator(T *last,
-    int back_position) {
-    object = last - back_position;
-}
-
-template<typename T, const size_t arr_size>
-array<T, arr_size>::reverse_iterator::reverse_iterator(T *pos) {
-    object = pos;
-}
-
-template<typename T, const size_t arr_size>
-ArrayRevIter<T, arr_size> &array<T, arr_size>::reverse_iterator::operator--(
-    void) {
-    ++object;
-    return *this;
-}
-
-template<typename T, const size_t arr_size>
-ArrayRevIter<T, arr_size> array<T, arr_size>::reverse_iterator::operator--(
-    int) {
-    ArrayRevIter<T, arr_size> tmp = *this;
-    ++object;
-    return tmp;
-}
-
-template<typename T, const size_t arr_size>
-ArrayRevIter<T, arr_size> &array<T, arr_size>::reverse_iterator::operator++(
-    void) {
-    --object;
-    return *this;
-}
-
-template<typename T, const size_t arr_size>
-ArrayRevIter<T, arr_size> array<T, arr_size>::reverse_iterator::operator++(
-    int) {
-    ArrayRevIter<T, arr_size> tmp = *this;
-    --object;
-    return tmp;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::reverse_iterator::operator==(
-    const reverse_iterator &other) {
-    return object == other.object;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::reverse_iterator::operator!=(
-    const reverse_iterator &other) {
-    return object != other.object;
-}
-
-template<typename T, const size_t arr_size>
-T &array<T, arr_size>::reverse_iterator::operator*(void) {
-    return *object;
-}
-
-template<typename T, const size_t arr_size>
-T *array<T, arr_size>::reverse_iterator::operator->() {
-    return object;
-}
-
-template<typename T, const size_t arr_size>
-ArrayRevIter<T, arr_size> &array<T, arr_size>::reverse_iterator::operator+=(
-    int val) {
-    object -= val;
-    return *this;
-}
-
-template<typename T, const size_t arr_size>
-ArrayRevIter<T, arr_size> array<T, arr_size>::reverse_iterator::operator+(
-    int val) const {
-    return ArrayRevIter<T, arr_size>(object - val);
-}
-
-template<typename T, const size_t arr_size>
-ArrayRevIter<T, arr_size> &array<T, arr_size>::reverse_iterator::operator-=(
-    int val) {
-    object += val;
-    return *this;
-}
-
-template<typename T, const size_t arr_size>
-ArrayRevIter<T, arr_size> array<T, arr_size>::reverse_iterator::operator-(
-    int val) const {
-    return ArrayRevIter<T, arr_size>(object + val);
-}
-
-template<typename T, const size_t arr_size>
-int array<T, arr_size>::reverse_iterator::operator-(
-    const ArrayRevIter<T, arr_size> &rhs) const {
-    return static_cast<int>(rhs.object - object);
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::reverse_iterator::operator<(
-    const ArrayRevIter<T, arr_size> &rhs) const {
-    return object > rhs.object;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::reverse_iterator::operator>(
-    const ArrayRevIter<T, arr_size> &rhs) const {
-    return object < rhs.object;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::reverse_iterator::operator<=(
-    const ArrayRevIter<T, arr_size> &rhs) const {
-    return object >= rhs.object;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::reverse_iterator::operator>=(
-    const ArrayRevIter<T, arr_size> &rhs) const {
-    return object <= rhs.object;
-}
-
-template<typename T, const size_t arr_size>
-T &array<T, arr_size>::reverse_iterator::operator[](int pos) {
-    return *(object - pos);
-}
-
-template<typename T, const size_t arr_size>
-class array<T, arr_size>::const_reverse_iterator {
-   public:
-    const_reverse_iterator() = default;
-    explicit const_reverse_iterator(const T *last, int back_position);
-    explicit const_reverse_iterator(const T *pos);
-    const_reverse_iterator &operator--(void);
-    const_reverse_iterator operator--(int);
-    const_reverse_iterator &operator++(void);
-    const_reverse_iterator operator++(int);
-    bool operator==(const const_reverse_iterator &other);
-    bool operator!=(const const_reverse_iterator &other);
-    const T &operator*(void);
-    const T *operator->();
-    const_reverse_iterator &operator+=(int val);
-    const_reverse_iterator operator+(int val) const;
-    const_reverse_iterator &operator-=(int val);
-    const_reverse_iterator operator-(int val) const;
-    int operator-(const const_reverse_iterator &rhs) const;
-    bool operator<(const const_reverse_iterator &rhs) const;
-    bool operator>(const const_reverse_iterator &rhs) const;
-    bool operator<=(const const_reverse_iterator &rhs) const;
-    bool operator>=(const const_reverse_iterator &rhs) const;
-    const T &operator[](int pos);
-
-   private:
-    const T *object = nullptr;
-};
-
-template<typename T, const size_t arr_size>
-array<T, arr_size>::const_reverse_iterator::const_reverse_iterator(
-    const T *last,
-    int back_position) {
-    object = last - back_position;
-}
-
-template<typename T, const size_t arr_size>
-array<T, arr_size>::const_reverse_iterator::const_reverse_iterator(
-    const T *pos) {
-    object = pos;
-}
-
-template<typename T, const size_t arr_size>
-ArrayConstRevIter<T, arr_size> &
-    array<T, arr_size>::const_reverse_iterator::operator--(void) {
-    ++object;
-    return *this;
-}
-
-template<typename T, const size_t arr_size>
-ArrayConstRevIter<T, arr_size>
-    array<T, arr_size>::const_reverse_iterator::operator--(int) {
-    ArrayConstRevIter<T, arr_size> tmp = *this;
-    ++object;
-    return tmp;
-}
-
-template<typename T, const size_t arr_size>
-ArrayConstRevIter<T, arr_size> &
-    array<T, arr_size>::const_reverse_iterator::operator++(void) {
-    --object;
-    return *this;
-}
-
-template<typename T, const size_t arr_size>
-ArrayConstRevIter<T, arr_size>
-    array<T, arr_size>::const_reverse_iterator::operator++(int) {
-    ArrayConstRevIter<T, arr_size> tmp = *this;
-    --object;
-    return tmp;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::const_reverse_iterator::operator==(
-    const const_reverse_iterator &other) {
-    return object == other.object;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::const_reverse_iterator::operator!=(
-    const const_reverse_iterator &other) {
-    return object != other.object;
-}
-
-template<typename T, const size_t arr_size>
-const T &array<T, arr_size>::const_reverse_iterator::operator*(void) {
-    return *object;
-}
-
-template<typename T, const size_t arr_size>
-const T *array<T, arr_size>::const_reverse_iterator::operator->() {
-    return object;
-}
-
-template<typename T, const size_t arr_size>
-ArrayConstRevIter<T, arr_size> &
-    array<T, arr_size>::const_reverse_iterator::operator+=(int val) {
-    object -= val;
-    return *this;
-}
-
-template<typename T, const size_t arr_size>
-ArrayConstRevIter<T, arr_size>
-    array<T, arr_size>::const_reverse_iterator::operator+(int val) const {
-    return ArrayConstRevIter<T, arr_size>(object - val);
-}
-
-template<typename T, const size_t arr_size>
-ArrayConstRevIter<T, arr_size> &
-    array<T, arr_size>::const_reverse_iterator::operator-=(int val) {
-    object += val;
-    return *this;
-}
-
-template<typename T, const size_t arr_size>
-ArrayConstRevIter<T, arr_size>
-    array<T, arr_size>::const_reverse_iterator::operator-(int val) const {
-    return ArrayConstRevIter<T, arr_size>(object + val);
-}
-
-template<typename T, const size_t arr_size>
-int array<T, arr_size>::const_reverse_iterator::operator-(
-    const ArrayConstRevIter<T, arr_size> &rhs) const {
-    return static_cast<int>(rhs.object - object);
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::const_reverse_iterator::operator<(
-    const ArrayConstRevIter<T, arr_size> &rhs) const {
-    return object > rhs.object;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::const_reverse_iterator::operator>(
-    const ArrayConstRevIter<T, arr_size> &rhs) const {
-    return object < rhs.object;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::const_reverse_iterator::operator<=(
-    const ArrayConstRevIter<T, arr_size> &rhs) const {
-    return object >= rhs.object;
-}
-
-template<typename T, const size_t arr_size>
-bool array<T, arr_size>::const_reverse_iterator::operator>=(
-    const ArrayConstRevIter<T, arr_size> &rhs) const {
-    return object <= rhs.object;
-}
-
-template<typename T, const size_t arr_size>
-const T &array<T, arr_size>::const_reverse_iterator::operator[](int pos) {
-    return *(object - pos);
 }
 
 }; // namespace psg
