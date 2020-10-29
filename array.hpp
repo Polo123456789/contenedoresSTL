@@ -42,6 +42,8 @@ class array { // NOLINT No necesita los que son por movimiento
 
     iterator begin(void) noexcept;
     iterator end(void) noexcept;
+    const_iterator begin(void) const noexcept;
+    const_iterator end(void) const noexcept;
     const_iterator cbegin(void) const noexcept;
     const_iterator cend(void) const noexcept;
     reverse_iterator rbegin(void) noexcept;
@@ -183,6 +185,20 @@ ArrayIter<T, arr_size> array<T, arr_size>::begin(void) noexcept {
 template<typename T, const size_t arr_size>
 ArrayIter<T, arr_size> array<T, arr_size>::end(void) noexcept {
     return ArrayIter<T, arr_size>(object, arr_size);
+}
+
+/// Regresa un iterador constante al principio del array. Los valores
+/// dereferenciados no pueden ser modificados.
+template<typename T, const size_t arr_size>
+ArrayConstIter<T, arr_size> array<T, arr_size>::begin(void) const noexcept {
+    return ArrayConstIter<T, arr_size>(object, 0);
+}
+
+/// Regresa un iterador cosntante pasado el final del array. Los valores
+/// dereferenciados no pueden ser modificados.
+template<typename T, const size_t arr_size>
+ArrayConstIter<T, arr_size> array<T, arr_size>::end(void) const noexcept {
+    return ArrayConstIter<T, arr_size>(object, arr_size);
 }
 
 /// Regresa un iterador al principio del array. Los valores dereferenciados no

@@ -33,24 +33,38 @@ namespace psg {
 
 ///Especializacion del plus para utilizarlo con el legacy random acces iterator
 template<typename T>
-class plus {
+struct plus {
     T *operator()(T *a, size_t b) {
         return a + b;
     }
 
     T *operator()(T *a, int64_t b) {
+        return a + b;
+    }
+    const T *operator()(const T *a, size_t b) {
+        return a + b;
+    }
+
+    const T *operator()(const T *a, int64_t b) {
         return a + b;
     }
 };
 
 ///Especializacion del minus para utilizarlo con el legacy random acces iterator
 template<typename T>
-class minus {
+struct minus {
     T *operator()(T *a, size_t b) {
         return a - b;
     }
 
     T *operator()(T *a, int64_t b) {
+        return a - b;
+    }
+    const T *operator()(const T *a, size_t b) {
+        return a - b;
+    }
+
+    const T *operator()(const T *a, int64_t b) {
         return a - b;
     }
 };
@@ -101,8 +115,10 @@ using LRAI = LegacyRandomAccesIterator<T, Operation>;
 
 template<typename T, typename Operation>
 LRAI<T, Operation>::LegacyRandomAccesIterator(T *first_element,
-    size_t position) noexcept
-    : object(operation(first_element, position)) {}
+    size_t position) noexcept {
+
+    object = operation(first_element, position);
+}
 
 template<typename T, typename Operation>
 LRAI<T, Operation> &LRAI<T, Operation>::operator--() noexcept {
@@ -119,6 +135,7 @@ LRAI<T, Operation> LRAI<T, Operation>::operator--(int) noexcept {
 template<typename T, typename Operation>
 LRAI<T, Operation> &LRAI<T, Operation>::operator++() noexcept {
     object = operation(object, 1LL);
+    return *this;
 }
 
 template<typename T, typename Operation>
@@ -142,7 +159,7 @@ template<typename T, typename Operation>
 typename LRAI<T, Operation>::reference LRAI<T, Operation>::operator*(
     void) noexcept {
 
-    return *this;
+    return *object;
 }
 
 template<typename T, typename Operation>
@@ -229,7 +246,7 @@ class LegacyRandomAccesIterator {
     using size_type = size_t;
     using difference_type = ptrdiff_t;
 
-    LegacyRandomAccesIterator(pointer first_element,
+    LegacyRandomAccesIterator(const_pointer first_element,
         size_type position) noexcept;
     LegacyRandAccesIter &operator--(void) noexcept;
     LegacyRandAccesIter operator--(int) noexcept;
@@ -259,9 +276,11 @@ template<typename T, typename Operation>
 using CLRAI = LegacyRandomAccesIterator<T, Operation>;
 
 template<typename T, typename Operation>
-CLRAI<T, Operation>::LegacyRandomAccesIterator(T *first_element,
+CLRAI<T, Operation>::LegacyRandomAccesIterator(const T *first_element,
     size_t position) noexcept
-    : object(operation(first_element, position)) {}
+{
+    object = operation(first_element, position);
+}
 
 template<typename T, typename Operation>
 CLRAI<T, Operation> &CLRAI<T, Operation>::operator--() noexcept {
@@ -278,6 +297,7 @@ CLRAI<T, Operation> CLRAI<T, Operation>::operator--(int) noexcept {
 template<typename T, typename Operation>
 CLRAI<T, Operation> &CLRAI<T, Operation>::operator++() noexcept {
     object = operation(object, 1LL);
+    return *this;
 }
 
 template<typename T, typename Operation>
@@ -301,7 +321,7 @@ template<typename T, typename Operation>
 typename CLRAI<T, Operation>::const_reference CLRAI<T, Operation>::operator*(
     void) noexcept {
 
-    return *this;
+    return *object;
 }
 
 template<typename T, typename Operation>
