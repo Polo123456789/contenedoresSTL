@@ -1,54 +1,42 @@
 #include <iostream>
-#include "algorithm.hpp"
-#include "array.hpp"
+#include "memory.hpp"
 
-constexpr int size = 20;
-
-std::ostream& operator<<(std::ostream& o, const psg::array<int, size>& a) {
-    for (auto n : a) {
-        o << n << ' ';
+struct S { //NOLINT
+    bool construido = false;
+    S() {
+        construido = true;
+        std::cout << "S construido\n";
     }
-    return o;
-}
-
-void printIterator(const psg::array<int, size>& a) {
-    std::cout << a << '\n';
-}
-
-void printIteratorR(psg::array<int, size>& a) {
-    auto fist = a.rbegin();
-    auto end = a.rend();
-    for (auto i = fist; i!= end; i++) {
-        auto n = *i;
-        std::cout << n << ' ';
+    S(int, int, int) {
+        construido = true;
+        std::cout << "S construido\n";
     }
-    std::cout << '\n';
-}
-
-void printIteratorCR(psg::array<int, size>& a) {
-    auto fist = a.crbegin();
-    auto end = a.crend();
-    for (auto i = fist; i!= end; i++) {
-        auto n = *i;
-        std::cout << n << ' ';
+    S(S&&){
+        std::cout << "Llamado al constructor por movimiento.\n";
     }
-    std::cout << '\n';
-}
+    void work() {
+        std::cout << "Working ...\n";
+    }
+    void destruido() const {
+        if (construido) {
+            std::cout << "Esta construido de momento\n";
+            return;
+        }
+        std::cout << "Esta destruido\n";
+    }
+    ~S() {
+        construido = false;
+        std::cout << "S desconstruido\n";
+    }
+};
 
 int main (void) {
-    psg::array<int, size> a{};
-    a.fill(0);
-
-    auto items = a.begin();
-
-    for (int i=0; i<size; i++) {
-        *(items++) = i;
-    }
-
-    printIterator(a);
-    printIteratorCR(a);
-    printIteratorR(a);
-    
+    psg::allocator<S> allocator;
+    S* s = allocator.allocate(1);
+    psg::construct_at(s, 1,1,1);
+    s->destruido();
+    psg::destroy_at(s);
+    allocator.deallocate(s, 1);
     return 0;
 }
 
