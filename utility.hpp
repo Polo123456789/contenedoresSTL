@@ -22,13 +22,13 @@ struct remove_reference {
     using type = T;
 };
 
-/// Ver psg::remove_reference<T>
+/// Ver psg::remove_reference
 template<typename T>
 struct remove_reference<T &> {
     using type = T;
 };
 
-/// Ver psg::remove_reference<T>
+/// Ver psg::remove_reference
 template<typename T>
 struct remove_reference<T &&> {
     using type = T;

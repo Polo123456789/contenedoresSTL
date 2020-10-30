@@ -31,10 +31,10 @@ class array { // NOLINT No necesita los que son por movimiento
     array(const array<T, arr_size> &rhs);
     array &operator=(const array<T, arr_size> &rhs);
 
-    reference at(int position);
-    const_reference at(int position) const;
-    reference operator[](int position);
-    const_reference operator[](int position) const;
+    reference at(size_type position);
+    const_reference at(size_type position) const;
+    reference operator[](size_type position);
+    const_reference operator[](size_type position) const;
     reference front(void);
     const_reference front(void) const;
     reference back(void);
@@ -88,13 +88,14 @@ array<T, arr_size> &array<T, arr_size>::operator=( // NOLINT Si lo maneja
     return *this;
 }
 
-
 /// Regresa el elemento en la posicion solicitada con checkeo.
 ///
 /// Este regresa una referencia a el elemento revisando que este dentro del
 /// array, si el elemento esta fuera de rango, esta lanza un psg::exception.
 template<typename T, const size_t arr_size>
-typename array<T, arr_size>::reference array<T, arr_size>::at(int position) {
+typename array<T, arr_size>::reference array<T, arr_size>::at(
+    typename array<T, arr_size>::size_type position) {
+
     if (position >= 0 && position < arr_size) {
         return object[position];
     }
@@ -109,7 +110,7 @@ typename array<T, arr_size>::reference array<T, arr_size>::at(int position) {
 /// psg::exception.
 template<typename T, const size_t arr_size>
 typename array<T, arr_size>::const_reference array<T, arr_size>::at(
-    int position) const {
+    typename array<T, arr_size>::size_type position) const {
 
     if (position >= 0 && position < arr_size) {
         return object[position];
@@ -122,7 +123,7 @@ typename array<T, arr_size>::const_reference array<T, arr_size>::at(
 /// checkeo.
 template<typename T, const size_t arr_size>
 typename array<T, arr_size>::reference array<T, arr_size>::operator[](
-    int position) {
+    typename array<T, arr_size>::size_type position) {
 
     return object[position];
 }
@@ -131,7 +132,7 @@ typename array<T, arr_size>::reference array<T, arr_size>::operator[](
 /// sin checkeo.
 template<typename T, const size_t arr_size>
 typename array<T, arr_size>::const_reference array<T, arr_size>::operator[](
-    int position) const {
+    typename array<T, arr_size>::size_type position) const {
 
     return object[position];
 }
