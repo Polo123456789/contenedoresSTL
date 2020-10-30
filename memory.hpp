@@ -9,6 +9,11 @@
 
 namespace psg {
 
+/// Este es el encargado de asignar y limpiar memoria
+///
+/// Este es el que sera utilizado en todas las clases si el usuario no provee
+/// uno. Este es carente de estado, esto significa que todas las instancias que
+/// use de psg::allocator son intercabliables entre si.
 template<typename T>
 class allocator {
    public:
@@ -59,6 +64,14 @@ void allocator<T>::deallocate(T *ptr, size_type size [[maybe_unused]]) {
 
 /* ----------- No mas funciones del allocator pasado este punto ----------- */
 
+//Es la forma estandar de acceder a los atributos de un allocator.
+//
+//Los contenedores que se utilizen
+template<typename Alloc>
+struct allocator_traits {
+
+};
+
 /// Regresa la direccion de memoria de el argumento dado.
 ///
 /// Sere completamente honesto, este lo copie de la posible implementacion que
@@ -93,6 +106,14 @@ T* construct_at(T* p, Args&&... args) {
 template<typename T>
 void destroy_at(T* p) {
     p->~T();
+}
+
+/// Destruye todos los elementos en el rango first - last
+template<typename ForwardIt>
+void destroy(ForwardIt fist, ForwardIt last) {
+    while(first != last) {
+        destroy_at(addressof(*(first++)));
+    }
 }
 
 }; // namespace psg
