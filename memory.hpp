@@ -106,8 +106,10 @@ struct allocator_traits {
     using const_void_pointer = const void*;
     using difference_type = typename Alloc::difference_type;
     using size_type = typename Alloc::size_type;
+    /// Indica si tiene que ser copiado el allocator al mover el contenedor.
     using propagate_on_container_move_assingment =
         typename Alloc::propagate_on_container_move_assingment;
+    // Indica si tiene que ser copiado el allocator al mover el contenedor.
     using propagate_on_container_copy_assingment =
         typename Alloc::propagate_on_container_copy_assingment;
     using is_allways_equal = typename Alloc::is_allways_equal;
@@ -124,7 +126,6 @@ struct allocator_traits {
     static void destroy(allocator_type &a, T* p);
     static constexpr size_type max_size(const Alloc& a) noexcept;
     static Alloc select_on_container_copy_construction(const Alloc& a);
-
 };
 
 /// Regresa la direccion de memoria de el argumento dado.
