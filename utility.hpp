@@ -1,9 +1,9 @@
 #ifndef PSG_UTILITY_HPP
 #define PSG_UTILITY_HPP
 
-#define PSG_S1(x) #x
-#define PSG_S2(x) PSG_S1(x)
-#define PSG_LOCATION __FILE__ " : " PSG_S2(__LINE__)
+//#define PSG_S1(x) #x
+//#define PSG_S2(x) PSG_S1(x)
+//#define PSG_LOCATION __FILE__ " : " PSG_S2(__LINE__)
 
 namespace psg {
 
@@ -42,6 +42,16 @@ using remove_reference_t = typename remove_reference<T>::type;
 template<typename T>
 remove_reference_t<T> move(T&& t) {
     return static_cast<remove_reference_t<T>&&>(t);
+}
+
+template<typename T>
+T&& forward(remove_reference_t<T>& t) {
+    return static_cast<T&&>(t);
+}
+
+template<typename T>
+T&& forward(remove_reference_t<T>&& t) {
+    return static_cast<T&&>(t);
 }
 
 }; // namespace psg
