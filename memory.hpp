@@ -10,6 +10,50 @@
 
 namespace psg {
 
+/// Regresa la direccion de memoria de el argumento dado.
+///
+/// Sere completamente honesto, este lo copie de la posible implementacion que
+/// se coloca en cppreference. Se me occuria una implementacion que solo fuera
+/// `return &arg`, pero dice que tiene que funcionar aunque el operador & este
+/// sobrecargado. Por ende, en lugar de romperme la cabeza tratando de buscar
+/// como (Que no es el plan, el plan es implementar los contenedores), mejor
+/// hago el buen copy paste y damos creditos.
+///
+/// [Link a el articulo de
+/// cppreference](https://en.cppreference.com/w/cpp/memory/addressof)
+template<typename T>
+T *addressof(T &arg) noexcept {
+    return reinterpret_cast<T *>(
+        &const_cast<char &>(reinterpret_cast<const volatile char &>(arg)));
+}
+
+/// Construye un elemento en p, con el paquete de argumentos que se le hayan
+/// dado.
+/// 
+/// Este recomendaria utilizarlo solo para elementos que asigno utilizando el
+/// psg::allocator. Tendria que llamar al psg::destroy_at si utiliza este.
+template<typename T, typename ...Args>
+T* construct_at(T* p, Args&&... args) {
+    new (p) T(forward<Args>(args)...);
+    return p;
+}
+
+/// Destruye el elemento en la direccion p. 
+/// 
+/// Este seria el complemento del el construct_at
+template<typename T>
+void destroy_at(T* p) {
+    p->~T();
+}
+
+/// Destruye todos los elementos en el rango first - last
+template<typename ForwardIt>
+void destroy(ForwardIt fist, ForwardIt last) {
+    while(first != last) {
+        destroy_at(addressof(*(first++)));
+    }
+}
+
 /// Este es el encargado de asignar y limpiar memoria
 ///
 /// Este es el que sera utilizado en todas las clases si el usuario no provee
@@ -59,7 +103,7 @@ class allocator {
 /// memoria falla, lanza un psg::exception explicando que no pudo asingar la
 /// memoria.
 template<typename T>
-[[nodiscard]] T *allocator<T>::allocate(allocator<T>::size_type size) {
+[[nodiscard]] T *allocator<T>::allocate(size_type size) {
     T* ptr = nullptr;
     ptr = static_cast<T*>(malloc(sizeof(T) * size));
     if (ptr == nullptr) {
@@ -76,7 +120,7 @@ template<typename T>
 /// estandar. Ademas de que si vas a usar un allocator tuyo, puede que si lo
 /// utilizes, asi que vamos a mantenerlo.
 template<typename T>
-void allocator<T>::deallocate(T *ptr, size_type size [[maybe_unused]]) {
+void allocator<T>::deallocate(pointer ptr, size_type size [[maybe_unused]]) {
     free(ptr);
 }
 
@@ -95,8 +139,13 @@ void allocator<T>::deallocate(T *ptr, size_type size [[maybe_unused]]) {
 /// * is_allways_equal
 /// * rebind
 ///
+/// Ademas de los metodos:
+///
+/// * allocate
+/// * deallocate
+///
 /// Que serian las cosas que se utilizan.
-template<typename Alloc = allocator<int>>
+template<typename Alloc>
 struct allocator_traits {
     using allocator_type = Alloc;
     using value_type = typename Alloc::value_type;
@@ -120,56 +169,74 @@ struct allocator_traits {
 
     [[nodiscard]] static pointer allocate(Alloc& a, size_type n);
     static void deallocate(allocator_type& a, pointer p, size_type n);
-    template<typename T, typename ...Args>
-    static void construct(allocator_type& a, T* p, Args&& ...args);
-    template<typename T>
-    static void destroy(allocator_type &a, T* p);
+    template<typename ...Args>
+    static void construct(allocator_type& a, pointer p, Args&& ...args);
+    static void destroy(allocator_type &a, pointer p);
     static constexpr size_type max_size(const Alloc& a) noexcept;
     static Alloc select_on_container_copy_construction(const Alloc& a);
 };
 
-/// Regresa la direccion de memoria de el argumento dado.
+/// Asigna memoria utilizando el allocator.
+template<typename Alloc>
+[[nodiscard]] typename allocator_traits<Alloc>::pointer
+    allocator_traits<Alloc>::allocate(allocator_type &a, size_type n) {
+
+    pointer ptr = a.allocate(n);
+    return ptr;
+}
+
+/// Libera memoria utilizando el allocator.
+template<typename Alloc>
+void allocator_traits<Alloc>::deallocate(allocator_type &a,
+    pointer p,
+    size_type n) {
+
+    a.deallocate(p, n);
+}
+
+/// Construye en el lugar dado.
 ///
-/// Sere completamente honesto, este lo copie de la posible implementacion que
-/// se coloca en cppreference. Se me occuria una implementacion que solo fuera
-/// `return &arg`, pero dice que tiene que funcionar aunque el operador & este
-/// sobrecargado. Por ende, en lugar de romperme la cabeza tratando de buscar
-/// como (Que no es el plan, el plan es implementar los contenedores), mejor
-/// hago el buen copy paste y damos creditos.
+/// **NOTA:** De momento, solo usa el construct_at. Tendria que utilizar el
+/// a.construct si incluyera el allcator, pero como no tengo ni idea de como
+/// hacer eso, y quiero pasar ya al vector, pues me lo salto de momento y lo
+/// implemento despues
+template<typename Alloc>
+template<typename... Args>
+void allocator_traits<Alloc>::construct([[maybe_unused]] allocator_type &a,
+    pointer p,
+    Args &&... args) {
+
+    construct_at(p, forward(args)...);
+}
+
+/// Destruye en un lugar dado.
 ///
-/// [Link a el articulo de
-/// cppreference](https://en.cppreference.com/w/cpp/memory/addressof)
-template<typename T>
-T *addressof(T &arg) noexcept {
-    return reinterpret_cast<T *>(
-        &const_cast<char &>(reinterpret_cast<const volatile char &>(arg)));
+/// **NOTA:** De momento, solo usa el destroy_at. Tendria que utilizar el
+/// a.destroy si incluyera el allcator, pero como no tengo ni idea de como
+/// hacer eso, y quiero pasar ya al vector, pues me lo salto de momento y lo
+/// implemento despues
+template<typename Alloc>
+void allocator_traits<Alloc>::destroy([[maybe_unused]] allocator_type &a,
+    pointer p) {
+
+    destroy_at(p);
 }
 
-/// Construye un elemento en p, con el paquete de argumentos que se le hayan
-/// dado.
-/// 
-/// Este recomendaria utilizarlo solo para elementos que asigno utilizando el
-/// psg::allocator. Tendria que llamar al psg::destroy_at si utiliza este.
-template<typename T, typename ...Args>
-T* construct_at(T* p, Args&&... args) {
-    new (p) T(forward<Args>(args)...);
-    return p;
+/// Regresa el tamaño maximo que puede asignar de un tiron.
+template<typename Alloc>
+constexpr typename allocator_traits<Alloc>::size_type
+    allocator_traits<Alloc>::max_size(
+        [[maybe_unused]] const Alloc &a) noexcept {
+
+    return size_type(-1) / sizeof(value_type);
 }
 
-/// Destruye el elemento en la direccion p. 
-/// 
-/// Este seria el complemento del el construct_at
-template<typename T>
-void destroy_at(T* p) {
-    p->~T();
-}
+/// Regresa copia del allocator.
+template<typename Alloc>
+Alloc allocator_traits<Alloc>::select_on_container_copy_construction(
+    const Alloc &a) {
 
-/// Destruye todos los elementos en el rango first - last
-template<typename ForwardIt>
-void destroy(ForwardIt fist, ForwardIt last) {
-    while(first != last) {
-        destroy_at(addressof(*(first++)));
-    }
+    return a;
 }
 
 }; // namespace psg
