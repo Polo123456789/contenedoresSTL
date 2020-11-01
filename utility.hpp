@@ -44,11 +44,13 @@ remove_reference_t<T> move(T&& t) {
     return static_cast<remove_reference_t<T>&&>(t);
 }
 
+/// Hace un perfect forwarding en los argumentos dados
 template<typename T>
 T&& forward(remove_reference_t<T>& t) {
     return static_cast<T&&>(t);
 }
 
+/// Hace un perfect forwarding en los argumentos dados
 template<typename T>
 T&& forward(remove_reference_t<T>&& t) {
     return static_cast<T&&>(t);

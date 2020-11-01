@@ -3,6 +3,7 @@
 
 #include <cstddef>
 
+#include "iterator_templates/legacy_random_acces_iterator.hpp"
 #include "memory.hpp"
 
 namespace psg {
@@ -18,6 +19,12 @@ class vector {
     using const_reference = const value_type &;
     using size_type = size_t;
     using difference_type = ptrdiff_t;
+    using iterator = iterators::LegacyRandomAccesIterator<T>;
+    using const_iterator = iterators::constant::LegacyRandomAccesIterator<T>;
+    using reverse_iterator =
+        iterators::LegacyRandomAccesIterator<T, psg::minus<T>>;
+    using const_reverse_iterator =
+        iterators::constant::LegacyRandomAccesIterator<T, psg::minus<T>>;
 
     constexpr vector() noexcept : vector(Allocator()) {}
     constexpr explicit vector(const Allocator &) noexcept;
@@ -44,11 +51,6 @@ class vector {
     constexpr void assign(size_type n, const T &u);
     constexpr allocator_type get_allocator() const noexcept;
 
-    // iterators
-    class iterator;
-    class const_iterator;
-    class reverse_iterator;
-    class const_reverse_iterator;
     constexpr iterator begin() noexcept;
     constexpr const_iterator begin() const noexcept;
     constexpr iterator end() noexcept;
@@ -63,7 +65,6 @@ class vector {
     constexpr const_reverse_iterator crbegin() const noexcept;
     constexpr const_reverse_iterator crend() const noexcept;
 
-    // capacity
     [[nodiscard]] constexpr bool empty() const noexcept;
     constexpr size_type size() const noexcept;
     constexpr size_type max_size() const noexcept;
@@ -73,7 +74,6 @@ class vector {
     constexpr void reserve(size_type n);
     constexpr void shrink_to_fit();
 
-    // element access
     constexpr reference operator[](size_type n);
     constexpr const_reference operator[](size_type n) const;
     constexpr const_reference at(size_type n) const;
@@ -83,9 +83,8 @@ class vector {
     constexpr reference back();
     constexpr const_reference back() const;
 
-    // data access
-    constexpr T *data() noexcept;
-    constexpr const T *data() const noexcept;
+    constexpr pointer data() noexcept;
+    constexpr const_pointer data() const noexcept;
 
     // modifiers
     template<class... Args>
@@ -110,8 +109,8 @@ class vector {
    private:
     pointer object = nullptr;
     size_type allocated_space = 0;
-    size_type necesito_un_nombre_para_el_ultimo_objeto_valido_que_toco = 0;
-    Allocator alloc{};
+    size_type last_valid_element = 0;
+    allocator_type alloc{};
 };
 
 }; // namespace psg

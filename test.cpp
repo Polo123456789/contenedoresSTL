@@ -8,7 +8,8 @@ int main(void) {
         ALI a;
         int *i = nullptr;
 
-        constexpr int allocated_size = 1;
+        constexpr size_t allocated_size =
+            psg::allocator_traits<ALI>::max_size(a);
         constexpr int value_to_construt = 2;
 
         i = psg::allocator_traits<ALI>::allocate(a, allocated_size);
