@@ -8,6 +8,22 @@
 
 namespace psg {
 
+/// Array asignado dinamicamente, y que puede estar cambiando de tamaño
+/// constantemente.
+///
+/// Este se encargara de asignar la memoria utilizando un psg::allocator. Si
+/// quiere utilizar su propio allocator, puede ver las especificaciones de
+/// implementacion de el psg::allocator. Si quiere utilizar cualquier otra clase
+/// como allocator, tendra que especializar la clase psg::allocator_traits para
+/// usarlo.
+///
+/// Este va a asignar 0 elementos al ser creados si no se le da un tamaño. Luego
+/// de ingresar un elemento, va a duplicar su tamaño cada vez que se quede sin
+/// espacio.
+///
+/// Los elementos que almacenes en el vector tiene que:
+///
+/// * Poder construirse por copia
 template<class T, class Allocator = psg::allocator<T>>
 class vector {
    public:
@@ -26,17 +42,17 @@ class vector {
     using const_reverse_iterator =
         iterators::constant::LegacyRandomAccesIterator<T, psg::minus<T>>;
 
-    constexpr vector() noexcept : vector(Allocator()) {}
-    constexpr explicit vector(const Allocator &) noexcept;
-    constexpr explicit vector(size_type n, const Allocator & = Allocator());
-    constexpr vector(size_type n,
+    vector() noexcept : vector(Allocator()) {}
+    explicit vector(const Allocator & alloc) noexcept;
+    explicit vector(size_type n, const Allocator & alloc = Allocator());
+    vector(size_type n,
         const T &value,
-        const Allocator & = Allocator());
+        const Allocator &  allocator = Allocator());
 
     template<class InputIt>
-    constexpr vector(InputIt first,
+    vector(InputIt first,
         InputIt last,
-        const Allocator & = Allocator());
+        const Allocator & allocator = Allocator());
 
     constexpr vector(const vector &x);
     constexpr vector(vector &&) noexcept;
@@ -107,11 +123,49 @@ class vector {
     constexpr void clear() noexcept;
 
    private:
+
+    static constexpr size_type allocated_space_on_creation = 0;
+    // El valor por el que sera multiplicado el espacio que tengas asignado cada
+    // vez que que llenes el contenedor.
+    static constexpr size_type allocated_space_multiplier = 2;
+
     pointer object = nullptr;
     size_type allocated_space = 0;
     size_type last_valid_element = 0;
     allocator_type alloc{};
 };
+
+template<class T, class Allocator>
+vector<T, Allocator>::vector(const Allocator &alloc) noexcept : alloc(alloc) {}
+
+template<class T, class Allocator>
+vector<T, Allocator>::vector(size_type n, const Allocator &allocator)
+    : alloc(allocator) {
+
+    allocated_space = n;
+    object = allocator_traits<Allocator>::allocate(alloc, n);
+}
+
+template<class T, class Allocator>
+vector<T, Allocator>::vector(size_type n,
+    const T &value,
+    const Allocator & allocator) 
+: alloc{allocator} {
+
+    allocated_space = n;
+    object = allocator_traits<Allocator>::allocate(alloc, n);
+    for (size_type i=0; i<n; i++) {
+        allocator_traits<Allocator>::construct(alloc, object + i, value);
+    }
+    last_valid_element = n;
+}
+
+// TODO (Pablo): Necesito el psg::distance antes de continuar.
+template<class T, class Allocator>
+template<class InputIt>
+vector<T, Allocator>::vector(InputIt first,
+    InputIt last,
+    const Allocator &allocator) {}
 
 }; // namespace psg
 
