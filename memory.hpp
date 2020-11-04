@@ -48,7 +48,7 @@ void destroy_at(T* p) {
 
 /// Destruye todos los elementos en el rango first - last
 template<typename ForwardIt>
-void destroy(ForwardIt fist, ForwardIt last) {
+void destroy(ForwardIt first, ForwardIt last) {
     while(first != last) {
         destroy_at(addressof(*(first++)));
     }
