@@ -1,29 +1,37 @@
 #include <iostream>
-#include "memory.hpp"
+#include "utility.hpp"
 
-int main(void) {
-    try {
+void g(const int&)
+{
+    std::cout << "const int&\n";
+}
 
-        using ALI = psg::allocator<int>;
-        ALI a;
-        int *i = nullptr;
+void g(int&)
+{
+    std::cout << "int&\n";
+}
 
-        constexpr size_t allocated_size =
-            psg::allocator_traits<ALI>::max_size(a);
-        constexpr int value_to_construt = 2;
+void g(int&&)
+{
+    std::cout << "int&&\n";
+}
 
-        i = psg::allocator_traits<ALI>::allocate(a, allocated_size);
-        psg::allocator_traits<ALI>::construct(a, i, value_to_construt);
+template <typename T>
+void f(T&& a)
+{
+    g(psg::forward<T>(a));
+}
 
-        std::cout << *i << '\n';
-
-        psg::allocator_traits<ALI>::destroy(a, i);
-        psg::allocator_traits<ALI>::deallocate(a, i, allocated_size);
-
-    } catch (const psg::exception &e) {
-        std::cout << e.what() << '\n';
-    } catch (...) {
-        std::cout << "Excepcion que no agarre, tendre que revisar algo mas\n";
-    }
-    return 0;
+int main()
+{
+    std::cout << "f(1)\n";
+    f(1);
+    int a = 2;
+    std::cout << "f(a)\n";
+    f(a);
+    const int b = 3;
+    std::cout << "f(const b)\n";
+    f(b);
+    std::cout << "f(a * b)\n";
+    f(a * b);
 }
