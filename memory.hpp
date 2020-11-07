@@ -197,7 +197,7 @@ void allocator_traits<Alloc>::deallocate(allocator_type &a,
 /// Construye en el lugar dado.
 ///
 /// **NOTA:** De momento, solo usa el construct_at. Tendria que utilizar el
-/// a.construct si incluyera el allcator, pero como no tengo ni idea de como
+/// a.construct si incluyera el allocator, pero como no tengo ni idea de como
 /// hacer eso, y quiero pasar ya al vector, pues me lo salto de momento y lo
 /// implemento despues
 template<typename Alloc>
@@ -212,7 +212,7 @@ void allocator_traits<Alloc>::construct([[maybe_unused]] allocator_type &a,
 /// Destruye en un lugar dado.
 ///
 /// **NOTA:** De momento, solo usa el destroy_at. Tendria que utilizar el
-/// a.destroy si incluyera el allcator, pero como no tengo ni idea de como
+/// a.destroy si incluyera el allocator, pero como no tengo ni idea de como
 /// hacer eso, y quiero pasar ya al vector, pues me lo salto de momento y lo
 /// implemento despues
 template<typename Alloc>
