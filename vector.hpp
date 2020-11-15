@@ -42,6 +42,7 @@ class vector {
     using const_reverse_iterator =
         iterators::constant::LegacyRandomAccesIterator<T, psg::minus<T>>;
 
+    /// Llama al vector(const Allocator & alloc)
     vector() noexcept : vector(Allocator()) {}
     explicit vector(const Allocator & alloc) noexcept;
     explicit vector(size_type n, const Allocator & alloc = Allocator());
@@ -135,17 +136,22 @@ class vector {
     allocator_type alloc{};
 };
 
+/// Simplemente asigna el allocator.
 template<class T, class Allocator>
 vector<T, Allocator>::vector(const Allocator &alloc) noexcept : alloc(alloc) {}
 
+// TODO (Pablo): Necesito los iteradores!!!!!!!!!!!!!!
+/// Asigna n espacios en memoria y los llena con el valor default.
 template<class T, class Allocator>
 vector<T, Allocator>::vector(size_type n, const Allocator &allocator)
     : alloc(allocator) {
 
     allocated_space = n;
+    last_valid_element = n;
     object = allocator_traits<Allocator>::allocate(alloc, n);
 }
 
+/// Asina n espacios en memoria y copia el valor
 template<class T, class Allocator>
 vector<T, Allocator>::vector(size_type n,
     const T &value,
@@ -154,9 +160,10 @@ vector<T, Allocator>::vector(size_type n,
 
     allocated_space = n;
     object = allocator_traits<Allocator>::allocate(alloc, n);
-    for (size_type i=0; i<n; i++) {
-        allocator_traits<Allocator>::construct(alloc, object + i, value);
-    }
+    // TODO (Pablo): Hagamoslo con los iteradores mejor
+    // for (size_type i=0; i<n; i++) {
+    //     allocator_traits<Allocator>::construct(alloc, object + i, value);
+    // }
     last_valid_element = n;
 }
 
@@ -165,7 +172,15 @@ template<class T, class Allocator>
 template<class InputIt>
 vector<T, Allocator>::vector(InputIt first,
     InputIt last,
-    const Allocator &allocator) {}
+    const Allocator &allocator) {
+
+    // Idea
+    // size = distance(first, last)
+    // allocated_space = size
+    // object = allocate(size)
+    // construimos todos
+    // last_valid_element = size
+}
 
 }; // namespace psg
 
