@@ -29,6 +29,8 @@
 #include <cstddef>
 #include <cstdint>
 
+#include "..\iterator.hpp"
+
 namespace psg {
 
 ///Especializacion del plus para utilizarlo con el legacy random acces iterator
@@ -76,6 +78,7 @@ class LegacyRandomAccesIterator {
     using LegacyRandAccesIter = LegacyRandomAccesIterator<T, Operation>;
 
    public:
+    using iterator_category = random_acces_iterator_tag;
     using value_type = T;
     using pointer = value_type *;
     using const_pointer = const value_type *;
@@ -238,6 +241,7 @@ class LegacyRandomAccesIterator {
     using LegacyRandAccesIter = LegacyRandomAccesIterator<T, Operation>;
 
    public:
+    using iterator_category = random_acces_iterator_tag;
     using value_type = T;
     using pointer = value_type *;
     using const_pointer = const value_type *;
