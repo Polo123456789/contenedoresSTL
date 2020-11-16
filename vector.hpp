@@ -206,8 +206,8 @@ vector<T, Allocator>::vector(size_type n, const Allocator &allocator)
 template<class T, class Allocator>
 vector<T, Allocator>::vector(size_type n,
     const T &value,
-    const Allocator & allocator) 
-: alloc{allocator} {
+    const Allocator &allocator)
+    : alloc{allocator} {
 
     // Asinamos la memoria
     allocated_space = n;
@@ -223,7 +223,7 @@ vector<T, Allocator>::vector(size_type n,
     for_each(this->begin(), this->end(), copy_construct);
 }
 
-// TODO (Pablo): Necesito el psg::distance antes de continuar.
+// TODO (Pablo): ImplementarloImplementarlo.
 template<class T, class Allocator>
 template<class InputIt>
 vector<T, Allocator>::vector(InputIt first,
