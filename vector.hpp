@@ -3,6 +3,7 @@
 
 #include <cstddef>
 
+#include "algorithm.hpp"
 #include "iterator_templates/legacy_random_acces_iterator.hpp"
 #include "memory.hpp"
 
@@ -182,15 +183,23 @@ typename vector<T, Allocator>::const_iterator
 template<class T, class Allocator>
 vector<T, Allocator>::vector(const Allocator &alloc) noexcept : alloc(alloc) {}
 
-// TODO (Pablo): Necesito los iteradores!!!!!!!!!!!!!!
 /// Asigna n espacios en memoria y los llena con el valor default.
 template<class T, class Allocator>
 vector<T, Allocator>::vector(size_type n, const Allocator &allocator)
     : alloc(allocator) {
 
+    // Asinamos la memoria
     allocated_space = n;
-    last_valid_element = n;
     object = allocator_traits<Allocator>::allocate(alloc, n);
+
+    // Ultimo elemento valido para poder tener el iterador listo.
+    last_valid_element = n;
+
+    // Y construimos
+    auto default_construct = [&](T &t) {
+        allocator_traits<Allocator>::construct(alloc, addressof(t));
+    };
+    for_each(this->begin(), this->end(), default_construct);
 }
 
 /// Asina n espacios en memoria y copia el valor
@@ -200,13 +209,18 @@ vector<T, Allocator>::vector(size_type n,
     const Allocator & allocator) 
 : alloc{allocator} {
 
+    // Asinamos la memoria
     allocated_space = n;
     object = allocator_traits<Allocator>::allocate(alloc, n);
-    // TODO (Pablo): Hagamoslo con los iteradores mejor
-    // for (size_type i=0; i<n; i++) {
-    //     allocator_traits<Allocator>::construct(alloc, object + i, value);
-    // }
+
+    // Ultimo elemento valido para poder tener el iterador listo.
     last_valid_element = n;
+
+    // Y construimos
+    auto copy_construct = [&](T &t) {
+        allocator_traits<Allocator>::construct(alloc, addressof(t), value);
+    };
+    for_each(this->begin(), this->end(), copy_construct);
 }
 
 // TODO (Pablo): Necesito el psg::distance antes de continuar.
