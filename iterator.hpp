@@ -84,6 +84,16 @@ puede especializar los iterator_traits si asi lo decea.
     using reference = Reference;
 };
 
+/// Es la clase que se usa para acceder a las caracteristicas del iterador
+template<typename Iter>
+struct iterator_traits {
+    using difference_type = typename Iter::difference_type;
+    using value_type = typename Iter::value_type;
+    using pointer = typename Iter::pointer;
+    using reference = typename Iter::reference;
+    using iterator_category = typename Iter::iterator_category;
+};
+
 }; // namespace psg
 
 #endif

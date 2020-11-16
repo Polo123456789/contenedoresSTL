@@ -173,6 +173,7 @@ template<class T, class U>
 struct is_same : public false_type {};
 template<class T>
 struct is_same<T, T> : public true_type {};
+
 template<class Base, class Derived>
 struct is_base_of;
 template<class From, class To>
