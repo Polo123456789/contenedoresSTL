@@ -68,10 +68,10 @@ class vector {
     constexpr void assign(size_type n, const T &u);
     constexpr allocator_type get_allocator() const noexcept;
 
-    constexpr iterator begin() noexcept;
-    constexpr const_iterator begin() const noexcept;
-    constexpr iterator end() noexcept;
-    constexpr const_iterator end() const noexcept;
+    iterator begin() noexcept;
+    const_iterator begin() const noexcept;
+    iterator end() noexcept;
+    const_iterator end() const noexcept;
     constexpr reverse_iterator rbegin() noexcept;
     constexpr const_reverse_iterator rbegin() const noexcept;
     constexpr reverse_iterator rend() noexcept;
@@ -135,6 +135,26 @@ class vector {
     size_type last_valid_element = 0;
     allocator_type alloc{};
 };
+
+namespace imp {
+    template <typename T>
+    using VecIter = iterators::LegacyRandomAccesIterator<T>;
+}
+
+template<class T, class Allocator>
+typename vector<T, Allocator>::iterator vector<T, Allocator>::begin() noexcept {
+}
+
+template<class T, class Allocator>
+typename vector<T, Allocator>::const_iterator
+    vector<T, Allocator>::begin() const noexcept {}
+
+template<class T, class Allocator>
+typename vector<T, Allocator>::iterator vector<T, Allocator>::end() noexcept {}
+
+template<class T, class Allocator>
+typename vector<T, Allocator>::const_iterator
+    vector<T, Allocator>::end() const noexcept {}
 
 /// Simplemente asigna el allocator.
 template<class T, class Allocator>
