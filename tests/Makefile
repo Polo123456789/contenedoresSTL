@@ -13,7 +13,7 @@ else
 endif
 
 test.exe: test.cpp
-	clang -std=c++17 -Wall -Werror -Wextra -I../include \
+	clang -std=c++17 -Wall -Wextra -I../include \
 	    ${TARGET} ${ADDRESS_SANITIZER} -O2 -o test.exe 
 
 clean:
