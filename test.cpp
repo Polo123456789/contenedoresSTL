@@ -14,12 +14,17 @@ int main(void) {
         i = psg::allocator_traits<ALI>::allocate(a, allocated_size);
         psg::allocator_traits<ALI>::construct(a, i, value_to_construt);
 
-        std::cout << *i << '\n';
-        std::cout << psg::is_same<decltype(a.construct(i, value_to_construt)),
-            void>::value << '\n';
+        //auto c = &psg::construct_at;
 
-        psg::allocator_traits<ALI>::destroy(a, i);
-        psg::allocator_traits<ALI>::deallocate(a, i, allocated_size);
+        std::cout << *i << '\n';
+        std::cout << psg::allocator_traits<ALI>::max_size(a) << '\n';
+
+        auto b =
+            psg::allocator_traits<ALI>::select_on_container_copy_construction(
+                a);
+
+        psg::allocator_traits<ALI>::destroy(b, i);
+        psg::allocator_traits<ALI>::deallocate(b, i, allocated_size);
 
     } catch (const psg::exception &e) {
         std::cout << e.what() << '\n';

@@ -1,6 +1,8 @@
 #ifndef PSG_MEMORY_HPP
 #define PSG_MEMORY_HPP
 
+#include <iostream>
+
 #include <cstddef>
 #include <cstdlib>
 
@@ -104,7 +106,7 @@ class allocator {
     // propagate_on_container_copy_assingment es verdadero y necesitas una forma
     // especial de copiar el allocator
     //
-    // allocator<T> select_on_container_copy_construction(void);
+    // allocator<T> select_on_container_copy_construction(void) const;
     //
     // Siempre, al construir por copia todos los contenedores usan el
     // allocator_traits::select_on_container_copy_construction al copiar el
@@ -115,10 +117,10 @@ class allocator {
     // [[deprecated]] T *address(T &x) const noexcept;
     // [[deprecated]] const T *address(const T &x) const noexcept;
     // [[deprecated]] [[nodiscard]] size_type max_size(void) const noexcept;
-    template<typename U, typename... Args>
-    [[deprecated]] void construct(U *p, Args &&... args);
-    //template<typename U>
-    //[[deprecated]] void destroy(U *p);
+    // template<typename U, typename... Args>
+    // [[deprecated]] void construct(U *p, Args &&... args);
+    // template<typename U>
+    // [[deprecated]] void destroy(U *p);
 };
 
 /// Asinga la memoria para un puntero tipo T.
@@ -219,6 +221,8 @@ void allocator_traits<Alloc>::deallocate(allocator_type &a,
     a.deallocate(p, n);
 }
 
+/*------------------------ Checks para los miembros ------------------------*/
+
 // Revisiones para ver si tienen los miembros
 //
 // Vamos a aprovechar SFINAE. Que es eso?
@@ -267,7 +271,48 @@ struct allocator_has_destroy {
     static constexpr bool value = (sizeof(Test<Alloc>(0)) == sizeof(char));
 };
 
-}; // namespace imp
+template<typename Alloc>
+struct allocator_has_max_size {
+    template<typename T, typename T::size_type (T::*)(void) const noexcept>
+    struct SFINAE {};
+
+    template<typename T>
+    static char Test(SFINAE<T, &T::max_size> *);
+    template<typename T>
+    static int Test(...);
+    static constexpr bool value = (sizeof(Test<Alloc>(0)) == sizeof(char));
+};
+
+template<typename Alloc>
+struct allocator_has_select_on_container_copy_construction {
+    template<typename T, T (T::*)(void) const>
+    struct SFINAE {};
+
+    template<typename T>
+    static char Test(SFINAE<T, &T::select_on_container_copy_construction> *);
+    template<typename T>
+    static int Test(...);
+
+    static constexpr bool value = (sizeof(Test<Alloc>(0)) == sizeof(char));
+};
+
+template<typename Alloc>
+constexpr bool allocator_has_construct_v =
+    allocator_has_construct<Alloc>::value;
+
+template<typename Alloc>
+constexpr bool allocator_has_destroy_v = allocator_has_destroy<Alloc>::value;
+
+template<typename Alloc>
+constexpr bool allocator_has_max_size_v = allocator_has_max_size<Alloc>::value;
+
+template<typename Alloc>
+constexpr bool allocator_has_select_on_container_copy_construction_v =
+    allocator_has_select_on_container_copy_construction<Alloc>::value;
+
+};  // namespace imp
+
+/*---------------------- Fin checks para los miembros ----------------------*/
 
 /// Construye en el lugar dado.
 ///
@@ -278,7 +323,7 @@ void allocator_traits<Alloc>::construct(allocator_type &a,
     pointer p,
     Args &&... args) {
 
-    if constexpr (imp::allocator_has_construct<Alloc>::value) {
+    if constexpr (imp::allocator_has_construct_v<Alloc>) {
         a.construct(p, forward<Args>(args)...);
     } else {
         construct_at(p, forward<Args>(args)...);
@@ -292,7 +337,7 @@ template<typename Alloc>
 void allocator_traits<Alloc>::destroy([[maybe_unused]] allocator_type &a,
     pointer p) {
 
-    if constexpr (imp::allocator_has_destroy<Alloc>::value) {
+    if constexpr (imp::allocator_has_destroy_v<Alloc>) {
         a.destroy(p);
     } else {
         destroy_at(p);
@@ -304,30 +349,26 @@ template<typename Alloc>
 constexpr typename allocator_traits<Alloc>::size_type
     allocator_traits<Alloc>::max_size(const Alloc &a) noexcept {
 
-    constexpr bool allocator_has_max_size =
-        is_same_v<decltype(a.max_size()), size_type>;
-
-    if constexpr (allocator_has_max_size) {
+    if constexpr (imp::allocator_has_max_size_v<Alloc>) {
         return a.max_size();
     } else {
         return size_type(-1) / sizeof(value_type);
     }
 }
 
-/// Regresa copia del allocator.
+/// Regresa copia del allocator usando select_on_container_copy_construction si
+/// esta definido.
 template<typename Alloc>
 Alloc allocator_traits<Alloc>::select_on_container_copy_construction(
     const Alloc &a) {
 
-    constexpr bool allocator_has_select_on_container_copy_construction = 
-        is_same_v<decltype(a.select_on_container_copy_construction()), Alloc>;
-
-    if constexpr (allocator_has_select_on_container_copy_construction) {
+    if constexpr (imp::allocator_has_select_on_container_copy_construction_v<
+                      Alloc>) {
+        std::cout << "return a.select_on_container_copy_construction();\n";
         return a.select_on_container_copy_construction();
     } else {
         return a;
     }
-
 }
 
 }; // namespace psg
