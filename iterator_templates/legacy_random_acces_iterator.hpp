@@ -29,7 +29,7 @@
 #include <cstddef>
 #include <cstdint>
 
-#include "..\iterator.hpp"
+#include <iterator.hpp>
 
 namespace psg {
 

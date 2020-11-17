@@ -33,7 +33,7 @@
 #ifndef PSG_ITERATOR_LEGACY_INPUT_ITERATOR_HPP
 #define PSG_ITERATOR_LEGACY_INPUT_ITERATOR_HPP
 
-#include "legacy_iterator.hpp"
+#include <iterator_templates/legacy_iterator.hpp>
 
 namespace psg {
 namespace imp {

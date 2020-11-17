@@ -24,7 +24,7 @@
 #ifndef PSG_ITERATOR_LEGACY_BIDIRECTIONAL_ITERATOR_HPP
 #define PSG_ITERATOR_LEGACY_BIDIRECTIONAL_ITERATOR_HPP
 
-#include "legacy_forward_iterator.hpp"
+#include <iterator_templates/legacy_forward_iterator.hpp>
 
 namespace psg {
 namespace imp {

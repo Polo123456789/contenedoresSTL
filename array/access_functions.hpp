@@ -1,7 +1,7 @@
 #ifndef PSG_ARRAY_ACCESS_FUNTIONS_HPP
 #define PSG_ARRAY_ACCESS_FUNTIONS_HPP
 
-#include "class.hpp"
+#include <array/class.hpp>
 
 namespace psg {
 

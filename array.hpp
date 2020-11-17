@@ -1,10 +1,10 @@
 #ifndef PSG_ARRAY_HPP
 #define PSG_ARRAY_HPP
 
-#include "array/class.hpp"
-#include "array/constructors.hpp"
-#include "array/access_functions.hpp"
-#include "array/iterator_functions.hpp"
+#include <array/class.hpp>
+#include <array/constructors.hpp>
+#include <array/access_functions.hpp>
+#include <array/iterator_functions.hpp>
 
 namespace psg {
 
