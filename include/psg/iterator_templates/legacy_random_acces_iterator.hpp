@@ -29,7 +29,7 @@
 #include <cstddef>
 #include <cstdint>
 
-#include <iterator.hpp>
+#include <psg/iterator.hpp>
 
 namespace psg {
 
@@ -40,14 +40,14 @@ struct plus {
         return a + b;
     }
 
-    T *operator()(T *a, int64_t b) {
+    T *operator()(T *a, ptrdiff_t b) {
         return a + b;
     }
     const T *operator()(const T *a, size_t b) {
         return a + b;
     }
 
-    const T *operator()(const T *a, int64_t b) {
+    const T *operator()(const T *a, ptrdiff_t b) {
         return a + b;
     }
 };
@@ -59,14 +59,14 @@ struct minus {
         return a - b;
     }
 
-    T *operator()(T *a, int64_t b) {
+    T *operator()(T *a, ptrdiff_t b) {
         return a - b;
     }
     const T *operator()(const T *a, size_t b) {
         return a - b;
     }
 
-    const T *operator()(const T *a, int64_t b) {
+    const T *operator()(const T *a, ptrdiff_t b) {
         return a - b;
     }
 };

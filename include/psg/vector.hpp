@@ -3,9 +3,9 @@
 
 #include <cstddef>
 
-#include "algorithm.hpp"
-#include "iterator_templates/legacy_random_acces_iterator.hpp"
-#include "memory.hpp"
+#include <psg/algorithm.hpp>
+#include <psg/iterator_templates/legacy_random_acces_iterator.hpp>
+#include <psg/memory.hpp>
 
 namespace psg {
 
@@ -84,9 +84,9 @@ class vector {
     constexpr const_reverse_iterator crend() const noexcept;
 
     [[nodiscard]] constexpr bool empty() const noexcept;
-    constexpr size_type size() const noexcept;
-    constexpr size_type max_size() const noexcept;
-    constexpr size_type capacity() const noexcept;
+    [[nodiscard]] constexpr size_type size() const noexcept;
+    [[nodiscard]] constexpr size_type max_size() const noexcept;
+    [[nodiscard]] constexpr size_type capacity() const noexcept;
     constexpr void resize(size_type sz);
     constexpr void resize(size_type sz, const T &c);
     constexpr void reserve(size_type n);

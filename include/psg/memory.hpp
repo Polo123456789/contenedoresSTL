@@ -4,9 +4,9 @@
 #include <cstddef>
 #include <cstdlib>
 
-#include "exception.hpp"
-#include "utility.hpp"
-#include "type_traits.hpp"
+#include <psg/exception.hpp>
+#include <psg/utility.hpp>
+#include <psg/type_traits.hpp>
 
 namespace psg {
 

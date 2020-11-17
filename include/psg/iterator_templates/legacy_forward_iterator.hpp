@@ -16,12 +16,10 @@
  *
  * Descripcion de la clase:
  *
- *  LegacyInputIterator:
+ *  LegacyForwardIterator:
  *
- *      Es un iterador que puede leer de el elemento al que apunta. Este solo
- *      garantiza ser valido para algorimos de una pasada. Al ser el iterador I
- *      incrementado, todas las copias previas del mismo pueden llegar a ser
- *      invalidadas
+ *      Es un iterador que puede leer de el elemento al que apunta. Este es
+ *      valido para algoritmos de mas de una pasada.
  *
  *  Requisitos:
  *
@@ -29,26 +27,26 @@
  *      * Es EqualityComparable (bool operator==)
  *
  * */
+#ifndef PSG_ITERATOR_LEGACY_FORWARD_ITERATOR_HPP
+#define PSG_ITERATOR_LEGACY_FORWARD_ITERATOR_HPP
 
-#ifndef PSG_ITERATOR_LEGACY_INPUT_ITERATOR_HPP
-#define PSG_ITERATOR_LEGACY_INPUT_ITERATOR_HPP
-
-#include <iterator_templates/legacy_iterator.hpp>
+#include <psg/iterator_templates/legacy_iterator.hpp>
 
 namespace psg {
 namespace imp {
 
 template<typename value_type>
-class LegacyInputIterator {
-    using LegacyInpurIt = LegacyInputIterator<value_type>;
+class LegacyForwardIterator {
+    using LegacyForwardIter = LegacyForwardIterator<value_type>;
+
    public:
-    bool operator==(const LegacyInpurIt& other);
-    bool operator!=(const LegacyInpurIt& other);
-    // Requiere mas investigacion.
+    bool operator==(const LegacyForwardIter &other);
+    bool operator!=(const LegacyForwardIter &other);
+
     value_type& operator*(void);
-    value_type* operator->();
-    LegacyInpurIt operator++(int);
-    LegacyInpurIt& operator++(void);
+    value_type *operator->();
+    LegacyForwardIter& operator++(void);
+    LegacyForwardIter operator++(int);
 };
 
 }; // namespace imp

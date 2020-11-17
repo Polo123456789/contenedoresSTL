@@ -1,7 +1,7 @@
 #ifndef PSG_ARRAY_ITERATOR_FUNCTIONS_HPP
 #define PSG_ARRAY_ITERATOR_FUNCTIONS_HPP
 
-#include <array/class.hpp>
+#include <psg/array/class.hpp>
 
 namespace psg {
 

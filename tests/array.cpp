@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../array.hpp"
+#include <psg/array.hpp>
 
 int main(void) {
     constexpr size_t arr_size = 10;
