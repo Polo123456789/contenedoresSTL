@@ -106,7 +106,7 @@ class allocator {
     // propagate_on_container_copy_assingment es verdadero y necesitas una forma
     // especial de copiar el allocator
     //
-    // allocator<T> select_on_container_copy_construction(void) const;
+    // allocator<T> select_on_container_copy_construction(void) const
     //
     // Siempre, al construir por copia todos los contenedores usan el
     // allocator_traits::select_on_container_copy_construction al copiar el
