@@ -1,8 +1,6 @@
 #ifndef PSG_MEMORY_HPP
 #define PSG_MEMORY_HPP
 
-#include <iostream>
-
 #include <cstddef>
 #include <cstdlib>
 
@@ -364,7 +362,6 @@ Alloc allocator_traits<Alloc>::select_on_container_copy_construction(
 
     if constexpr (imp::allocator_has_select_on_container_copy_construction_v<
                       Alloc>) {
-        std::cout << "return a.select_on_container_copy_construction();\n";
         return a.select_on_container_copy_construction();
     } else {
         return a;

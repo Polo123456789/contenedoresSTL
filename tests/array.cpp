@@ -1,6 +1,5 @@
 #include <iostream>
-#include <string>
-#include "array.hpp"
+#include "../array.hpp"
 
 int main(void) {
     constexpr size_t arr_size = 10;
@@ -30,6 +29,8 @@ int main(void) {
     }
     std::cout << '\n';
 
+    // NOTE: Si planea probar las excepciones, no use el address sanitizer, no
+    // van muy bien unos con otros.
     std::cout << "Vamos a por todos los elementos de b, hasta pasarnos\n";
     try {
         for (size_t i = 0; i < arr_size + 1; i++) {

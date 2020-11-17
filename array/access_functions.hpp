@@ -1,7 +1,6 @@
 #ifndef PSG_ARRAY_ACCESS_FUNTIONS_HPP
 #define PSG_ARRAY_ACCESS_FUNTIONS_HPP
 
-#include <iostream>
 #include "class.hpp"
 
 namespace psg {
@@ -15,8 +14,6 @@ typename array<T, arr_size>::reference array<T, arr_size>::at(
     typename array<T, arr_size>::size_type position) {
 
     if (position < arr_size) {
-        std::cout << "Accediendo a " << position
-                  << " en array de tamaño: " << arr_size << '\n';
         return object[position];
     }
     throw exception("exception en el psg::array al llamar la funcion at(), "
@@ -32,7 +29,7 @@ template<typename T, const size_t arr_size>
 typename array<T, arr_size>::const_reference array<T, arr_size>::at(
     typename array<T, arr_size>::size_type position) const {
 
-    if (position >= 0 && position < arr_size) {
+    if (position < arr_size) {
         return object[position];
     }
     throw exception("exception en el psg::array al llamar la funcion at(), "
