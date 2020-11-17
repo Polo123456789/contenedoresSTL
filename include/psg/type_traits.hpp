@@ -1,26 +1,10 @@
 #ifndef PSG_TYPE_TRAITS_HPP
 #define PSG_TYPE_TRAITS_HPP
 
+#include <psg/type_traits/integral_constant.hpp>
+#include <psg/type_traits/reference_modifications.hpp>
+
 namespace psg {
-
-template<class T, T v>
-struct integral_constant {
-    static constexpr T value = v;
-    using value_type = T;
-    using type = integral_constant;
-    constexpr value_type operator()() const noexcept {
-        return value;
-    }
-    // NOLINTNEXTLINE Este intencionalmente quiero que no sea explicito
-    constexpr operator value_type() const noexcept {
-        return value;
-    }
-};
-
-template<bool B>
-using bool_constant = integral_constant<bool, B>;
-using true_type = bool_constant<true>;
-using false_type = bool_constant<false>;
 
 // primary type categories:
 template<class T>
@@ -218,20 +202,6 @@ template<class T>
 using add_volatile_t = typename add_volatile<T>::type;
 template<class T>
 using add_cv_t = typename add_cv<T>::type;
-
-// reference modifications:
-template<class T>
-struct remove_reference;
-template<class T>
-struct add_lvalue_reference;
-template<class T>
-struct add_rvalue_reference;
-template<class T>
-using remove_reference_t = typename remove_reference<T>::type;
-template<class T>
-using add_lvalue_reference_t = typename add_lvalue_reference<T>::type;
-template<class T>
-using add_rvalue_reference_t = typename add_rvalue_reference<T>::type;
 
 // sign modifications:
 template<class T>

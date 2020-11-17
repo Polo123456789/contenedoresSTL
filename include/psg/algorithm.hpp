@@ -31,13 +31,5 @@ void for_each(InputIt first, InputIt last, UnaryFunc f) {
     }
 }
 
-/// Intercambia los valores
-template<typename T>
-void swap(T& a, T& b) noexcept {
-    T tmp = a;
-    a = b;
-    b = tmp;
-}
-
 }; // namespace psg
 #endif
