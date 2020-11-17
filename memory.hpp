@@ -10,6 +10,7 @@
 
 namespace psg {
 
+// Configuracion
 namespace imp {
 
 constexpr bool addresof_by_casting = true;
@@ -30,8 +31,9 @@ constexpr bool addresof_by_casting = true;
 template<typename T>
 T *addressof(T &arg) noexcept {
     if constexpr (imp::addresof_by_casting) {
-        return reinterpret_cast<T *>(
-            &const_cast<char &>(reinterpret_cast<const volatile char &>(arg)));
+        return reinterpret_cast<T *>( // NOLINT
+            &const_cast<char &>( // NOLINT
+                reinterpret_cast<const volatile char &>(arg))); // NOLINT
     } else {
         return &arg;
     }
@@ -218,19 +220,49 @@ void allocator_traits<Alloc>::deallocate(allocator_type &a,
     a.deallocate(p, n);
 }
 
+// Revisiones para ver si tienen los miembros
+//
+// Vamos a aprovechar SFINAE. Que es eso?
+// Substitution Failure is not an error. Tenemos varios templates para una
+// funcion. Si al sustituir los tipos falla, no marca como error sino que quita
+// esa funcion de los overloads disponibles. Saquemosle el jugo
+namespace imp {
+
+template<typename Alloc>
+struct allocator_has_construct {
+    // Vamos a tener un struct que tiene como template un tipo, y un puntero a
+    // una funcion miembro del tipo.
+    template<typename T, void (T::*)(typename T::pointer, ...)>
+    struct SFINAE {};
+
+    // Luego 2 funciones pueden los tipos que tu quieras, mientras tengan
+    // tamaños diferentes
+    //
+    // Si tiene el metodo construct, va a llamar la funcion que regresa un char.
+    template<typename T>
+    static char Test(SFINAE<T, &T::construct> *);
+    // Si no tiene el metodo struct, el template anterior falla, pero no nos da
+    // error, solo va al siguiente overload. Este regresa un int.
+    template<typename T>
+    static int Test(...);
+
+    // Entonces el tamaño del valor que regresa.
+    static constexpr bool value =
+        (sizeof(Test<Alloc>(nullptr)) == sizeof(char));
+};
+
+}; // namespace imp
+
 /// Construye en el lugar dado.
 ///
 /// Usa el allocator::construct si existe, y si no, usa el emplace new
 template<typename Alloc>
 template<typename... Args>
-void allocator_traits<Alloc>::construct([[maybe_unused]] allocator_type &a,
+void allocator_traits<Alloc>::construct(allocator_type &a,
     pointer p,
     Args &&... args) {
 
-    constexpr bool allocator_has_construct = 
-        is_same_v<decltype(a.construct(p, forward<Args>(args)...)), void>;
-
-    if constexpr (allocator_has_construct) {
+    if constexpr (imp::allocator_has_construct<Alloc>::value) {
         a.construct(p, forward<Args>(args)...);
     } else {
         construct_at(p, forward<Args>(args)...);
