@@ -64,7 +64,7 @@ class vector {
     template<class InputIt>
     constexpr void assign(InputIt first, InputIt last);
     constexpr void assign(size_type n, const T &u);
-    constexpr allocator_type get_allocator() const noexcept;
+    allocator_type get_allocator() const noexcept;
 
     iterator begin() noexcept;
     const_iterator begin() const noexcept;

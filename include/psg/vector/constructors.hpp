@@ -66,7 +66,12 @@ vector<T, Allocator>::vector(InputIt first,
     allocated_space = size;
 
     // Copiamos los elementos
-    copy(first, last, this->begin());
+    iterator m_first = this->begin();
+    while(first != last) {
+        allocator_traits<Allocator>::construct(alloc,
+            addressof(*(m_first++)),
+            *(first++));
+    }
 
     // Y dejamos el ultimo valido
     last_valid_element = size;
@@ -91,7 +96,14 @@ vector<T, Allocator>::vector(const vector &other, const Allocator &a) {
     object = allocator_traits<Allocator>::allocate(alloc, allocated_space);
 
     // Copiamos los elementos
-    copy(other.begin(), other.end(), this->begin());
+    const_iterator first = other.begin();
+    const_iterator last = other.end();
+    iterator m_first = this->begin();
+    while(first != last) {
+        allocator_traits<Allocator>::construct(alloc,
+            addressof(*(m_first++)),
+            *(first++));
+    }
 }
 
 /// Mueve el other a este vector, garantizando que other estara vacio.
@@ -111,16 +123,6 @@ vector<T, Allocator>::vector(vector &&other, const Allocator &a) {
     allocated_space = exchange(other.allocated_space, 0);
     last_valid_element = exchange(other.last_valid_element, 0);
     alloc = a;
-}
-
-/// Destruye los objetos, y libera la memoria asinada.
-template<class T, class Allocator>
-vector<T, Allocator>::~vector() {
-    auto destroy_element = [&](iterator it) {
-        allocator_traits<Allocator>::destroy(alloc, addressof(*it));
-    };
-    for_each(this->begin(), this->end(), destroy_element);
-    allocator_traits<Allocator>::deallocate(alloc, object, allocated_space);
 }
 
 }; // namespace psg
