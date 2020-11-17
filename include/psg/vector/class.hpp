@@ -55,8 +55,8 @@ class vector {
 
     vector(const vector &other);
     vector(vector &&other) noexcept;
-    constexpr vector(const vector &, const Allocator &);
-    constexpr vector(vector &&, const Allocator &);
+    vector(const vector &other, const Allocator &a);
+    vector(vector &&other, const Allocator &a);
     ~vector();
 
     constexpr vector &operator=(const vector &x);

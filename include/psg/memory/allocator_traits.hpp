@@ -98,8 +98,7 @@ void allocator_traits<Alloc>::construct(allocator_type &a,
 ///
 /// Usa allocator::destroy si existe, y si no usa destroy_at.
 template<typename Alloc>
-void allocator_traits<Alloc>::destroy([[maybe_unused]] allocator_type &a,
-    pointer p) {
+void allocator_traits<Alloc>::destroy(allocator_type &a, pointer p) {
 
     if constexpr (imp::allocator_has_destroy_v<Alloc>) {
         a.destroy(p);

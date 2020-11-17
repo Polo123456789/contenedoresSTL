@@ -57,11 +57,11 @@ void destroy_at(T* p) {
 /// Destruye todos los elementos en el rango first - last
 template<typename ForwardIt>
 void destroy(ForwardIt first, ForwardIt last) {
-    while(first != last) {
-        destroy_at(addressof(*(first++)));
-    }
+    auto destroy_element = [](ForwardIt it) {
+        destroy_at(addressof(*it));
+    };
+    for_each(first, last, destroy_element);
 }
-
 
 }; // namespace psg
 

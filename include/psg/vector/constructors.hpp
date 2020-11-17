@@ -72,14 +72,20 @@ vector<T, Allocator>::vector(InputIt first,
     last_valid_element = size;
 }
 
+/// Copia el other a este vector.
 template<class T, class Allocator>
 vector<T, Allocator>::vector(const vector &other)
-    : last_valid_element(other.last_valid_element),
-      allocated_space(other.allocated_space) {
+    : vector(other,
+        allocator_traits<Allocator>::select_on_container_copy_construction(
+            other.get_allocator())) {}
 
-    // Copiamos el allocator
-    alloc = allocator_traits<Allocator>::select_on_container_copy_construction(
-        other.get_allocator());
+/// Copia el other al vector, y copia el allocator
+template<class T, class Allocator>
+vector<T, Allocator>::vector(const vector &other, const Allocator &a) {
+    // Copiamos los elementos
+    last_valid_element = other.last_valid_element;
+    allocated_space = other.allocated_space;
+    alloc = a;
 
     // Asignamos la memoria
     object = allocator_traits<Allocator>::allocate(alloc, allocated_space);
@@ -88,9 +94,33 @@ vector<T, Allocator>::vector(const vector &other)
     copy(other.begin(), other.end(), this->begin());
 }
 
+/// Mueve el other a este vector, garantizando que other estara vacio.
 template<class T, class Allocator>
 vector<T, Allocator>::vector(vector &&other) noexcept {
+    object = exchange(other.object, nullptr);
+    allocated_space = exchange(other.allocated_space, 0);
+    last_valid_element = exchange(other.last_valid_element, 0);
+    alloc = move(other.alloc);
+}
 
+/// Mueve el other a este vector, y copia el allocator garantizando que other
+/// estara vacio.
+template<class T, class Allocator>
+vector<T, Allocator>::vector(vector &&other, const Allocator &a) {
+    object = exchange(other.object, nullptr);
+    allocated_space = exchange(other.allocated_space, 0);
+    last_valid_element = exchange(other.last_valid_element, 0);
+    alloc = a;
+}
+
+/// Destruye los objetos, y libera la memoria asinada.
+template<class T, class Allocator>
+vector<T, Allocator>::~vector() {
+    auto destroy_element = [&](iterator it) {
+        allocator_traits<Allocator>::destroy(alloc, addressof(*it));
+    };
+    for_each(this->begin(), this->end(), destroy_element);
+    allocator_traits<Allocator>::deallocate(alloc, object, allocated_space);
 }
 
 }; // namespace psg
