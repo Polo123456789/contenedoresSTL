@@ -81,6 +81,7 @@ class allocator {
     /// Indica si tiene que ser copiado el allocator cuando el contenedor es
     /// move assigned
     using propagate_on_container_move_assingment = true_type;
+    // Igual que antes pero para la copia
     using propagate_on_container_copy_assingment = true_type;
     template<typename U>
     struct _rebind {
@@ -93,18 +94,30 @@ class allocator {
     using difference_type = ptrdiff_t;
     using is_allways_equal = true_type;
 
+    /// Asigna sizeof(T)*size bytes de memoria
     [[nodiscard]] T *allocate(size_type size);
+    /// Regresa la memoria
     void deallocate(T *ptr, size_type size [[maybe_unused]]);
+
+    // Puede que quieras declarar la siguiente funcion. Si
+    // propagate_on_container_copy_assingment es verdadero y necesitas una forma
+    // especial de copiar el allocator
+    //
+    // allocator<T> select_on_container_copy_construction(void);
+    //
+    // Siempre, al construir por copia todos los contenedores usan el
+    // allocator_traits::select_on_container_copy_construction al copiar el
+    // contenedor.
 
     // Estos estan aqui solo por que si. Estan deprecados desde C++17.
     // Asi que ni me voy a molestar en definirlos.
-    [[deprecated]] T *address(T &x) const noexcept;
-    [[deprecated]] const T *address(const T &x) const noexcept;
-    [[deprecated]] [[nodiscard]] size_type max_size(void) const noexcept;
-    template<typename U, typename... Args>
-    [[deprecated]] void construct(U *p, Args &&... args);
-    template<typename U>
-    [[deprecated]] void destroy(U *p);
+    // [[deprecated]] T *address(T &x) const noexcept;
+    // [[deprecated]] const T *address(const T &x) const noexcept;
+    // [[deprecated]] [[nodiscard]] size_type max_size(void) const noexcept;
+    // template<typename U, typename... Args>
+    // [[deprecated]] void construct(U *p, Args &&... args);
+    // template<typename U>
+    // [[deprecated]] void destroy(U *p);
 };
 
 /// Asinga la memoria para un puntero tipo T.
@@ -172,6 +185,7 @@ struct allocator_traits {
     using propagate_on_container_copy_assingment =
         typename Alloc::propagate_on_container_copy_assingment;
     using is_allways_equal = typename Alloc::is_allways_equal;
+
     template<typename T>
     using rebind_alloc = typename Alloc::template rebind<T>::other;
     template<typename T>
@@ -206,10 +220,7 @@ void allocator_traits<Alloc>::deallocate(allocator_type &a,
 
 /// Construye en el lugar dado.
 ///
-/// **NOTA:** De momento, solo usa el construct_at. Tendria que utilizar el
-/// a.construct si incluyera el allocator, pero como no tengo ni idea de como
-/// hacer eso, y quiero pasar ya al vector, pues me lo salto de momento y lo
-/// implemento despues
+/// Usa el allocator::construct si existe, y si no, usa el emplace new
 template<typename Alloc>
 template<typename... Args>
 void allocator_traits<Alloc>::construct([[maybe_unused]] allocator_type &a,
@@ -217,7 +228,7 @@ void allocator_traits<Alloc>::construct([[maybe_unused]] allocator_type &a,
     Args &&... args) {
 
     constexpr bool allocator_has_construct = 
-        is_same<decltype(a.construct(p, forward<Args>(args)...)), void>::value;
+        is_same_v<decltype(a.construct(p, forward<Args>(args)...)), void>;
 
     if constexpr (allocator_has_construct) {
         a.construct(p, forward<Args>(args)...);
@@ -228,24 +239,34 @@ void allocator_traits<Alloc>::construct([[maybe_unused]] allocator_type &a,
 
 /// Destruye en un lugar dado.
 ///
-/// **NOTA:** De momento, solo usa el destroy_at. Tendria que utilizar el
-/// a.destroy si incluyera el allocator, pero como no tengo ni idea de como
-/// hacer eso, y quiero pasar ya al vector, pues me lo salto de momento y lo
-/// implemento despues
+/// Usa allocator::destroy si existe, y si no usa destroy_at.
 template<typename Alloc>
 void allocator_traits<Alloc>::destroy([[maybe_unused]] allocator_type &a,
     pointer p) {
 
-    destroy_at(p);
+    constexpr bool allocator_has_destroy =
+        is_same_v<decltype(a.destroy(p)), void>;
+
+    if constexpr (allocator_has_destroy) {
+        a.destroy(p);
+    } else {
+        destroy_at(p);
+    }
 }
 
 /// Regresa el tamaño maximo que puede asignar de un tiron.
 template<typename Alloc>
 constexpr typename allocator_traits<Alloc>::size_type
-    allocator_traits<Alloc>::max_size(
-        [[maybe_unused]] const Alloc &a) noexcept {
+    allocator_traits<Alloc>::max_size(const Alloc &a) noexcept {
 
-    return size_type(-1) / sizeof(value_type);
+    constexpr bool allocator_has_max_size =
+        is_same_v<decltype(a.max_size()), size_type>;
+
+    if constexpr (allocator_has_max_size) {
+        return a.max_size();
+    } else {
+        return size_type(-1) / sizeof(value_type);
+    }
 }
 
 /// Regresa copia del allocator.
@@ -253,7 +274,15 @@ template<typename Alloc>
 Alloc allocator_traits<Alloc>::select_on_container_copy_construction(
     const Alloc &a) {
 
-    return a;
+    constexpr bool allocator_has_select_on_container_copy_construction = 
+        is_same_v<decltype(a.select_on_container_copy_construction()), Alloc>;
+
+    if constexpr (allocator_has_select_on_container_copy_construction) {
+        return a.select_on_container_copy_construction();
+    } else {
+        return a;
+    }
+
 }
 
 }; // namespace psg
