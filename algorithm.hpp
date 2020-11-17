@@ -17,7 +17,7 @@ OutputIt copy(InputIt first, InputIt last, OutputIt o_begin) {
 /// Copia n valores.
 template<typename InputIt, typename Size, typename OutputIt>
 OutputIt copy_n(InputIt fist, Size count, OutputIt result) {
-    for (int i=0; i<count; i++) {
+    for (Size i=0; i<count; i++) {
         *(result++) = *(fist++);
     }
    return result;

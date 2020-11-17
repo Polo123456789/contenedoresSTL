@@ -1,35 +1,65 @@
 #include <iostream>
-#include "memory.hpp"
+#include <string>
+#include "array.hpp"
 
 int main(void) {
-    try {
+    constexpr size_t arr_size = 10;
+    psg::array<int, arr_size> a{};
 
-        using ALI = psg::allocator<int>;
-        ALI a;
-        int *i = nullptr;
+    psg::array<int, arr_size>::iterator it = a.begin();
 
-        constexpr int allocated_size = 1;
-        constexpr int value_to_construt = 2;
-
-        i = psg::allocator_traits<ALI>::allocate(a, allocated_size);
-        psg::allocator_traits<ALI>::construct(a, i, value_to_construt);
-
-        //auto c = &psg::construct_at;
-
-        std::cout << *i << '\n';
-        std::cout << psg::allocator_traits<ALI>::max_size(a) << '\n';
-
-        auto b =
-            psg::allocator_traits<ALI>::select_on_container_copy_construction(
-                a);
-
-        psg::allocator_traits<ALI>::destroy(b, i);
-        psg::allocator_traits<ALI>::deallocate(b, i, allocated_size);
-
-    } catch (const psg::exception &e) {
-        std::cout << e.what() << '\n';
-    } catch (...) {
-        std::cout << "Excepcion que no agarre, tendre que revisar algo mas\n";
+    for(size_t i=0; i<arr_size; i++) {
+        int& number = *it;
+        number = static_cast<int>(i*2);
+        ++it;
     }
+
+    std::cout << "Construyendo b a partir de a" << '\n';
+    psg::array<int, arr_size> b(a);
+
+    for (auto n : b) {
+        std::cout << n << ", ";
+    }
+    std::cout << '\n';
+
+    std::cout << "Copiando a dentro de b" << '\n';
+
+    a = b;
+    for (auto n : b) {
+        std::cout << n << ", ";
+    }
+    std::cout << '\n';
+
+    // TODO (pablo): A ver donde la estas regando, usa el address sanitizer
+    std::cout << "Vamos a por todos los elementos de b, hasta pasarnos\n";
+    try {
+        for (size_t i = 0; i < arr_size + 1; i++) {
+            std::cout << "[" << i << "]: " << b.at(i) << '\n';
+        }
+    } catch (const psg::exception& e) {
+        std::cout << e.what() << '\n';
+    }
+
+    std::cout << "Llenamos b con el valor 1\n";
+    b.fill(1);
+    for (auto n : b) {
+        std::cout << n << ", ";
+    }
+    std::cout << '\n';
+
+    std::cout << "Cambiamos a y b\n";
+    a.swap(b);
+    std::cout << "a: ";
+    for (auto n : a) {
+        std::cout << n << ", ";
+    }
+    std::cout << '\n';
+    std::cout << "b: ";
+    for (auto n : b) {
+        std::cout << n << ", ";
+    }
+    std::cout << '\n';
+
+
     return 0;
 }
