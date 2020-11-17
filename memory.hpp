@@ -10,7 +10,6 @@
 
 namespace psg {
 
-// Configuracion
 namespace imp {
 
 constexpr bool addresof_by_casting = true;
@@ -116,10 +115,10 @@ class allocator {
     // [[deprecated]] T *address(T &x) const noexcept;
     // [[deprecated]] const T *address(const T &x) const noexcept;
     // [[deprecated]] [[nodiscard]] size_type max_size(void) const noexcept;
-    // template<typename U, typename... Args>
-    // [[deprecated]] void construct(U *p, Args &&... args);
-    // template<typename U>
-    // [[deprecated]] void destroy(U *p);
+    template<typename U, typename... Args>
+    [[deprecated]] void construct(U *p, Args &&... args);
+    //template<typename U>
+    //[[deprecated]] void destroy(U *p);
 };
 
 /// Asinga la memoria para un puntero tipo T.
@@ -223,7 +222,8 @@ void allocator_traits<Alloc>::deallocate(allocator_type &a,
 // Revisiones para ver si tienen los miembros
 //
 // Vamos a aprovechar SFINAE. Que es eso?
-// Substitution Failure is not an error. Tenemos varios templates para una
+//
+// Substitution Failure Is Not An Error. Tenemos varios templates para una
 // funcion. Si al sustituir los tipos falla, no marca como error sino que quita
 // esa funcion de los overloads disponibles. Saquemosle el jugo
 namespace imp {
@@ -232,6 +232,8 @@ template<typename Alloc>
 struct allocator_has_construct {
     // Vamos a tener un struct que tiene como template un tipo, y un puntero a
     // una funcion miembro del tipo.
+    // template<typename T, void (T::*)(typename T::pointer, Args &&...), ... Args>
+    // struct SFINAE {};
     template<typename T, void (T::*)(typename T::pointer, ...)>
     struct SFINAE {};
 
@@ -247,8 +249,22 @@ struct allocator_has_construct {
     static int Test(...);
 
     // Entonces el tamaño del valor que regresa.
-    static constexpr bool value =
-        (sizeof(Test<Alloc>(nullptr)) == sizeof(char));
+    static constexpr bool value = (sizeof(Test<Alloc>(0)) == sizeof(char));
+};
+
+// Ahora que ya sabemos que estamos haciendo, apliquemolo para los demas.
+
+template<typename Alloc>
+struct allocator_has_destroy {
+    template<typename T, void (T::*)(typename T::pointer)>
+    struct SFINAE {};
+
+    template<typename T>
+    static char Test(SFINAE<T, &T::destroy> *);
+    template<typename T>
+    static int Test(...);
+
+    static constexpr bool value = (sizeof(Test<Alloc>(0)) == sizeof(char));
 };
 
 }; // namespace imp
@@ -276,10 +292,7 @@ template<typename Alloc>
 void allocator_traits<Alloc>::destroy([[maybe_unused]] allocator_type &a,
     pointer p) {
 
-    constexpr bool allocator_has_destroy =
-        is_same_v<decltype(a.destroy(p)), void>;
-
-    if constexpr (allocator_has_destroy) {
+    if constexpr (imp::allocator_has_destroy<Alloc>::value) {
         a.destroy(p);
     } else {
         destroy_at(p);

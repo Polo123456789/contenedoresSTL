@@ -15,6 +15,8 @@ int main(void) {
         psg::allocator_traits<ALI>::construct(a, i, value_to_construt);
 
         std::cout << *i << '\n';
+        std::cout << psg::is_same<decltype(a.construct(i, value_to_construt)),
+            void>::value << '\n';
 
         psg::allocator_traits<ALI>::destroy(a, i);
         psg::allocator_traits<ALI>::deallocate(a, i, allocated_size);
