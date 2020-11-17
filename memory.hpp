@@ -10,6 +10,12 @@
 
 namespace psg {
 
+namespace imp {
+
+constexpr bool addresof_by_casting = true;
+
+}
+
 /// Regresa la direccion de memoria de el argumento dado.
 ///
 /// Sere completamente honesto, este lo copie de la posible implementacion que
@@ -23,8 +29,12 @@ namespace psg {
 /// cppreference](https://en.cppreference.com/w/cpp/memory/addressof)
 template<typename T>
 T *addressof(T &arg) noexcept {
-    return reinterpret_cast<T *>(
-        &const_cast<char &>(reinterpret_cast<const volatile char &>(arg)));
+    if constexpr (imp::addresof_by_casting) {
+        return reinterpret_cast<T *>(
+            &const_cast<char &>(reinterpret_cast<const volatile char &>(arg)));
+    } else {
+        return &arg;
+    }
 }
 
 /// Construye un elemento en p, con el paquete de argumentos que se le hayan
@@ -90,7 +100,7 @@ class allocator {
     // Asi que ni me voy a molestar en definirlos.
     [[deprecated]] T *address(T &x) const noexcept;
     [[deprecated]] const T *address(const T &x) const noexcept;
-    [[deprecated]] size_type max_size(void) const noexcept;
+    [[deprecated]] [[nodiscard]] size_type max_size(void) const noexcept;
     template<typename U, typename... Args>
     [[deprecated]] void construct(U *p, Args &&... args);
     template<typename U>
@@ -105,7 +115,7 @@ class allocator {
 template<typename T>
 [[nodiscard]] T *allocator<T>::allocate(size_type size) {
     T* ptr = nullptr;
-    ptr = static_cast<T*>(malloc(sizeof(T) * size));
+    ptr = static_cast<T*>(malloc(sizeof(T) * size));//NOLINT
     if (ptr == nullptr) {
         throw exception("psg::allocator::exception Bad alloc: No se pudo "
                         "asignar la memoria");
@@ -206,7 +216,14 @@ void allocator_traits<Alloc>::construct([[maybe_unused]] allocator_type &a,
     pointer p,
     Args &&... args) {
 
-    construct_at(p, forward<Args>(args)...);
+    constexpr bool allocator_has_construct = 
+        is_same<decltype(a.construct(p, forward<Args>(args)...)), void>::value;
+
+    if constexpr (allocator_has_construct) {
+        a.construct(p, forward<Args>(args)...);
+    } else {
+        construct_at(p, forward<Args>(args)...);
+    }
 }
 
 /// Destruye en un lugar dado.
