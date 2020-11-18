@@ -7,6 +7,8 @@ no son estandar.
 
 La documentacion puede generarla usando doxygen.
 
+Probado con clang y visual studio.
+
 Checklist:
 ==========
 
