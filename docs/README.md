@@ -2,6 +2,8 @@ Nota
 ====
 
 El `namespace imp` esta reservado para los detalles de la implementacion.
+El `namespace extra` tiene unos overloads que considero que seran utiles, pero
+no son estandar.
 
 La documentacion puede generarla usando doxygen.
 
