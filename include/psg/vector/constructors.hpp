@@ -67,11 +67,10 @@ vector<T, Allocator>::vector(InputIt first,
 
     // Copiamos los elementos
     iterator m_first = this->begin();
-    while(first != last) {
-        allocator_traits<Allocator>::construct(alloc,
-            addressof(*(m_first++)),
-            *(first++));
-    }
+    auto construct = [&](typename InputIt::reference it, reference element) {
+        allocator_traits<Allocator>::construct(alloc, addressof(*element), *it);
+    };
+    extra::for_each(first, last, m_first, construct);
 
     // Y dejamos el ultimo valido
     last_valid_element = size;
@@ -96,14 +95,11 @@ vector<T, Allocator>::vector(const vector &other, const Allocator &a) {
     object = allocator_traits<Allocator>::allocate(alloc, allocated_space);
 
     // Copiamos los elementos
-    const_iterator first = other.begin();
-    const_iterator last = other.end();
     iterator m_first = this->begin();
-    while(first != last) {
-        allocator_traits<Allocator>::construct(alloc,
-            addressof(*(m_first++)),
-            *(first++));
-    }
+    auto construct = [&](const_reference it, reference element) {
+        allocator_traits<Allocator>::construct(alloc, addressof(element), it);
+    };
+    extra::for_each(other.begin(), other.end(), m_first, construct);
 }
 
 /// Mueve el other a este vector, garantizando que other estara vacio.

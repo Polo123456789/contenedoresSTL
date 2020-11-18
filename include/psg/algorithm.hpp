@@ -25,11 +25,27 @@ OutputIt copy_n(InputIt fist, Size count, OutputIt result) {
 
 /// Ejecuta la funcion que se le dio en cada uno de los valores.
 template<typename InputIt, typename UnaryFunc>
-void for_each(InputIt first, InputIt last, UnaryFunc f) {
+UnaryFunc for_each(InputIt first, InputIt last, UnaryFunc f) {
     while (first != last) {
         f(*(first++));
     }
+    return f;
 }
+
+namespace extra {
+
+/// Ejecuta la funcion para cada uno de los valores en el rango first, last. Va
+/// añadiendo como segundo parametro other, que se ira incrementando tambien.
+template<typename InputIt, typename OtherInputIt, typename BinaryFunc>
+BinaryFunc
+    for_each(InputIt first, InputIt last, OtherInputIt other, BinaryFunc f) {
+    while (first != last) {
+        f(*(first++), *(other++));
+    }
+    return f;
+}
+
+} // namespace extra
 
 }; // namespace psg
 #endif

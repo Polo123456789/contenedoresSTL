@@ -1,6 +1,7 @@
 #ifndef PSG_MEMORY_HPP
 #define PSG_MEMORY_HPP
 
+#include <psg/algorithm.hpp>
 #include <psg/memory/allocator.hpp>
 #include <psg/memory/allocator_member_checks.hpp>
 #include <psg/memory/allocator_traits.hpp>
@@ -35,6 +36,27 @@ T *addressof(T &arg) noexcept {
     }
 }
 
+namespace imp {
+
+template<typename ForwardIt, typename UnaryFunc>
+void destroy_range(ForwardIt first,
+    ForwardIt last,
+    UnaryFunc destructor_function) {
+
+    for_each(first, last, destructor_function);
+}
+
+template<typename InputIt, typename OutputIt, typename UnaryFunc>
+void construct_range(InputIt first,
+    InputIt last,
+    OutputIt o_first,
+    UnaryFunc f) {
+
+    extra::for_each(first, last, o_first, f);
+}
+
+} // namespace imp
+
 /// Construye un elemento en p, con el paquete de argumentos que se le hayan
 /// dado.
 /// 
@@ -60,8 +82,9 @@ void destroy(ForwardIt first, ForwardIt last) {
     auto destroy_element = [](ForwardIt it) {
         destroy_at(addressof(*it));
     };
-    for_each(first, last, destroy_element);
+    imp::destroy_range(first, last, destroy_element);
 }
+
 
 }; // namespace psg
 
