@@ -243,9 +243,9 @@ class LegacyRandomAccesIterator {
    public:
     using iterator_category = random_acces_iterator_tag;
     using value_type = T;
-    using pointer = value_type *;
+    using pointer = const value_type *;
     using const_pointer = const value_type *;
-    using reference = value_type &;
+    using reference = const value_type &;
     using const_reference = const value_type &;
     using size_type = size_t;
     using difference_type = ptrdiff_t;
