@@ -1,8 +1,8 @@
 #ifndef PSG_MEMORY_ALLOCATO_TRAITS_HPP
 #define PSG_MEMORY_ALLOCATO_TRAITS_HPP
 
+#include <psg/memory/functions.hpp>
 #include <psg/memory/allocator_member_checks.hpp>
-#include <psg/utility.hpp>
 
 namespace psg {
 
@@ -37,12 +37,15 @@ struct allocator_traits {
     using const_void_pointer = const void*;
     using difference_type = typename Alloc::difference_type;
     using size_type = typename Alloc::size_type;
+
     /// Indica si tiene que ser copiado el allocator al mover el contenedor.
     using propagate_on_container_move_assingment =
         typename Alloc::propagate_on_container_move_assingment;
+
     // Indica si tiene que ser copiado el allocator al mover el contenedor.
     using propagate_on_container_copy_assingment =
         typename Alloc::propagate_on_container_copy_assingment;
+
     using is_allways_equal = typename Alloc::is_allways_equal;
 
     template<typename T>

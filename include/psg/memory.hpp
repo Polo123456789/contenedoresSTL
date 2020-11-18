@@ -6,5 +6,4 @@
 #include <psg/memory/allocator_member_checks.hpp>
 #include <psg/memory/allocator_traits.hpp>
 
-
 #endif
