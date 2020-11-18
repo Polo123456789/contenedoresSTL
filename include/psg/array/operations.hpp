@@ -2,12 +2,11 @@
 #define PSG_ARRAY_OPERATIONS_HPP
 
 #include <psg/array/class.hpp>
-#include <psg/array/using_decl.hpp>
 
 namespace psg {
 
 /// Indica si el array esta vacio
-/// 
+///
 /// Este sera unicamente verdadero cuando el array tiene un tamaño de 0. No me
 /// preguntes porque existe, no lo se.
 template<typename T, const size_t arr_size>
@@ -17,15 +16,15 @@ template<typename T, const size_t arr_size>
 
 /// Regresa el tamaño del array
 template<typename T, const size_t arr_size>
-constexpr imp::arr_size_t<T, arr_size> array<T, arr_size>::size(
+constexpr typename array<T, arr_size>::size_type array<T, arr_size>::size(
     void) const noexcept {
-    
+
     return arr_size;
 }
 
 /// Regresa el tamaño del array
 template<typename T, const size_t arr_size>
-constexpr imp::arr_size_t<T, arr_size> array<T, arr_size>::max_size(
+constexpr typename array<T, arr_size>::size_type array<T, arr_size>::max_size(
     void) const noexcept {
 
     return this->size();
@@ -41,7 +40,7 @@ void array<T, arr_size>::fill(const_reference value) {
 }
 
 /// Intercambia dos arrays
-/// 
+///
 /// Este tambien se usa para especializar el psg::swap
 template<typename T, const size_t arr_size>
 void array<T, arr_size>::swap(array<T, arr_size> &other) noexcept {
@@ -52,13 +51,15 @@ void array<T, arr_size>::swap(array<T, arr_size> &other) noexcept {
 
 /// Regresa un puntero a los datos que este mantiene
 template<typename T, const size_t arr_size>
-imp::arr_ptr_t<T, arr_size> array<T, arr_size>::data() noexcept {
+typename array<T, arr_size>::pointer array<T, arr_size>::data() noexcept {
     return object;
 }
 
 /// Regresa un puntero constante a los datos que este sostiene
 template<typename T, const size_t arr_size>
-imp::arr_const_ptr_t<T, arr_size> array<T, arr_size>::data() const noexcept {
+typename array<T, arr_size>::const_pointer
+    array<T, arr_size>::data() const noexcept {
+
     return object;
 }
 

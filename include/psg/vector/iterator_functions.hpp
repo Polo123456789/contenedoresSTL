@@ -2,7 +2,6 @@
 #define PSG_VECTOR_ITERATOR_FUNCTIONS
 
 #include <psg/vector/class.hpp>
-#include <psg/vector/using_decl.hpp>
 
 namespace psg {
 
@@ -25,25 +24,26 @@ using VecConstRevIter =
 
 /// Iterador al principio del contenedor.
 template<class T, class Allocator>
-imp::vec_iter_t<T, Allocator> vector<T, Allocator>::begin() noexcept {
+typename vector<T, Allocator>::iterator vector<T, Allocator>::begin() noexcept {
     return imp::VecIter<T>(object, 0);
 }
 
 /// Iterador constante al principio del contenedor.
 template<class T, class Allocator>
-imp::vec_const_iter_t<T, Allocator>
+typename vector<T, Allocator>::const_iterator
     vector<T, Allocator>::begin() const noexcept {
 
     return imp::VecConstIter<T>(object, 0);
 }
 
 template<class T, class Allocator>
-imp::vec_iter_t<T, Allocator> vector<T, Allocator>::end() noexcept {
+typename vector<T, Allocator>::iterator vector<T, Allocator>::end() noexcept {
     return imp::VecIter<T>(object, last_valid_element);
 }
 
 template<class T, class Allocator>
-imp::vec_const_iter_t<T, Allocator> vector<T, Allocator>::end() const noexcept {
+typename vector<T, Allocator>::const_iterator
+    vector<T, Allocator>::end() const noexcept {
 
     return imp::VecConstIter<T>(object, last_valid_element);
 }

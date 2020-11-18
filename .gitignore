@@ -2,3 +2,6 @@ a.exe
 compile_flags.txt
 ejemplo*
 msvc\*
+msvc
+.vs
+.vs/*

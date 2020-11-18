@@ -2,7 +2,6 @@
 #define PSG_VECTOR_MEMBER_FUNCTIONS_HPP
 
 #include <psg/vector/class.hpp>
-#include <psg/vector/using_decl.hpp>
 
 namespace psg {
 
@@ -17,7 +16,7 @@ vector<T, Allocator>::~vector() {
 }
 
 template<class T, class Allocator>
-imp::vec_alloc_t<T, Allocator>
+typename vector<T, Allocator>::allocator_type
     vector<T, Allocator>::get_allocator() const noexcept {
     return alloc;
 }
