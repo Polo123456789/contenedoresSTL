@@ -41,7 +41,7 @@ class allocator {
     using is_allways_equal = true_type;
 
     /// Asigna sizeof(T)*size bytes de memoria
-    [[nodiscard]] T *allocate(size_type size);
+    [[nodiscard]] pointer allocate(size_type size);
     /// Regresa la memoria
     void deallocate(T *ptr, size_type size [[maybe_unused]]);
 

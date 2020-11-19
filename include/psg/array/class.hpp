@@ -55,7 +55,7 @@ class array { // NOLINT No necesita los que son por movimiento
     [[nodiscard]] constexpr size_t size(void) const noexcept;
     [[nodiscard]] constexpr size_t max_size(void) const noexcept;
 
-    void fill(const T &value);
+    void fill(const_reference value);
     void swap(array<T, arr_size> &other) noexcept;
 
     pointer data() noexcept;

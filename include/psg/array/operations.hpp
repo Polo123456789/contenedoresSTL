@@ -16,17 +16,13 @@ template<typename T, const size_t arr_size>
 
 /// Regresa el tamaño del array
 template<typename T, const size_t arr_size>
-constexpr typename array<T, arr_size>::size_type array<T, arr_size>::size(
-    void) const noexcept {
-
+constexpr size_t array<T, arr_size>::size(void) const noexcept {
     return arr_size;
 }
 
 /// Regresa el tamaño del array
 template<typename T, const size_t arr_size>
-constexpr typename array<T, arr_size>::size_type array<T, arr_size>::max_size(
-    void) const noexcept {
-
+constexpr size_t array<T, arr_size>::max_size(void) const noexcept {
     return this->size();
 }
 
@@ -51,15 +47,13 @@ void array<T, arr_size>::swap(array<T, arr_size> &other) noexcept {
 
 /// Regresa un puntero a los datos que este mantiene
 template<typename T, const size_t arr_size>
-typename array<T, arr_size>::pointer array<T, arr_size>::data() noexcept {
+T *array<T, arr_size>::data() noexcept {
     return object;
 }
 
 /// Regresa un puntero constante a los datos que este sostiene
 template<typename T, const size_t arr_size>
-typename array<T, arr_size>::const_pointer
-    array<T, arr_size>::data() const noexcept {
-
+const T *array<T, arr_size>::data() const noexcept {
     return object;
 }
 

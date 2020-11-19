@@ -10,9 +10,7 @@ namespace psg {
 /// Este regresa una referencia a el elemento revisando que este dentro del
 /// array, si el elemento esta fuera de rango, esta lanza un psg::exception.
 template<typename T, const size_t arr_size>
-typename array<T, arr_size>::reference array<T, arr_size>::at(
-    size_type position) {
-
+T &array<T, arr_size>::at(size_type position) {
     if (position < arr_size) {
         return object[position];
     }
@@ -26,9 +24,7 @@ typename array<T, arr_size>::reference array<T, arr_size>::at(
 /// dentro del array, si el elemento esta fuera de rango, esta lanza un
 /// psg::exception.
 template<typename T, const size_t arr_size>
-typename array<T, arr_size>::const_reference array<T, arr_size>::at(
-    size_type position) const {
-
+const T &array<T, arr_size>::at(size_type position) const {
     if (position < arr_size) {
         return object[position];
     }
@@ -39,31 +35,26 @@ typename array<T, arr_size>::const_reference array<T, arr_size>::at(
 /// Regresa una referencia a el elemento en la posicion solicitada sin
 /// checkeo.
 template<typename T, const size_t arr_size>
-typename array<T, arr_size>::reference array<T, arr_size>::operator[](
-    size_type position) {
-
+T &array<T, arr_size>::operator[](size_type position) {
     return object[position];
 }
 
 /// Regresa una referencia constante a el elemento en la posicion solicitada
 /// sin checkeo.
 template<typename T, const size_t arr_size>
-typename array<T, arr_size>::const_reference array<T, arr_size>::operator[](
-    size_type position) const {
-
+const T &array<T, arr_size>::operator[](size_type position) const {
     return object[position];
 }
 
 /// Regresa una referencia al el primer elemento del array
 template<typename T, const size_t arr_size>
-typename array<T, arr_size>::reference array<T, arr_size>::front(void) {
+T &array<T, arr_size>::front(void) {
     return object[0];
 }
 
 /// Regresa una referencia constante al el primer elemento del array
 template<typename T, const size_t arr_size>
-typename array<T, arr_size>::const_reference array<T, arr_size>::front(
-    void) const {
+const T &array<T, arr_size>::front(void) const {
 
     return object[0];
 }
