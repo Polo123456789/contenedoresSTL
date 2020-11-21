@@ -2,7 +2,9 @@
 #define PSG_VECTOR_CLASS_HPP
 
 #include <psg/memory.hpp>
-#include <psg/iterator_templates/legacy_random_acces_iterator.hpp>
+#include <psg/common/legacy_random_acces_iterator.hpp>
+#include <psg/common/random_access_functions.hpp>
+#include <psg/common/random_access_iterator_functions.hpp>
 
 namespace psg {
 
@@ -66,19 +68,20 @@ class vector {
     constexpr void assign(size_type n, const T &u);
     allocator_type get_allocator() const noexcept;
 
-    iterator begin() noexcept;
-    const_iterator begin() const noexcept;
-    iterator end() noexcept;
-    const_iterator end() const noexcept;
-    constexpr reverse_iterator rbegin() noexcept;
-    constexpr const_reverse_iterator rbegin() const noexcept;
-    constexpr reverse_iterator rend() noexcept;
-    constexpr const_reverse_iterator rend() const noexcept;
-
-    constexpr const_iterator cbegin() const noexcept;
-    constexpr const_iterator cend() const noexcept;
-    constexpr const_reverse_iterator crbegin() const noexcept;
-    constexpr const_reverse_iterator crend() const noexcept;
+    // Estos estan dados por los random_access_iterator_functions
+    //
+    // iterator begin() noexcept;
+    // const_iterator begin() const noexcept;
+    // iterator end() noexcept;
+    // const_iterator end() const noexcept;
+    // reverse_iterator rbegin() noexcept;
+    // const_reverse_iterator rbegin() const noexcept;
+    // reverse_iterator rend() noexcept;
+    // const_reverse_iterator rend() const noexcept;
+    // const_iterator cbegin() const noexcept;
+    // const_iterator cend() const noexcept;
+    // const_reverse_iterator crbegin() const noexcept;
+    // const_reverse_iterator crend() const noexcept;
 
     [[nodiscard]] constexpr bool empty() const noexcept;
     [[nodiscard]] constexpr size_type size() const noexcept;
@@ -89,14 +92,16 @@ class vector {
     constexpr void reserve(size_type n);
     constexpr void shrink_to_fit();
 
-    constexpr reference operator[](size_type n);
-    constexpr const_reference operator[](size_type n) const;
-    constexpr const_reference at(size_type n) const;
-    constexpr reference at(size_type n);
-    constexpr reference front();
-    constexpr const_reference front() const;
-    constexpr reference back();
-    constexpr const_reference back() const;
+    // Estos estan dados por los random_access_functions
+    //
+    // reference operator[](size_type n);
+    // const_reference operator[](size_type n) const;
+    // const_reference at(size_type n) const;
+    // reference at(size_type n);
+    // reference front();
+    // const_reference front() const;
+    // reference back();
+    // const_reference back() const;
 
     constexpr pointer data() noexcept;
     constexpr const_pointer data() const noexcept;

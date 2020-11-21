@@ -3,8 +3,6 @@
 
 #include <psg/array/class.hpp>
 #include <psg/array/constructors.hpp>
-#include <psg/array/access_functions.hpp>
-#include <psg/array/iterator_functions.hpp>
 #include <psg/array/operations.hpp>
 
 namespace psg {
