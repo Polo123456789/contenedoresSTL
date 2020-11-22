@@ -46,14 +46,17 @@ struct random_access_functions {
     inline Container &underlying(void) {
         return static_cast<Container &>(*this);
     }
+    inline const Container &underlying(void) const  {
+        return static_cast<const Container &>(*this);
+    }
     inline size_type underlying_size() {
-        return underlying().size();
+        return this->underlying().size();
     }
     inline pointer underlying_data() {
-        return underlying().data();
+        return this->underlying().data();
     }
     inline const_pointer underlying_const_data() {
-        return static_cast<const Container &>(underlying()).data();
+        return this->underlying().data();
     }
     random_access_functions() = default;
     friend Container;
@@ -67,8 +70,8 @@ template<typename Container, typename ValueType, typename SizeType>
 ValueType &random_access_functions<Container, ValueType, SizeType>::at(
     size_type position) {
 
-    if (position < underlying_size()) {
-        return underlying_data()[position];
+    if (position < this->underlying_size()) {
+        return this->underlying_data()[position];
     }
     throw exception("exception en el psg::array al llamar la funcion at(), "
                     "elemento fuera de rango. ");
@@ -83,8 +86,8 @@ template<typename Container, typename ValueType, typename SizeType>
 const ValueType &random_access_functions<Container, ValueType, SizeType>::at(
     size_type position) const {
 
-    if (position < underlying_size()) {
-        underlying_const_data()[position];
+    if (position < this->underlying_size()) {
+        this->underlying_const_data()[position];
     }
     throw exception("exception en el psg::array al llamar la funcion at(), "
                     "elemento fuera de rango. ");
@@ -96,7 +99,7 @@ template<typename Container, typename ValueType, typename SizeType>
 ValueType &random_access_functions<Container, ValueType, SizeType>::operator[](
     size_type position) {
 
-    return underlying_data()[position];
+    return this->underlying_data()[position];
 }
 
 /// Regresa una referencia constante a el elemento en la posicion solicitada
@@ -106,7 +109,7 @@ const ValueType &
     random_access_functions<Container, ValueType, SizeType>::operator[](
         size_type position) const {
 
-    return underlying_const_data()[position];
+    return this->underlying_const_data()[position];
 }
 
 /// Regresa una referencia al el primer elemento del array
@@ -114,7 +117,7 @@ template<typename Container, typename ValueType, typename SizeType>
 ValueType &random_access_functions<Container, ValueType, SizeType>::front(
     void) {
 
-    return underlying_data()[0];
+    return this->underlying_data()[0];
 }
 
 /// Regresa una referencia constante al el primer elemento del array
@@ -122,14 +125,14 @@ template<typename Container, typename ValueType, typename SizeType>
 const ValueType &random_access_functions<Container, ValueType, SizeType>::front(
     void) const {
 
-    return underlying_const_data()[0];
+    return this->underlying_const_data()[0];
 }
 
 /// Regresa una referencia al el primer elemento del array
 template<typename Container, typename ValueType, typename SizeType>
 ValueType &random_access_functions<Container, ValueType, SizeType>::back(void) {
 
-    return underlying_data()[underlying_size() - 1];
+    return this->underlying_data()[underlying_size() - 1];
 }
 
 /// Regresa una referencia constante al el primer elemento del array
@@ -137,7 +140,7 @@ template<typename Container, typename ValueType, typename SizeType>
 const ValueType &random_access_functions<Container, ValueType, SizeType>::back(
     void) const {
 
-    return underlying_const_data()[underlying_size() - 1];
+    return this->underlying_const_data()[underlying_size() - 1];
 }
 
 } // namespace psg::imp

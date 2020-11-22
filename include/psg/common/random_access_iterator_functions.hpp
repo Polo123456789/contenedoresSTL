@@ -61,17 +61,17 @@ struct random_access_iterator_functions {
     inline Container &underlying(void) {
         return static_cast<Container &>(*this);
     }
-    inline const Container& const_underlying(void) const {
-        return static_cast<const Container&>(*this);
+    inline const Container &underlying(void) const {
+        return static_cast<const Container &>(*this);
     }
     inline size_type underlying_size() const {
-        return const_underlying().size();
+        return this->underlying().size();
     }
     inline pointer underlying_data() {
-        return underlying().data();
+        return this->underlying().data();
     }
     inline const_pointer underlying_const_data() const {
-        return const_underlying().data();
+        return this->underlying().data();
     }
     random_access_iterator_functions() = default;
     friend Container;
@@ -93,7 +93,7 @@ Iterator random_access_iterator_functions<Container,
     ReverseIterator,
     ConstReverseIterator>::begin(void) noexcept {
 
-    return Iterator(underlying_data(), 0);
+    return Iterator(this->underlying_data(), 0);
 }
 
 /// Regresa un iterador pasado el final del contenedor
@@ -112,7 +112,7 @@ Iterator random_access_iterator_functions<Container,
     ReverseIterator,
     ConstReverseIterator>::end(void) noexcept {
 
-    return Iterator(underlying_data(), underlying_size());
+    return Iterator(this->underlying_data(), this->underlying_size());
 }
 
 /// Regresa un iterador constante al principio del array. Los valores
@@ -132,7 +132,7 @@ ConstIterator random_access_iterator_functions<Container,
     ReverseIterator,
     ConstReverseIterator>::begin(void) const noexcept {
 
-    return ConstIterator(underlying_const_data(), 0);
+    return ConstIterator(this->underlying_const_data(), 0);
 }
 
 /// Regresa un iterador cosntante pasado el final del array. Los valores
@@ -152,7 +152,8 @@ ConstIterator random_access_iterator_functions<Container,
     ReverseIterator,
     ConstReverseIterator>::end(void) const noexcept {
 
-    return ConstIterator(underlying_const_data(), underlying_size());
+    return ConstIterator(this->underlying_const_data(),
+        this->underlying_size());
 }
 
 /// Regresa un iterador al principio del array. Los valores dereferenciados no
@@ -172,7 +173,7 @@ ConstIterator random_access_iterator_functions<Container,
     ReverseIterator,
     ConstReverseIterator>::cbegin(void) const noexcept {
 
-    return ConstIterator(underlying_const_data(), 0);
+    return ConstIterator(this->underlying_const_data(), 0);
 }
 
 /// Regresa un iterador pasado el final del contendedor
@@ -191,7 +192,7 @@ ConstIterator random_access_iterator_functions<Container,
     ReverseIterator,
     ConstReverseIterator>::cend(void) const noexcept {
 
-    return ConstIterator(underlying_data(), underlying_size());
+    return ConstIterator(this->underlying_data(), this->underlying_size());
 }
 
 /// Regresa un iterador al final del contenedor
@@ -210,7 +211,8 @@ ReverseIterator random_access_iterator_functions<Container,
     ReverseIterator,
     ConstReverseIterator>::rbegin(void) noexcept {
 
-    pointer last_element = underlying_data() + underlying_size() - 1;
+    pointer last_element =
+        this->underlying_data() + this->underlying_size() - 1;
     return ReverseIterator(last_element, 0);
 }
 
@@ -230,8 +232,9 @@ ReverseIterator random_access_iterator_functions<Container,
     ReverseIterator,
     ConstReverseIterator>::rend(void) noexcept {
 
-    pointer last_element = underlying_data() + underlying_size() - 1;
-    return ReverseIterator(last_element, underlying_size());
+    pointer last_element =
+        this->underlying_data() + this->underlying_size() - 1;
+    return ReverseIterator(last_element, this->underlying_size());
 }
 
 /// Regresa un constante iterador al final del contenedor
@@ -251,7 +254,7 @@ ConstReverseIterator random_access_iterator_functions<Container,
     ConstReverseIterator>::crbegin(void) const noexcept {
 
     const_pointer last_element =
-        underlying_const_data() + underlying_size() - 1;
+        this->underlying_const_data() + this->underlying_size() - 1;
     return ConstReverseIterator(last_element, 0);
 }
 
@@ -271,8 +274,9 @@ ConstReverseIterator random_access_iterator_functions<Container,
     ReverseIterator,
     ConstReverseIterator>::crend(void) const noexcept {
 
-    const_pointer last_element = underlying_data() + underlying_size() - 1;
-    return ConstReverseIterator(last_element, underlying_size());
+    const_pointer last_element =
+        this->underlying_data() + this->underlying_size() - 1;
+    return ConstReverseIterator(last_element, this->underlying_size());
 }
 
 /// Regresa un constante iterador al final del contenedor
@@ -292,7 +296,7 @@ ConstReverseIterator random_access_iterator_functions<Container,
     ConstReverseIterator>::rbegin(void) const noexcept {
 
     const_pointer last_element =
-        underlying_const_data() + underlying_size() - 1;
+        this->underlying_const_data() + this->underlying_size() - 1;
     return ConstReverseIterator(last_element, 0);
 }
 
@@ -312,8 +316,9 @@ ConstReverseIterator random_access_iterator_functions<Container,
     ReverseIterator,
     ConstReverseIterator>::rend(void) const noexcept {
 
-    const_pointer last_element = underlying_data() + underlying_size() - 1;
-    return ConstReverseIterator(last_element, underlying_size());
+    const_pointer last_element =
+        this->underlying_data() + this->underlying_size() - 1;
+    return ConstReverseIterator(last_element, this->underlying_size());
 }
 
 }; // namespace psg::imp
