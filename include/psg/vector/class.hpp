@@ -91,14 +91,14 @@ class vector
     // const_reverse_iterator crbegin() const noexcept;
     // const_reverse_iterator crend() const noexcept;
 
-    [[nodiscard]] constexpr bool empty() const noexcept;
+    [[nodiscard]] bool empty() const noexcept;
     [[nodiscard]] size_type size() const noexcept;
-    [[nodiscard]] constexpr size_type max_size() const noexcept;
-    [[nodiscard]] constexpr size_type capacity() const noexcept;
-    constexpr void resize(size_type sz);
-    constexpr void resize(size_type sz, const T &c);
-    constexpr void reserve(size_type n);
-    constexpr void shrink_to_fit();
+    [[nodiscard]] size_type max_size() const noexcept;
+    [[nodiscard]] size_type capacity() const noexcept;
+    void resize(size_type sz);
+    void resize(size_type sz, const T &c);
+    void reserve(size_type n);
+    void shrink_to_fit();
 
     // Estos estan dados por los random_access_functions
     //
