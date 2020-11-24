@@ -69,8 +69,8 @@ class vector
     vector(vector &&other, const Allocator &a);
     ~vector();
 
-    constexpr vector &operator=(const vector &x);
-    constexpr vector &operator=(vector &&x) noexcept;
+    vector &operator=(const vector &x);
+    vector &operator=(vector &&x) noexcept;
     template<class InputIt>
     constexpr void assign(InputIt first, InputIt last);
     constexpr void assign(size_type n, const T &u);
@@ -131,7 +131,7 @@ class vector
         insert(const_iterator position, InputIt first, InputIt last);
     constexpr iterator erase(const_iterator position);
     constexpr iterator erase(const_iterator first, const_iterator last);
-    constexpr void swap(vector &) noexcept;
+    void swap(vector &) noexcept;
     constexpr void clear() noexcept;
 
    private:

@@ -23,14 +23,12 @@ T&& forward(remove_reference_t<T>&& t) {
     return static_cast<T&&>(t);
 }
 
-// TODO (Pablo): Tiene que verificar si los elementos se pueden mover y hacerlo
-// de ese modo, no por copias.
 /// Intercambia los valores
 template<typename T>
 void swap(T& a, T& b) noexcept {
-    T tmp = a;
-    a = b;
-    b = tmp;
+    T tmp = move(a);
+    a = move(b);
+    b = move(tmp);
 }
 
 /// Le da a obj el valor dado, y regresa el valor anterior de obj

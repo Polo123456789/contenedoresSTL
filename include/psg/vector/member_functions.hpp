@@ -8,6 +8,9 @@ namespace psg {
 /// Destruye los objetos, y libera la memoria asinada.
 template<class T, class Allocator>
 vector<T, Allocator>::~vector() {
+    if (allocated_space == 0) {
+        return;
+    }
     auto destroy_element = [&](reference t) {
         allocator_traits<Allocator>::destroy(alloc, addressof(t));
     };
@@ -15,9 +18,28 @@ vector<T, Allocator>::~vector() {
     allocator_traits<Allocator>::deallocate(alloc, object, allocated_space);
 }
 
+/// Regresa el allocator que este utilizando el vector.
 template<class T, class Allocator>
 Allocator vector<T, Allocator>::get_allocator() const noexcept {
     return alloc;
+}
+
+/// Asignacion por copia.
+template<class T, class Allocator>
+vector<T, Allocator> &vector<T, Allocator>::operator=(const vector &x) {
+    if (this != &x) {
+        vector<T, Allocator> copy(x);
+        this->swap(copy);
+    }
+}
+
+/// Asignacion por movimiento.
+template<class T, class Allocator>
+vector<T, Allocator> &vector<T, Allocator>::operator=(vector &&x) noexcept {
+    if (this != &x) {
+        vector<T, Allocator> copy(move(x));
+        this->swap(copy);
+    }
 }
 
 }; // namespace psg
