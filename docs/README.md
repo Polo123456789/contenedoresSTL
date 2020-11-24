@@ -1,17 +1,19 @@
 Nota
 ====
 
-El `namespace imp` esta reservado para los detalles de la implementacion.
-El `namespace extra` tiene unos overloads que considero que seran utiles, pero
-no son estandar.
+* El `namespace imp` esta reservado para los detalles de la complementación.
+* El `namespace extra` tiene unos overloads que considero que serán útiles, pero
+  no son estándar.
+* La carpeta `common` es para las funcionalidades comunes entre varios
+  contenedores. Por ejemplo, el `array` y el `vector` tienen en común algunas
+  funciones de acceso aleatorio.
 
-La documentacion puede generarla usando doxygen.
+La documentación puede generarla usando doxygen.
 
 Probado con clang y visual studio.
 
 Checklist:
 ==========
-
 
 * [X] array.hpp
 * [ ] algorithm.hpp (Parcial)
