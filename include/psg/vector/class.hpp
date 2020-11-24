@@ -25,7 +25,15 @@ namespace psg {
 ///
 /// * Poder construirse por copia
 template<class T, class Allocator = psg::allocator<T>>
-class vector {
+class vector
+    : public imp::random_access_functions<vector<T, Allocator>, T, size_t>,
+      public imp::random_access_iterator_functions<vector<T, Allocator>,
+          T,
+          size_t,
+          iterators::LegacyRandomAccesIterator<T>,
+          iterators::constant::LegacyRandomAccesIterator<T>,
+          iterators::LegacyRandomAccesIterator<T, psg::minus<T>>,
+          iterators::constant::LegacyRandomAccesIterator<T, psg::minus<T>>> {
    public:
     using value_type = T;
     using allocator_type = Allocator;
@@ -84,7 +92,7 @@ class vector {
     // const_reverse_iterator crend() const noexcept;
 
     [[nodiscard]] constexpr bool empty() const noexcept;
-    [[nodiscard]] constexpr size_type size() const noexcept;
+    [[nodiscard]] size_type size() const noexcept;
     [[nodiscard]] constexpr size_type max_size() const noexcept;
     [[nodiscard]] constexpr size_type capacity() const noexcept;
     constexpr void resize(size_type sz);
@@ -103,8 +111,8 @@ class vector {
     // reference back();
     // const_reference back() const;
 
-    constexpr pointer data() noexcept;
-    constexpr const_pointer data() const noexcept;
+    pointer data() noexcept;
+    const_pointer data() const noexcept;
 
     // modifiers
     template<class... Args>
