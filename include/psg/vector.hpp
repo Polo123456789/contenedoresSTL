@@ -8,6 +8,7 @@
 #include <psg/vector/member_functions.hpp>
 #include <psg/vector/element_access.hpp>
 #include <psg/vector/capacity.hpp>
+#include <psg/vector/modifiers.hpp>
 
 namespace psg {}; // namespace psg
 

@@ -42,16 +42,20 @@ vector<T, Allocator> &vector<T, Allocator>::operator=(vector &&x) noexcept {
     }
 }
 
+/// Reemplaza los elemntos del vector con los elementos en el rango first, last.
 template<class T, class Allocator>
-    template<class InputIt>
-    void vector<T, Allocator>::assign(InputIt first, InputIt last) {
+template<class InputIt>
+void vector<T, Allocator>::assign(InputIt first, InputIt last) {
+    vector<T, Allocator> v(first, last);
+    this->swap(v);
+}
 
-    }
-
+/// Reemplaza los elemtos del vector por n copias de u.
 template<class T, class Allocator>
-    void vector<T, Allocator>::assign(size_type n, const T &u) {
-
-    }
+void vector<T, Allocator>::assign(size_type n, const T &u) {
+    vector<T, Allocator> v(n, u);
+    this->swap(v);
+}
 
 }; // namespace psg
 
