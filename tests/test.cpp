@@ -1,25 +1,20 @@
 #include <iostream>
 #include <psg/vector.hpp>
 
-class S {
-   public:
-    S() {
-        std::cout << "S construido por default\n";
-    }
-    S(const S &) {
-        std::cout << "S construido por copia\n";
-    }
-    S(S &&) {
-        std::cout << "S construido por movimiento\n";
-    }
-    ~S() {
-        std::cout << "S destruido\n";
-    }
-};
-
 int main(void) {
-    psg::vector<S> a(5);
-    psg::vector<S> b(a);
-    psg::vector<S> c(psg::move(b));
+    psg::vector<int> a(static_cast<size_t>(5), static_cast<int>(1)); // NOLINT
+
+    for (auto n : a) {
+        std::cout << n << '\n';
+    }
+
+    try {
+        std::cout << "A por los elemntos hasta pasarnos\n";
+        for (size_t i = 0; i < a.size() + 1; i++) {
+            std::cout << "[" << i << "]: " << a.at(i) << '\n';
+        }
+    } catch (const psg::exception &e) {
+        std::cout << e.what() << '\n';
+    }
     return 0;
 }
