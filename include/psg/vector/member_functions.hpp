@@ -42,6 +42,17 @@ vector<T, Allocator> &vector<T, Allocator>::operator=(vector &&x) noexcept {
     }
 }
 
+template<class T, class Allocator>
+    template<class InputIt>
+    void vector<T, Allocator>::assign(InputIt first, InputIt last) {
+
+    }
+
+template<class T, class Allocator>
+    void vector<T, Allocator>::assign(size_type n, const T &u) {
+
+    }
+
 }; // namespace psg
 
 #endif

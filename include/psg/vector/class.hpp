@@ -72,8 +72,8 @@ class vector
     vector &operator=(const vector &x);
     vector &operator=(vector &&x) noexcept;
     template<class InputIt>
-    constexpr void assign(InputIt first, InputIt last);
-    constexpr void assign(size_type n, const T &u);
+    void assign(InputIt first, InputIt last);
+    void assign(size_type n, const T &u);
     allocator_type get_allocator() const noexcept;
 
     // Estos estan dados por los random_access_iterator_functions

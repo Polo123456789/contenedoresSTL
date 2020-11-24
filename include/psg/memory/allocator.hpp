@@ -26,9 +26,9 @@ class allocator {
     using size_type = size_t;
     /// Indica si tiene que ser copiado el allocator cuando el contenedor es
     /// move assigned
-    using propagate_on_container_move_assingment = true_type;
+    using propagate_on_container_move_assingment = false_type;
     /// Igual que antes pero para la copia
-    using propagate_on_container_copy_assingment = true_type;
+    using propagate_on_container_copy_assingment = false_type;
     template<typename U>
     struct _rebind {
         using other = allocator<U>;
