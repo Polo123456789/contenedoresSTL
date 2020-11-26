@@ -8,9 +8,10 @@ Nota
   contenedores. Por ejemplo, el `array` y el `vector` tienen en común algunas
   funciones de acceso aleatorio.
 
-La documentación puede generarla usando doxygen.
+La documentación puede generarla usando doxygen. Para usarla copie la carpteta
+include, añadala a el path de include en su compilador.
 
-Probado con clang y visual studio.
+Probado con clang y visual studio. Cada cierto tiempo con gcc
 
 Checklist:
 ==========
