@@ -25,12 +25,12 @@ namespace psg::imp {
 /// * pointer data() noexcept;
 /// * const_pointer data() const noexcept;
 template<typename Container,
-    typename ValueType,
-    typename SizeType,
-    typename Iterator,
-    typename ConstIterator,
-    typename ReverseIterator,
-    typename ConstReverseIterator>
+         typename ValueType,
+         typename SizeType,
+         typename Iterator,
+         typename ConstIterator,
+         typename ReverseIterator,
+         typename ConstReverseIterator>
 
 struct random_access_iterator_functions {
     using value_type = ValueType;
@@ -44,14 +44,14 @@ struct random_access_iterator_functions {
     using reverse_iterator = ReverseIterator;
     using const_reverse_iterator = ConstReverseIterator;
 
-    iterator begin(void) noexcept;
-    iterator end(void) noexcept;
-    const_iterator begin(void) const noexcept;
-    const_iterator end(void) const noexcept;
-    const_iterator cbegin(void) const noexcept;
-    const_iterator cend(void) const noexcept;
-    reverse_iterator rbegin(void) noexcept;
-    reverse_iterator rend(void) noexcept;
+    iterator               begin(void) noexcept;
+    iterator               end(void) noexcept;
+    const_iterator         begin(void) const noexcept;
+    const_iterator         end(void) const noexcept;
+    const_iterator         cbegin(void) const noexcept;
+    const_iterator         cend(void) const noexcept;
+    reverse_iterator       rbegin(void) noexcept;
+    reverse_iterator       rend(void) noexcept;
     const_reverse_iterator rbegin(void) const noexcept;
     const_reverse_iterator rend(void) const noexcept;
     const_reverse_iterator crbegin(void) const noexcept;
@@ -79,13 +79,14 @@ struct random_access_iterator_functions {
 
 /// Regresa un iterador al principio del contenedor
 template<typename Container,
-    typename ValueType,
-    typename SizeType,
-    typename Iterator,
-    typename ConstIterator,
-    typename ReverseIterator,
-    typename ConstReverseIterator>
-Iterator random_access_iterator_functions<Container,
+         typename ValueType,
+         typename SizeType,
+         typename Iterator,
+         typename ConstIterator,
+         typename ReverseIterator,
+         typename ConstReverseIterator>
+Iterator random_access_iterator_functions<
+    Container,
     ValueType,
     SizeType,
     Iterator,
@@ -98,19 +99,20 @@ Iterator random_access_iterator_functions<Container,
 
 /// Regresa un iterador pasado el final del contenedor
 template<typename Container,
-    typename ValueType,
-    typename SizeType,
-    typename Iterator,
-    typename ConstIterator,
-    typename ReverseIterator,
-    typename ConstReverseIterator>
-Iterator random_access_iterator_functions<Container,
-    ValueType,
-    SizeType,
-    Iterator,
-    ConstIterator,
-    ReverseIterator,
-    ConstReverseIterator>::end(void) noexcept {
+         typename ValueType,
+         typename SizeType,
+         typename Iterator,
+         typename ConstIterator,
+         typename ReverseIterator,
+         typename ConstReverseIterator>
+Iterator
+    random_access_iterator_functions<Container,
+                                     ValueType,
+                                     SizeType,
+                                     Iterator,
+                                     ConstIterator,
+                                     ReverseIterator,
+                                     ConstReverseIterator>::end(void) noexcept {
 
     return Iterator(this->underlying_data(), this->underlying_size());
 }
@@ -118,19 +120,21 @@ Iterator random_access_iterator_functions<Container,
 /// Regresa un iterador constante al principio del array. Los valores
 /// dereferenciados no pueden ser modificados.
 template<typename Container,
-    typename ValueType,
-    typename SizeType,
-    typename Iterator,
-    typename ConstIterator,
-    typename ReverseIterator,
-    typename ConstReverseIterator>
-ConstIterator random_access_iterator_functions<Container,
-    ValueType,
-    SizeType,
-    Iterator,
-    ConstIterator,
-    ReverseIterator,
-    ConstReverseIterator>::begin(void) const noexcept {
+         typename ValueType,
+         typename SizeType,
+         typename Iterator,
+         typename ConstIterator,
+         typename ReverseIterator,
+         typename ConstReverseIterator>
+ConstIterator
+    random_access_iterator_functions<Container,
+                                     ValueType,
+                                     SizeType,
+                                     Iterator,
+                                     ConstIterator,
+                                     ReverseIterator,
+                                     ConstReverseIterator>::begin(void)
+        const noexcept {
 
     return ConstIterator(this->underlying_const_data(), 0);
 }
@@ -138,72 +142,77 @@ ConstIterator random_access_iterator_functions<Container,
 /// Regresa un iterador cosntante pasado el final del array. Los valores
 /// dereferenciados no pueden ser modificados.
 template<typename Container,
-    typename ValueType,
-    typename SizeType,
-    typename Iterator,
-    typename ConstIterator,
-    typename ReverseIterator,
-    typename ConstReverseIterator>
+         typename ValueType,
+         typename SizeType,
+         typename Iterator,
+         typename ConstIterator,
+         typename ReverseIterator,
+         typename ConstReverseIterator>
 ConstIterator random_access_iterator_functions<Container,
-    ValueType,
-    SizeType,
-    Iterator,
-    ConstIterator,
-    ReverseIterator,
-    ConstReverseIterator>::end(void) const noexcept {
+                                               ValueType,
+                                               SizeType,
+                                               Iterator,
+                                               ConstIterator,
+                                               ReverseIterator,
+                                               ConstReverseIterator>::end(void)
+    const noexcept {
 
     return ConstIterator(this->underlying_const_data(),
-        this->underlying_size());
+                         this->underlying_size());
 }
 
 /// Regresa un iterador al principio del array. Los valores dereferenciados no
 /// pueden ser modificados.
 template<typename Container,
-    typename ValueType,
-    typename SizeType,
-    typename Iterator,
-    typename ConstIterator,
-    typename ReverseIterator,
-    typename ConstReverseIterator>
-ConstIterator random_access_iterator_functions<Container,
-    ValueType,
-    SizeType,
-    Iterator,
-    ConstIterator,
-    ReverseIterator,
-    ConstReverseIterator>::cbegin(void) const noexcept {
+         typename ValueType,
+         typename SizeType,
+         typename Iterator,
+         typename ConstIterator,
+         typename ReverseIterator,
+         typename ConstReverseIterator>
+ConstIterator
+    random_access_iterator_functions<Container,
+                                     ValueType,
+                                     SizeType,
+                                     Iterator,
+                                     ConstIterator,
+                                     ReverseIterator,
+                                     ConstReverseIterator>::cbegin(void)
+        const noexcept {
 
     return ConstIterator(this->underlying_const_data(), 0);
 }
 
 /// Regresa un iterador pasado el final del contendedor
 template<typename Container,
-    typename ValueType,
-    typename SizeType,
-    typename Iterator,
-    typename ConstIterator,
-    typename ReverseIterator,
-    typename ConstReverseIterator>
+         typename ValueType,
+         typename SizeType,
+         typename Iterator,
+         typename ConstIterator,
+         typename ReverseIterator,
+         typename ConstReverseIterator>
 ConstIterator random_access_iterator_functions<Container,
-    ValueType,
-    SizeType,
-    Iterator,
-    ConstIterator,
-    ReverseIterator,
-    ConstReverseIterator>::cend(void) const noexcept {
+                                               ValueType,
+                                               SizeType,
+                                               Iterator,
+                                               ConstIterator,
+                                               ReverseIterator,
+                                               ConstReverseIterator>::cend(void)
+    const noexcept {
 
     return ConstIterator(this->underlying_data(), this->underlying_size());
 }
 
 /// Regresa un iterador al final del contenedor
 template<typename Container,
-    typename ValueType,
-    typename SizeType,
-    typename Iterator,
-    typename ConstIterator,
-    typename ReverseIterator,
-    typename ConstReverseIterator>
-ReverseIterator random_access_iterator_functions<Container,
+         typename ValueType,
+         typename SizeType,
+         typename Iterator,
+         typename ConstIterator,
+         typename ReverseIterator,
+         typename ConstReverseIterator>
+ReverseIterator random_access_iterator_functions<
+    Container,
     ValueType,
     SizeType,
     Iterator,
@@ -218,13 +227,14 @@ ReverseIterator random_access_iterator_functions<Container,
 
 /// Regresa un iterador pasado el principio del contenedor
 template<typename Container,
-    typename ValueType,
-    typename SizeType,
-    typename Iterator,
-    typename ConstIterator,
-    typename ReverseIterator,
-    typename ConstReverseIterator>
-ReverseIterator random_access_iterator_functions<Container,
+         typename ValueType,
+         typename SizeType,
+         typename Iterator,
+         typename ConstIterator,
+         typename ReverseIterator,
+         typename ConstReverseIterator>
+ReverseIterator random_access_iterator_functions<
+    Container,
     ValueType,
     SizeType,
     Iterator,
@@ -239,19 +249,21 @@ ReverseIterator random_access_iterator_functions<Container,
 
 /// Regresa un constante iterador al final del contenedor
 template<typename Container,
-    typename ValueType,
-    typename SizeType,
-    typename Iterator,
-    typename ConstIterator,
-    typename ReverseIterator,
-    typename ConstReverseIterator>
-ConstReverseIterator random_access_iterator_functions<Container,
-    ValueType,
-    SizeType,
-    Iterator,
-    ConstIterator,
-    ReverseIterator,
-    ConstReverseIterator>::crbegin(void) const noexcept {
+         typename ValueType,
+         typename SizeType,
+         typename Iterator,
+         typename ConstIterator,
+         typename ReverseIterator,
+         typename ConstReverseIterator>
+ConstReverseIterator
+    random_access_iterator_functions<Container,
+                                     ValueType,
+                                     SizeType,
+                                     Iterator,
+                                     ConstIterator,
+                                     ReverseIterator,
+                                     ConstReverseIterator>::crbegin(void)
+        const noexcept {
 
     const_pointer last_element =
         this->underlying_const_data() + this->underlying_size() - 1;
@@ -260,19 +272,21 @@ ConstReverseIterator random_access_iterator_functions<Container,
 
 /// Regresa un constante iterador pasado el principio del contenedor
 template<typename Container,
-    typename ValueType,
-    typename SizeType,
-    typename Iterator,
-    typename ConstIterator,
-    typename ReverseIterator,
-    typename ConstReverseIterator>
-ConstReverseIterator random_access_iterator_functions<Container,
-    ValueType,
-    SizeType,
-    Iterator,
-    ConstIterator,
-    ReverseIterator,
-    ConstReverseIterator>::crend(void) const noexcept {
+         typename ValueType,
+         typename SizeType,
+         typename Iterator,
+         typename ConstIterator,
+         typename ReverseIterator,
+         typename ConstReverseIterator>
+ConstReverseIterator
+    random_access_iterator_functions<Container,
+                                     ValueType,
+                                     SizeType,
+                                     Iterator,
+                                     ConstIterator,
+                                     ReverseIterator,
+                                     ConstReverseIterator>::crend(void)
+        const noexcept {
 
     const_pointer last_element =
         this->underlying_data() + this->underlying_size() - 1;
@@ -281,19 +295,21 @@ ConstReverseIterator random_access_iterator_functions<Container,
 
 /// Regresa un constante iterador al final del contenedor
 template<typename Container,
-    typename ValueType,
-    typename SizeType,
-    typename Iterator,
-    typename ConstIterator,
-    typename ReverseIterator,
-    typename ConstReverseIterator>
-ConstReverseIterator random_access_iterator_functions<Container,
-    ValueType,
-    SizeType,
-    Iterator,
-    ConstIterator,
-    ReverseIterator,
-    ConstReverseIterator>::rbegin(void) const noexcept {
+         typename ValueType,
+         typename SizeType,
+         typename Iterator,
+         typename ConstIterator,
+         typename ReverseIterator,
+         typename ConstReverseIterator>
+ConstReverseIterator
+    random_access_iterator_functions<Container,
+                                     ValueType,
+                                     SizeType,
+                                     Iterator,
+                                     ConstIterator,
+                                     ReverseIterator,
+                                     ConstReverseIterator>::rbegin(void)
+        const noexcept {
 
     const_pointer last_element =
         this->underlying_const_data() + this->underlying_size() - 1;
@@ -302,19 +318,21 @@ ConstReverseIterator random_access_iterator_functions<Container,
 
 /// Regresa un constante iterador pasado el principio del contenedor
 template<typename Container,
-    typename ValueType,
-    typename SizeType,
-    typename Iterator,
-    typename ConstIterator,
-    typename ReverseIterator,
-    typename ConstReverseIterator>
-ConstReverseIterator random_access_iterator_functions<Container,
-    ValueType,
-    SizeType,
-    Iterator,
-    ConstIterator,
-    ReverseIterator,
-    ConstReverseIterator>::rend(void) const noexcept {
+         typename ValueType,
+         typename SizeType,
+         typename Iterator,
+         typename ConstIterator,
+         typename ReverseIterator,
+         typename ConstReverseIterator>
+ConstReverseIterator
+    random_access_iterator_functions<Container,
+                                     ValueType,
+                                     SizeType,
+                                     Iterator,
+                                     ConstIterator,
+                                     ReverseIterator,
+                                     ConstReverseIterator>::rend(void)
+        const noexcept {
 
     const_pointer last_element =
         this->underlying_data() + this->underlying_size() - 1;

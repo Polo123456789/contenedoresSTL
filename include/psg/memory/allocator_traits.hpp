@@ -33,8 +33,8 @@ struct allocator_traits {
     using value_type = typename Alloc::value_type;
     using pointer = typename Alloc::pointer;
     using const_pointer = typename Alloc::const_pointer;
-    using void_pointer = void*;
-    using const_void_pointer = const void*;
+    using void_pointer = void *;
+    using const_void_pointer = const void *;
     using difference_type = typename Alloc::difference_type;
     using size_type = typename Alloc::size_type;
 
@@ -53,13 +53,13 @@ struct allocator_traits {
     template<typename T>
     using rebind_traits = allocator_traits<rebind_alloc<T>>;
 
-    [[nodiscard]] static pointer allocate(Alloc& a, size_type n);
-    static void deallocate(allocator_type& a, pointer p, size_type n);
-    template<typename ...Args>
-    static void construct(allocator_type& a, pointer p, Args&& ...args);
+    [[nodiscard]] static pointer allocate(Alloc &a, size_type n);
+    static void deallocate(allocator_type &a, pointer p, size_type n);
+    template<typename... Args>
+    static void construct(allocator_type &a, pointer p, Args &&...args);
     static void destroy(allocator_type &a, pointer p);
-    static constexpr size_type max_size(const Alloc& a) noexcept;
-    static Alloc select_on_container_copy_construction(const Alloc& a);
+    static constexpr size_type max_size(const Alloc &a) noexcept;
+    static Alloc select_on_container_copy_construction(const Alloc &a);
 };
 
 /// Asigna memoria utilizando el allocator.
@@ -74,12 +74,10 @@ template<typename Alloc>
 /// Libera memoria utilizando el allocator.
 template<typename Alloc>
 void allocator_traits<Alloc>::deallocate(allocator_type &a,
-    pointer p,
-    size_type n) {
-
+                                         pointer         p,
+                                         size_type       n) {
     a.deallocate(p, n);
 }
-
 
 /// Construye en el lugar dado.
 ///
@@ -87,8 +85,8 @@ void allocator_traits<Alloc>::deallocate(allocator_type &a,
 template<typename Alloc>
 template<typename... Args>
 void allocator_traits<Alloc>::construct(allocator_type &a,
-    pointer p,
-    Args &&... args) {
+                                        pointer         p,
+                                        Args &&...args) {
 
     if constexpr (imp::allocator_has_construct_v<Alloc>) {
         a.construct(p, forward<Args>(args)...);
@@ -136,7 +134,6 @@ Alloc allocator_traits<Alloc>::select_on_container_copy_construction(
     }
 }
 
-
-};  // namespace psg
+}; // namespace psg
 
 #endif

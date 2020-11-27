@@ -31,9 +31,9 @@ template<class T, class Allocator>
     return allocated_space;
 }
 
-// TODO(pablo): Implementar las siguientes funciones. 
+// TODO(pablo): Implementar las siguientes funciones.
 // NOTE: shrink_to_fit dice que la solicitud se puede cumplir opcionalemte.
-// Toca investigar que tan practico es en realidad. O dar un criterio. Ej: 
+// Toca investigar que tan practico es en realidad. O dar un criterio. Ej:
 //
 // * Si solo son 3 espacios los que no se usan, para que copiar todos los demas
 // a otro espacio en la memoria?

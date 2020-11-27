@@ -27,7 +27,8 @@ namespace psg {
 template<class T, class Allocator = psg::allocator<T>>
 class vector
     : public imp::random_access_functions<vector<T, Allocator>, T, size_t>,
-      public imp::random_access_iterator_functions<vector<T, Allocator>,
+      public imp::random_access_iterator_functions<
+          vector<T, Allocator>,
           T,
           size_t,
           iterators::LegacyRandomAccesIterator<T>,
@@ -52,16 +53,16 @@ class vector
 
     /// Llama al vector(const Allocator & alloc)
     vector() noexcept : vector(Allocator()) {}
-    explicit vector(const Allocator & alloc) noexcept;
-    explicit vector(size_type n, const Allocator & alloc = Allocator());
-    vector(size_type n,
-        const T &value,
-        const Allocator &  allocator = Allocator());
+    explicit vector(const Allocator &alloc) noexcept;
+    explicit vector(size_type n, const Allocator &alloc = Allocator());
+    vector(size_type        n,
+           const T &        value,
+           const Allocator &allocator = Allocator());
 
     template<class InputIt>
-    vector(InputIt first,
-        InputIt last,
-        const Allocator & allocator = Allocator());
+    vector(InputIt          first,
+           InputIt          last,
+           const Allocator &allocator = Allocator());
 
     vector(const vector &other);
     vector(vector &&other) noexcept;
@@ -72,8 +73,8 @@ class vector
     vector &operator=(const vector &x);
     vector &operator=(vector &&x) noexcept;
     template<class InputIt>
-    void assign(InputIt first, InputIt last);
-    void assign(size_type n, const T &u);
+    void           assign(InputIt first, InputIt last);
+    void           assign(size_type n, const T &u);
     allocator_type get_allocator() const noexcept;
 
     // Estos estan dados por los random_access_iterator_functions
@@ -91,14 +92,14 @@ class vector
     // const_reverse_iterator crbegin() const noexcept;
     // const_reverse_iterator crend() const noexcept;
 
-    [[nodiscard]] bool empty() const noexcept;
+    [[nodiscard]] bool      empty() const noexcept;
     [[nodiscard]] size_type size() const noexcept;
     [[nodiscard]] size_type max_size() const noexcept;
     [[nodiscard]] size_type capacity() const noexcept;
-    void resize(size_type sz);
-    void resize(size_type sz, const T &c);
-    void reserve(size_type n);
-    void shrink_to_fit();
+    void                    resize(size_type sz);
+    void                    resize(size_type sz, const T &c);
+    void                    reserve(size_type n);
+    void                    shrink_to_fit();
 
     // Estos estan dados por los random_access_functions
     //
@@ -111,18 +112,18 @@ class vector
     // reference back();
     // const_reference back() const;
 
-    pointer data() noexcept;
+    pointer       data() noexcept;
     const_pointer data() const noexcept;
 
     // modifiers
     template<class... Args>
-    constexpr reference emplace_back(Args &&... args);
-    constexpr void push_back(const T &x);
-    constexpr void push_back(T &&x);
-    constexpr void pop_back();
+    constexpr reference emplace_back(Args &&...args);
+    constexpr void      push_back(const T &x);
+    constexpr void      push_back(T &&x);
+    constexpr void      pop_back();
 
     template<class... Args>
-    constexpr iterator emplace(const_iterator position, Args &&... args);
+    constexpr iterator emplace(const_iterator position, Args &&...args);
     constexpr iterator insert(const_iterator position, const T &x);
     constexpr iterator insert(const_iterator position, T &&x);
     constexpr iterator insert(const_iterator position, size_type n, const T &x);
@@ -131,22 +132,21 @@ class vector
         insert(const_iterator position, InputIt first, InputIt last);
     constexpr iterator erase(const_iterator position);
     constexpr iterator erase(const_iterator first, const_iterator last);
-    void swap(vector &) noexcept;
-    constexpr void clear() noexcept;
+    void               swap(vector &) noexcept;
+    constexpr void     clear() noexcept;
 
    private:
-
     static constexpr size_type allocated_space_on_creation = 0;
     // El valor por el que sera multiplicado el espacio que tengas asignado cada
     // vez que que llenes el contenedor.
     static constexpr size_type allocated_space_multiplier = 2;
 
-    pointer object = nullptr;
-    size_type allocated_space = 0;
-    size_type last_valid_element = 0;
+    pointer        object = nullptr;
+    size_type      allocated_space = 0;
+    size_type      last_valid_element = 0;
     allocator_type alloc{};
 };
 
-};  // namespace psg
+}; // namespace psg
 
 #endif

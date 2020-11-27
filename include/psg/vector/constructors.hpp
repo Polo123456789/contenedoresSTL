@@ -14,17 +14,11 @@ vector<T, Allocator>::vector(const Allocator &alloc) noexcept : alloc(alloc) {}
 /// Asigna n espacios en memoria y los llena con el valor default.
 template<class T, class Allocator>
 vector<T, Allocator>::vector(size_type n, const Allocator &allocator)
-    : alloc(allocator) {
+    : alloc(allocator), allocated_space(n), last_valid_element(n) {
 
-    // Asinamos la memoria
-    allocated_space = n;
     object = allocator_traits<Allocator>::allocate(alloc, n);
 
-    // Ultimo elemento valido para poder tener el iterador listo.
-    last_valid_element = n;
-
-    // Y construimos
-    auto default_construct = [&](T &t) {
+    auto default_construct = [&](reference t) {
         allocator_traits<Allocator>::construct(alloc, addressof(t));
     };
     for_each(this->begin(), this->end(), default_construct);
@@ -32,19 +26,13 @@ vector<T, Allocator>::vector(size_type n, const Allocator &allocator)
 
 /// Asina n espacios en memoria y copia el valor
 template<class T, class Allocator>
-vector<T, Allocator>::vector(size_type n,
-    const T &value,
-    const Allocator &allocator)
-    : alloc{allocator} {
+vector<T, Allocator>::vector(size_type        n,
+                             const T &        value,
+                             const Allocator &allocator)
+    : alloc{allocator}, allocated_space(n), last_valid_element(n) {
 
-    // Asinamos la memoria
-    allocated_space = n;
     object = allocator_traits<Allocator>::allocate(alloc, n);
 
-    // Ultimo elemento valido para poder tener el iterador listo.
-    last_valid_element = n;
-
-    // Y construimos
     auto copy_construct = [&](T &t) {
         allocator_traits<Allocator>::construct(alloc, addressof(t), value);
     };
@@ -55,9 +43,9 @@ vector<T, Allocator>::vector(size_type n,
 /// rango [first, last)
 template<class T, class Allocator>
 template<class InputIt>
-vector<T, Allocator>::vector(InputIt first,
-    InputIt last,
-    const Allocator &allocator)
+vector<T, Allocator>::vector(InputIt          first,
+                             InputIt          last,
+                             const Allocator &allocator)
     : alloc(allocator) {
 
     // Tomamos el tamaño y asignamos la memoria
@@ -80,23 +68,19 @@ vector<T, Allocator>::vector(InputIt first,
 template<class T, class Allocator>
 vector<T, Allocator>::vector(const vector &other)
     : vector(other,
-        allocator_traits<Allocator>::select_on_container_copy_construction(
-            other.get_allocator())) {}
+             allocator_traits<Allocator>::select_on_container_copy_construction(
+                 other.get_allocator())) {}
 
 /// Copia el other al vector, y copia el allocator
 template<class T, class Allocator>
-vector<T, Allocator>::vector(const vector &other, const Allocator &a) {
-    // Copiamos los elementos
-    last_valid_element = other.last_valid_element;
-    allocated_space = other.allocated_space;
-    alloc = a;
+vector<T, Allocator>::vector(const vector &other, const Allocator &a)
+    : last_valid_element(other.last_valid_element),
+      allocated_space(other.allocated_space), alloc(a) {
 
-    // Asignamos la memoria
     object = allocator_traits<Allocator>::allocate(alloc, allocated_space);
 
-    // Copiamos los elementos
     iterator m_first = this->begin();
-    auto construct = [&](const_reference it, reference element) {
+    auto     construct = [&](const_reference it, reference element) {
         allocator_traits<Allocator>::construct(alloc, addressof(element), it);
     };
     extra::for_each(other.begin(), other.end(), m_first, construct);
@@ -104,22 +88,21 @@ vector<T, Allocator>::vector(const vector &other, const Allocator &a) {
 
 /// Mueve el other a este vector, garantizando que other estara vacio.
 template<class T, class Allocator>
-vector<T, Allocator>::vector(vector &&other) noexcept {
-    object = exchange(other.object, nullptr);
-    allocated_space = exchange(other.allocated_space, 0);
-    last_valid_element = exchange(other.last_valid_element, 0);
-    alloc = move(other.alloc);
-}
+vector<T, Allocator>::vector(vector &&other) noexcept
+    : object(exchange(other.object, nullptr)),
+      allocated_space(exchange(other.allocated_space, 0)),
+      last_valid_element(exchange(other.last_valid_element, 0)),
+      alloc(move(other.alloc)) {}
 
 /// Mueve el other a este vector, y copia el allocator garantizando que other
 /// estara vacio.
 template<class T, class Allocator>
-vector<T, Allocator>::vector(vector &&other, const Allocator &a) {
-    object = exchange(other.object, nullptr);
-    allocated_space = exchange(other.allocated_space, 0);
-    last_valid_element = exchange(other.last_valid_element, 0);
-    alloc = a;
-}
+vector<T, Allocator>::vector(vector &&other, const Allocator &a)
+    : object(exchange(other.object, nullptr)),
+      allocated_space(exchange(other.allocated_space, 0)),
+      last_valid_element(exchange(other.last_valid_element, 0)),
+      alloc(a) {}
+
 
 }; // namespace psg
 

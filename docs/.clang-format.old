@@ -3,16 +3,16 @@ Language: Cpp
 IndentWidth: 4
 TabWidth: 4
 AccessModifierOffset: -1
-AlignAfterOpenBracket: Align
+AlignAfterOpenBracket: DontAlign 
 AlignConsecutiveAssignments: false
 #AlignConsecutiveBitFields: false
-AlignConsecutiveDeclarations: true
-AlignConsecutiveMacros: true
+AlignConsecutiveDeclarations: false
+AlignConsecutiveMacros: false
 AlignEscapedNewlines: DontAlign
 AlignOperands: true
-AlignTrailingComments: true
+AlignTrailingComments: false
 AllowAllArgumentsOnNextLine: false
-AllowAllConstructorInitializersOnNextLine: false
+AllowAllConstructorInitializersOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: false
 AllowShortBlocksOnASingleLine: Never
 AllowShortCaseLabelsOnASingleLine: false
@@ -26,31 +26,27 @@ AlwaysBreakTemplateDeclarations: Yes
 BinPackArguments: false
 BinPackParameters: false
 #BitFieldColonSpacingStyle: Both
-# El BreakBeforeBraces: Attach mas adelante se encarga de que siempre esten
-# pegados, si siempre quiere separar, use Allman
-# BreakBeforeBraces: Custom
-# BraceWrapping:
-#     AfterCaseLabel: true
-#     AfterClass: true
-# #    BraceWrappingAfterControlStatementStyle: MultiLine
-#     AfterEnum: false
-#     AfterFunction: false
-#     AfterNamespace: false
-#     AfterStruct: false
-#     AfterUnion: false
-#     AfterExternBlock: false
-#     BeforeElse: false
-# #    BeforeLambdaBody: false
-# #    BeforeWhile: false
-#     SplitEmptyFunction: false
-#     SplitEmptyRecord: false
-#     SplitEmptyNamespace : false
+BreakBeforeBraces: Custom
+BraceWrapping:
+    AfterCaseLabel: true
+    AfterClass: true
+#    BraceWrappingAfterControlStatementStyle: MultiLine
+    AfterEnum: false
+    AfterFunction: false
+    AfterNamespace: false
+    AfterStruct: false
+    AfterUnion: false
+    AfterExternBlock: false
+    BeforeElse: false
+#    BeforeLambdaBody: false
+#    BeforeWhile: false
+    SplitEmptyFunction: false
+    SplitEmptyRecord: false
+    SplitEmptyNamespace : false
 BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeBraces: Attach
 BreakBeforeTernaryOperators: true
 BreakStringLiterals: true
-BreakConstructorInitializers: BeforeColon
-BreakInheritanceList: BeforeColon
 ColumnLimit: 80
 CompactNamespaces: false
 ConstructorInitializerAllOnOneLineOrOnePerLine: false

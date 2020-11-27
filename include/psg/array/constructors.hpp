@@ -13,8 +13,8 @@ array<T, arr_size>::array(const array<T, arr_size> &rhs) {
 
 /// Asignacion por copia
 template<typename T, const size_t arr_size>
-array<T, arr_size> &array<T, arr_size>::operator=(
-    const array<T, arr_size> &rhs) {
+array<T, arr_size> &
+    array<T, arr_size>::operator=(const array<T, arr_size> &rhs) {
 
     if (this == &rhs) {
         return *this;
@@ -23,6 +23,6 @@ array<T, arr_size> &array<T, arr_size>::operator=(
     return *this;
 }
 
-};  // namespace psg
+}; // namespace psg
 
 #endif

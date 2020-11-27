@@ -73,8 +73,8 @@ class allocator {
 /// memoria.
 template<typename T>
 [[nodiscard]] T *allocator<T>::allocate(size_type size) {
-    T* ptr = nullptr;
-    ptr = static_cast<T*>(malloc(sizeof(T) * size));//NOLINT
+    T *ptr = nullptr;
+    ptr = static_cast<T *>(malloc(sizeof(T) * size)); // NOLINT
     if (ptr == nullptr) {
         throw exception("psg::allocator::exception Bad alloc: No se pudo "
                         "asignar la memoria");
@@ -93,6 +93,6 @@ void allocator<T>::deallocate(pointer ptr, size_type size [[maybe_unused]]) {
     free(ptr);
 }
 
-};  // namespace psg
+}; // namespace psg
 
 #endif

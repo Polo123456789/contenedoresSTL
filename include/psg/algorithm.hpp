@@ -5,7 +5,7 @@ namespace psg {
 
 /// Copia los valores.
 ///
-///Copia tantos valores como haya distance(first, last)
+/// Copia tantos valores como haya distance(first, last)
 template<typename InputIt, typename OutputIt>
 OutputIt copy(InputIt first, InputIt last, OutputIt o_begin) {
     while (first != last) {
@@ -17,10 +17,10 @@ OutputIt copy(InputIt first, InputIt last, OutputIt o_begin) {
 /// Copia n valores.
 template<typename InputIt, typename Size, typename OutputIt>
 OutputIt copy_n(InputIt fist, Size count, OutputIt result) {
-    for (Size i=0; i<count; i++) {
+    for (Size i = 0; i < count; i++) {
         *(result++) = *(fist++);
     }
-   return result;
+    return result;
 }
 
 /// Ejecuta la funcion que se le dio en cada uno de los valores.

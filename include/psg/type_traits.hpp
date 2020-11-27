@@ -234,8 +234,8 @@ template<class T>
 using add_pointer_t = typename add_pointer<T>::type;
 
 // other transformations:
-//template<size_t Len, size_t Align = /*default-alignment*/>
-//struct aligned_storage;
+// template<size_t Len, size_t Align = /*default-alignment*/>
+// struct aligned_storage;
 template<size_t Len, class... Types>
 struct aligned_union;
 template<class T>
@@ -256,8 +256,8 @@ template<class F, class... ArgTypes>
 class result_of<F(ArgTypes...)>;
 template<class F, class... ArgTypes>
 class invoke_result;
-//template<size_t Len, size_t Align = /*default-alignment*/>
-//using aligned_storage_t = typename aligned_storage<Len, Align>::type;
+// template<size_t Len, size_t Align = /*default-alignment*/>
+// using aligned_storage_t = typename aligned_storage<Len, Align>::type;
 template<size_t Len, class... Types>
 using aligned_union_t = typename aligned_union<Len, Types...>::type;
 template<class T>
@@ -305,8 +305,7 @@ constexpr bool is_lvalue_reference_v = is_lvalue_reference<T>::value;
 template<class T>
 constexpr bool is_rvalue_reference_v = is_rvalue_reference<T>::value;
 template<class T>
-constexpr bool is_member_object_pointer_v =
-    is_member_object_pointer<T>::value;
+constexpr bool is_member_object_pointer_v = is_member_object_pointer<T>::value;
 template<class T>
 constexpr bool is_member_function_pointer_v =
     is_member_function_pointer<T>::value;
@@ -369,8 +368,7 @@ constexpr bool is_unbounded_array_v = is_unbounded_array<T>::value;
 template<class T, class... Args>
 constexpr bool is_constructible_v = is_constructible<T, Args...>::value;
 template<class T>
-constexpr bool is_default_constructible_v =
-    is_default_constructible<T>::value;
+constexpr bool is_default_constructible_v = is_default_constructible<T>::value;
 template<class T>
 constexpr bool is_copy_constructible_v = is_copy_constructible<T>::value;
 template<class T>
@@ -400,8 +398,7 @@ template<class T>
 constexpr bool is_trivially_move_constructible_v =
     is_trivially_move_constructible<T>::value;
 template<class T, class U>
-constexpr bool is_trivially_assignable_v =
-    is_trivially_assignable<T, U>::value;
+constexpr bool is_trivially_assignable_v = is_trivially_assignable<T, U>::value;
 template<class T>
 constexpr bool is_trivially_copy_assignable_v =
     is_trivially_copy_assignable<T>::value;
@@ -424,8 +421,7 @@ template<class T>
 constexpr bool is_nothrow_move_constructible_v =
     is_nothrow_move_constructible<T>::value;
 template<class T, class U>
-constexpr bool is_nothrow_assignable_v =
-    is_nothrow_assignable<T, U>::value;
+constexpr bool is_nothrow_assignable_v = is_nothrow_assignable<T, U>::value;
 template<class T>
 constexpr bool is_nothrow_copy_assignable_v =
     is_nothrow_copy_assignable<T>::value;
@@ -438,11 +434,9 @@ constexpr bool is_nothrow_swappable_with_v =
 template<class T>
 constexpr bool is_nothrow_swappable_v = is_nothrow_swappable<T>::value;
 template<class T>
-constexpr bool is_nothrow_destructible_v =
-    is_nothrow_destructible<T>::value;
+constexpr bool is_nothrow_destructible_v = is_nothrow_destructible<T>::value;
 template<class T>
-constexpr bool has_virtual_destructor_v =
-    has_virtual_destructor<T>::value;
+constexpr bool has_virtual_destructor_v = has_virtual_destructor<T>::value;
 template<class T>
 constexpr bool has_unique_object_representations_v =
     has_unique_object_representations<T>::value;
@@ -466,8 +460,7 @@ template<class From, class To>
 constexpr bool is_nothrow_convertible_v =
     is_nothrow_convertible<From, To>::value;
 template<class T, class U>
-constexpr bool is_layout_compatible_v =
-    is_layout_compatible<T, U>::value;
+constexpr bool is_layout_compatible_v = is_layout_compatible<T, U>::value;
 template<class Base, class Derived>
 constexpr bool is_pointer_interconvertible_base_of_v =
     is_pointer_interconvertible_base_of<Base, Derived>::value;
@@ -475,8 +468,7 @@ constexpr bool is_pointer_interconvertible_base_of_v =
 template<class Fn, class... ArgTypes>
 constexpr bool is_invocable_v = is_invocable<Fn, ArgTypes...>::value;
 template<class R, class Fn, class... ArgTypes>
-constexpr bool is_invocable_r_v =
-    is_invocable_r<R, Fn, ArgTypes...>::value;
+constexpr bool is_invocable_r_v = is_invocable_r<R, Fn, ArgTypes...>::value;
 template<class Fn, class... ArgTypes>
 constexpr bool is_nothrow_invocable_v =
     is_nothrow_invocable<Fn, ArgTypes...>::value;
@@ -500,6 +492,6 @@ constexpr bool is_corresponding_member(M1 S1::*m1, M2 S2::*m2) noexcept;
 
 // constant evaluation context
 constexpr bool is_constant_evaluated() noexcept;
-};  // namespace psg
+}; // namespace psg
 
 #endif

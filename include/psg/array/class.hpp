@@ -16,7 +16,8 @@ template<typename T, const size_t arr_size>
 // NOLINTNEXTLINE No necesita los que son por movimiento
 class array
     : public imp::random_access_functions<array<T, arr_size>, T, size_t>,
-      public imp::random_access_iterator_functions<array<T, arr_size>,
+      public imp::random_access_iterator_functions<
+          array<T, arr_size>,
           T,
           size_t,
           iterators::LegacyRandomAccesIterator<T>,
@@ -61,14 +62,14 @@ class array
     // const_reverse_iterator crbegin(void) const noexcept;
     // const_reverse_iterator crend(void) const noexcept;
 
-    [[nodiscard]] constexpr bool empty(void) const noexcept;
+    [[nodiscard]] constexpr bool   empty(void) const noexcept;
     [[nodiscard]] constexpr size_t size(void) const noexcept;
     [[nodiscard]] constexpr size_t max_size(void) const noexcept;
 
     void fill(const_reference value);
     void swap(array<T, arr_size> &other) noexcept;
 
-    pointer data() noexcept;
+    pointer       data() noexcept;
     const_pointer data() const noexcept;
 
    private:

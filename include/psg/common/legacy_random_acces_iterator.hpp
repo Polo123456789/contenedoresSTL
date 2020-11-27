@@ -8,7 +8,7 @@
 
 namespace psg {
 
-///Especializacion del plus para utilizarlo con el legacy random acces iterator
+/// Especializacion del plus para utilizarlo con el legacy random acces iterator
 template<typename T>
 struct plus {
     T *operator()(T *a, ptrdiff_t b) {
@@ -19,7 +19,8 @@ struct plus {
     }
 };
 
-///Especializacion del minus para utilizarlo con el legacy random acces iterator
+/// Especializacion del minus para utilizarlo con el legacy random acces
+/// iterator
 template<typename T>
 struct minus {
     T *operator()(T *a, ptrdiff_t b) {
@@ -46,36 +47,36 @@ class LegacyRandomAccesIterator {
     using size_type = size_t;
     using difference_type = ptrdiff_t;
 
-    LegacyRandomAccesIterator(pointer first_element,
-        size_type position) noexcept;
+    LegacyRandomAccesIterator(pointer   first_element,
+                              size_type position) noexcept;
     LegacyRandAccesIter &operator--(void) noexcept;
-    LegacyRandAccesIter operator--(int) noexcept;
+    LegacyRandAccesIter  operator--(int) noexcept;
     LegacyRandAccesIter &operator++(void) noexcept;
-    LegacyRandAccesIter operator++(int) noexcept;
-    bool operator==(const LegacyRandAccesIter &other) noexcept;
-    bool operator!=(const LegacyRandAccesIter &other) noexcept;
-    reference operator*(void) noexcept;
-    pointer operator->() noexcept;
+    LegacyRandAccesIter  operator++(int) noexcept;
+    bool                 operator==(const LegacyRandAccesIter &other) noexcept;
+    bool                 operator!=(const LegacyRandAccesIter &other) noexcept;
+    reference            operator*(void) noexcept;
+    pointer              operator->() noexcept;
     LegacyRandAccesIter &operator+=(size_type amount) noexcept;
-    LegacyRandAccesIter operator+(size_type amount) const noexcept;
+    LegacyRandAccesIter  operator+(size_type amount) const noexcept;
     LegacyRandAccesIter &operator-=(size_type amount) noexcept;
-    LegacyRandAccesIter operator-(size_type amount) const noexcept;
+    LegacyRandAccesIter  operator-(size_type amount) const noexcept;
     difference_type operator-(const LegacyRandAccesIter &rhs) const noexcept;
-    bool operator<(const LegacyRandAccesIter &rhs) const noexcept;
-    bool operator>(const LegacyRandAccesIter &rhs) const noexcept;
-    bool operator<=(const LegacyRandAccesIter &rhs) const noexcept;
-    bool operator>=(const LegacyRandAccesIter &rhs) const noexcept;
-    reference operator[](size_type index) noexcept;
+    bool            operator<(const LegacyRandAccesIter &rhs) const noexcept;
+    bool            operator>(const LegacyRandAccesIter &rhs) const noexcept;
+    bool            operator<=(const LegacyRandAccesIter &rhs) const noexcept;
+    bool            operator>=(const LegacyRandAccesIter &rhs) const noexcept;
+    reference       operator[](size_type index) noexcept;
 
    private:
-    pointer object = nullptr;
+    pointer   object = nullptr;
     Operation operation{};
 };
 
 template<typename T, typename Operation>
 LegacyRandomAccesIterator<T, Operation>::LegacyRandomAccesIterator(
     pointer first_element,
-    size_t position) noexcept {
+    size_t  position) noexcept {
 
     object = operation(first_element, position);
 }
@@ -92,7 +93,7 @@ LegacyRandomAccesIterator<T, Operation>
     LegacyRandomAccesIterator<T, Operation>::operator--(int) noexcept {
 
     LegacyRandomAccesIterator<T, Operation> tmp = *this;
-    this->operator--();
+    this->                                  operator--();
     return tmp;
 }
 
@@ -109,7 +110,7 @@ LegacyRandomAccesIterator<T, Operation>
     LegacyRandomAccesIterator<T, Operation>::operator++(int) noexcept {
 
     LegacyRandomAccesIterator<T, Operation> tmp = *this;
-    this->operator++();
+    this->                                  operator++();
     return tmp;
 }
 
@@ -240,35 +241,35 @@ class LegacyRandomAccesIterator {
     using difference_type = ptrdiff_t;
 
     LegacyRandomAccesIterator(const_pointer first_element,
-        size_type position) noexcept;
+                              size_type     position) noexcept;
     LegacyRandAccesIter &operator--(void) noexcept;
-    LegacyRandAccesIter operator--(int) noexcept;
+    LegacyRandAccesIter  operator--(int) noexcept;
     LegacyRandAccesIter &operator++(void) noexcept;
-    LegacyRandAccesIter operator++(int) noexcept;
-    bool operator==(const LegacyRandAccesIter &other) noexcept;
-    bool operator!=(const LegacyRandAccesIter &other) noexcept;
-    const_reference operator*(void) noexcept;
-    const_pointer operator->() noexcept;
+    LegacyRandAccesIter  operator++(int) noexcept;
+    bool                 operator==(const LegacyRandAccesIter &other) noexcept;
+    bool                 operator!=(const LegacyRandAccesIter &other) noexcept;
+    const_reference      operator*(void) noexcept;
+    const_pointer        operator->() noexcept;
     LegacyRandAccesIter &operator+=(size_type amount) noexcept;
-    LegacyRandAccesIter operator+(size_type amount) const noexcept;
+    LegacyRandAccesIter  operator+(size_type amount) const noexcept;
     LegacyRandAccesIter &operator-=(size_type amount) noexcept;
-    LegacyRandAccesIter operator-(size_type amount) const noexcept;
+    LegacyRandAccesIter  operator-(size_type amount) const noexcept;
     difference_type operator-(const LegacyRandAccesIter &rhs) const noexcept;
-    bool operator<(const LegacyRandAccesIter &rhs) const noexcept;
-    bool operator>(const LegacyRandAccesIter &rhs) const noexcept;
-    bool operator<=(const LegacyRandAccesIter &rhs) const noexcept;
-    bool operator>=(const LegacyRandAccesIter &rhs) const noexcept;
+    bool            operator<(const LegacyRandAccesIter &rhs) const noexcept;
+    bool            operator>(const LegacyRandAccesIter &rhs) const noexcept;
+    bool            operator<=(const LegacyRandAccesIter &rhs) const noexcept;
+    bool            operator>=(const LegacyRandAccesIter &rhs) const noexcept;
     const_reference operator[](size_type index) noexcept;
 
    private:
     const_pointer object = nullptr;
-    Operation operation{};
+    Operation     operation{};
 };
 
 template<typename T, typename Operation>
 LegacyRandomAccesIterator<T, Operation>::LegacyRandomAccesIterator(
     const T *first_element,
-    size_t position) noexcept {
+    size_t   position) noexcept {
 
     object = operation(first_element, position);
 }
@@ -285,7 +286,7 @@ LegacyRandomAccesIterator<T, Operation>
     LegacyRandomAccesIterator<T, Operation>::operator--(int) noexcept {
 
     LegacyRandomAccesIterator<T, Operation> tmp = *this;
-    this->operator--();
+    this->                                  operator--();
     return tmp;
 }
 
@@ -302,7 +303,7 @@ LegacyRandomAccesIterator<T, Operation>
     LegacyRandomAccesIterator<T, Operation>::operator++(int) noexcept {
 
     LegacyRandomAccesIterator<T, Operation> tmp = *this;
-    this->operator++();
+    this->                                  operator++();
     return tmp;
 }
 

@@ -28,7 +28,7 @@ class exception {
 
    public:
     explicit exception(const char *message) : message(message) {}
-    virtual const char *what(void) const noexcept {
+    [[nodiscard]] virtual const char *what(void) const noexcept {
         return message;
     }
 };

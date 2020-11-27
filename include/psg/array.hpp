@@ -8,7 +8,7 @@
 namespace psg {
 
 template<typename T, const size_t arr_size>
-void swap(array<T, arr_size>& a, array<T, arr_size>& b) noexcept {
+void swap(array<T, arr_size> &a, array<T, arr_size> &b) noexcept {
     a.swap(b);
 }
 

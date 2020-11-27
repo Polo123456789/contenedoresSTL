@@ -7,25 +7,25 @@ namespace psg {
 
 /// Convierte un lvalue a un rvalue
 template<typename T>
-remove_reference_t<T> move(T&& t) {
-    return static_cast<remove_reference_t<T>&&>(t);
+remove_reference_t<T> move(T &&t) {
+    return static_cast<remove_reference_t<T> &&>(t);
 }
 
 /// Hace un perfect forwarding en los argumentos dados
 template<typename T>
-T&& forward(remove_reference_t<T>& t) {
-    return static_cast<T&&>(t);
+T &&forward(remove_reference_t<T> &t) {
+    return static_cast<T &&>(t);
 }
 
 /// Hace un perfect forwarding en los argumentos dados
 template<typename T>
-T&& forward(remove_reference_t<T>&& t) {
-    return static_cast<T&&>(t);
+T &&forward(remove_reference_t<T> &&t) {
+    return static_cast<T &&>(t);
 }
 
 /// Intercambia los valores
 template<typename T>
-void swap(T& a, T& b) noexcept {
+void swap(T &a, T &b) noexcept {
     T tmp = move(a);
     a = move(b);
     b = move(tmp);
@@ -33,7 +33,7 @@ void swap(T& a, T& b) noexcept {
 
 /// Le da a obj el valor dado, y regresa el valor anterior de obj
 template<typename T, typename U = T>
-T exchange(T& obj, U&& new_value) {
+T exchange(T &obj, U &&new_value) {
     T tmp = move(obj);
     obj = forward<U>(new_value);
     return tmp;

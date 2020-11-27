@@ -12,7 +12,7 @@ namespace psg {
 // esa funcion de los overloads disponibles. Saquemosle el jugo
 namespace imp {
 
-template<typename Alloc, typename ...Args>
+template<typename Alloc, typename... Args>
 struct allocator_has_construct {
     // Vamos a tener un struct que tiene como template un tipo, y un puntero a
     // una funcion miembro del tipo.
@@ -57,7 +57,7 @@ struct allocator_has_max_size {
     template<typename T>
     static char Test(SFINAE<T, &T::max_size> *);
     template<typename T>
-    static int Test(...);
+    static int            Test(...);
     static constexpr bool value = (sizeof(Test<Alloc>(0)) == sizeof(char));
 };
 
@@ -88,8 +88,8 @@ template<typename Alloc>
 constexpr bool allocator_has_select_on_container_copy_construction_v =
     allocator_has_select_on_container_copy_construction<Alloc>::value;
 
-};  // namespace imp
+}; // namespace imp
 
-};  // namespace psg
+}; // namespace psg
 
 #endif

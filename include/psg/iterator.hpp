@@ -60,10 +60,10 @@ struct random_acces_iterator_tag : public bidirectional_iterator_tag {};
 /// Yo la verdad es que solo la declaro aqui, porque esta, porque la verdad es
 /// que no planeo usarla. El estandar tampoco, si la deprecaron en C++17
 template<typename Category,
-    typename T,
-    typename Distance = ptrdiff_t,
-    typename Pointer = T *,
-    typename Reference = T &>
+         typename T,
+         typename Distance = ptrdiff_t,
+         typename Pointer = T *,
+         typename Reference = T &>
 struct [[deprecated(
     R"(
 La idea del iterator es heredarlo para dar las caracteristicas:
@@ -97,9 +97,10 @@ struct iterator_traits {
 namespace imp {
 
 template<typename InputIt>
-typename iterator_traits<InputIt>::difference_type distance(InputIt first,
-    InputIt last,
-    random_acces_iterator_tag /*unused*/) {
+typename iterator_traits<InputIt>::difference_type
+    distance(InputIt first,
+             InputIt last,
+             random_acces_iterator_tag /*unused*/) {
 
     return last - first;
 }
@@ -113,15 +114,15 @@ typename iterator_traits<InputIt>::difference_type
         ++d;
     }
     return d;
-
 }
 
 }; // namespace imp
 
 template<typename InputIt>
 typename iterator_traits<InputIt>::difference_type distance(InputIt first,
-    InputIt last) {
-    return imp::distance(first,
+                                                            InputIt last) {
+    return imp::distance(
+        first,
         last,
         typename iterator_traits<InputIt>::iterator_category());
 }

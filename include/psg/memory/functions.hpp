@@ -26,8 +26,8 @@ constexpr bool addresof_by_casting = true;
 template<typename T>
 T *addressof(T &arg) noexcept {
     if constexpr (imp::addresof_by_casting) {
-        return reinterpret_cast<T *>( // NOLINT
-            &const_cast<char &>( // NOLINT
+        return reinterpret_cast<T *>(                           // NOLINT
+            &const_cast<char &>(                                // NOLINT
                 reinterpret_cast<const volatile char &>(arg))); // NOLINT
     } else {
         return &arg;
@@ -38,17 +38,17 @@ namespace imp {
 
 template<typename ForwardIt, typename UnaryFunc>
 void destroy_range(ForwardIt first,
-    ForwardIt last,
-    UnaryFunc destructor_function) {
+                   ForwardIt last,
+                   UnaryFunc destructor_function) {
 
     for_each(first, last, destructor_function);
 }
 
 template<typename InputIt, typename OutputIt, typename UnaryFunc>
-void construct_range(InputIt first,
-    InputIt last,
-    OutputIt o_first,
-    UnaryFunc f) {
+void construct_range(InputIt   first,
+                     InputIt   last,
+                     OutputIt  o_first,
+                     UnaryFunc f) {
 
     extra::for_each(first, last, o_first, f);
 }
@@ -57,20 +57,20 @@ void construct_range(InputIt first,
 
 /// Construye un elemento en p, con el paquete de argumentos que se le hayan
 /// dado.
-/// 
+///
 /// Este recomendaria utilizarlo solo para elementos que asigno utilizando el
 /// psg::allocator. Tendria que llamar al psg::destroy_at si utiliza este.
-template<typename T, typename ...Args>
-T* construct_at(T* p, Args&&... args) {
+template<typename T, typename... Args>
+T *construct_at(T *p, Args &&...args) {
     new (p) T(forward<Args>(args)...);
     return p;
 }
 
-/// Destruye el elemento en la direccion p. 
-/// 
+/// Destruye el elemento en la direccion p.
+///
 /// Este seria el complemento del el construct_at
 template<typename T>
-void destroy_at(T* p) {
+void destroy_at(T *p) {
     p->~T();
 }
 
@@ -82,7 +82,6 @@ void destroy(ForwardIt first, ForwardIt last) {
     };
     imp::destroy_range(first, last, destroy_element);
 }
-
 
 }; // namespace psg
 

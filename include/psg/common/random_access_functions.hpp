@@ -33,20 +33,20 @@ struct random_access_functions {
     using const_pointer = const value_type *;
     using size_type = SizeType;
 
-    reference at(size_type position);
+    reference       at(size_type position);
     const_reference at(size_type position) const;
-    reference operator[](size_type position);
+    reference       operator[](size_type position);
     const_reference operator[](size_type position) const;
-    reference front(void);
+    reference       front(void);
     const_reference front(void) const;
-    reference back(void);
+    reference       back(void);
     const_reference back(void) const;
 
    private:
     inline Container &underlying(void) {
         return static_cast<Container &>(*this);
     }
-    inline const Container &underlying(void) const  {
+    inline const Container &underlying(void) const {
         return static_cast<const Container &>(*this);
     }
     inline size_type underlying_size() {
@@ -114,16 +114,16 @@ const ValueType &
 
 /// Regresa una referencia al el primer elemento del array
 template<typename Container, typename ValueType, typename SizeType>
-ValueType &random_access_functions<Container, ValueType, SizeType>::front(
-    void) {
+ValueType &
+    random_access_functions<Container, ValueType, SizeType>::front(void) {
 
     return this->underlying_data()[0];
 }
 
 /// Regresa una referencia constante al el primer elemento del array
 template<typename Container, typename ValueType, typename SizeType>
-const ValueType &random_access_functions<Container, ValueType, SizeType>::front(
-    void) const {
+const ValueType &
+    random_access_functions<Container, ValueType, SizeType>::front(void) const {
 
     return this->underlying_const_data()[0];
 }
@@ -137,8 +137,8 @@ ValueType &random_access_functions<Container, ValueType, SizeType>::back(void) {
 
 /// Regresa una referencia constante al el primer elemento del array
 template<typename Container, typename ValueType, typename SizeType>
-const ValueType &random_access_functions<Container, ValueType, SizeType>::back(
-    void) const {
+const ValueType &
+    random_access_functions<Container, ValueType, SizeType>::back(void) const {
 
     return this->underlying_const_data()[underlying_size() - 1];
 }
