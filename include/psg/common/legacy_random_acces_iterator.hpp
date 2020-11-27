@@ -92,9 +92,11 @@ template<typename T, typename Operation>
 LegacyRandomAccesIterator<T, Operation>
     LegacyRandomAccesIterator<T, Operation>::operator--(int) noexcept {
 
+    // clang-format off
     LegacyRandomAccesIterator<T, Operation> tmp = *this;
-    this->                                  operator--();
+    this->operator--();
     return tmp;
+    // clang-format on
 }
 
 template<typename T, typename Operation>
@@ -109,9 +111,11 @@ template<typename T, typename Operation>
 LegacyRandomAccesIterator<T, Operation>
     LegacyRandomAccesIterator<T, Operation>::operator++(int) noexcept {
 
+    // clang-format off
     LegacyRandomAccesIterator<T, Operation> tmp = *this;
-    this->                                  operator++();
+    this->operator++();
     return tmp;
+    // clang-format on
 }
 
 template<typename T, typename Operation>
@@ -285,9 +289,11 @@ template<typename T, typename Operation>
 LegacyRandomAccesIterator<T, Operation>
     LegacyRandomAccesIterator<T, Operation>::operator--(int) noexcept {
 
+    // clang-format off
     LegacyRandomAccesIterator<T, Operation> tmp = *this;
-    this->                                  operator--();
+    this->operator--();
     return tmp;
+    // clang-format on
 }
 
 template<typename T, typename Operation>
@@ -302,9 +308,11 @@ template<typename T, typename Operation>
 LegacyRandomAccesIterator<T, Operation>
     LegacyRandomAccesIterator<T, Operation>::operator++(int) noexcept {
 
+    // clang-format off
     LegacyRandomAccesIterator<T, Operation> tmp = *this;
-    this->                                  operator++();
+    this->operator++();
     return tmp;
+    // clang-format on
 }
 
 template<typename T, typename Operation>
