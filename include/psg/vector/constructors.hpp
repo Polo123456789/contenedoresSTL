@@ -24,6 +24,9 @@ vector<T, Allocator>::vector(const Allocator &alloc) noexcept : alloc(alloc) {}
 // claro que llamar al destructor. De hecho, creo pasar al desturctor esos dos
 // metodos, y especializar el shrink_to_fit para que si el tamaño es 0, solo
 // libere toda la memoria.
+//
+// NOTE(pablo): Para quitarmelo de la cabeza, solo preocupate de esto en los
+// constructores, en los demas si se llama al destructor.
 
 /// Asigna n espacios en memoria y los llena con el valor default.
 template<class T, class Allocator>
