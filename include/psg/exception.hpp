@@ -27,6 +27,7 @@ class exception {
     const char *message = "psg::exception";
 
    public:
+    exception() = default;
     explicit exception(const char *message) : message(message) {}
     [[nodiscard]] virtual const char *what(void) const noexcept {
         return message;

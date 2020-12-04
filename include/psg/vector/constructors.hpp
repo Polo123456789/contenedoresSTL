@@ -17,6 +17,14 @@ vector<T, Allocator>::vector(const Allocator &alloc) noexcept : alloc(alloc) {}
 // hecharle un vistaso a los smart pointers, a ver si alguno permite trabajar
 // con allocators, y si no vamos a tener que crear uno especifico para eso.
 
+// TODO(pablo): Evaluar si esta es una posible solucion a el problema.
+//
+// NOTE(pablo): Una solucion mejor parece ser el usar clear, y shrink_to_fit
+// para que destruya los elementos, y limpie la memoria. Parece un poco mas
+// claro que llamar al destructor. De hecho, creo pasar al desturctor esos dos
+// metodos, y especializar el shrink_to_fit para que si el tamaño es 0, solo
+// libere toda la memoria.
+
 /// Asigna n espacios en memoria y los llena con el valor default.
 template<class T, class Allocator>
 vector<T, Allocator>::vector(size_type n, const Allocator &allocator)
@@ -24,10 +32,21 @@ vector<T, Allocator>::vector(size_type n, const Allocator &allocator)
 
     object = allocator_traits<Allocator>::allocate(alloc, n);
 
-    auto default_construct = [&](reference t) {
+    size_type constructed_elements = 0;
+    auto      default_construct = [&](reference t) {
         allocator_traits<Allocator>::construct(alloc, addressof(t));
+        constructed_elements++;
     };
-    for_each(this->begin(), this->end(), default_construct);
+
+    try {
+        for_each(this->begin(), this->end(), default_construct);
+    } catch (...) {
+        last_valid_element = constructed_elements;
+        this->~vector<T, Allocator>();
+        throw psg::exception(
+            "Exepcion en el psg::vector, uno de los constructores de los "
+            "elementos ha lanzado una excepcion");
+    }
 }
 
 /// Asina n espacios en memoria y copia el valor
