@@ -11,10 +11,16 @@ namespace psg {
 template<class T, class Allocator>
 vector<T, Allocator>::vector(const Allocator &alloc) noexcept : alloc(alloc) {}
 
+// TODO(pablo): Que pasa si los constructores tiran??? Vamos a tener un leak de
+// memoria. El diseño que tengo del vector esta fundamentalmente mal, ya que no
+// termina de seguir RAII. No esta correcto que maneje el recurso. Vamos a
+// hecharle un vistaso a los smart pointers, a ver si alguno permite trabajar
+// con allocators, y si no vamos a tener que crear uno especifico para eso.
+
 /// Asigna n espacios en memoria y los llena con el valor default.
 template<class T, class Allocator>
 vector<T, Allocator>::vector(size_type n, const Allocator &allocator)
-    : alloc(allocator), allocated_space(n), last_valid_element(n) {
+    : allocated_space(n), last_valid_element(n), alloc(allocator) {
 
     object = allocator_traits<Allocator>::allocate(alloc, n);
 
@@ -29,7 +35,7 @@ template<class T, class Allocator>
 vector<T, Allocator>::vector(size_type        n,
                              const T &        value,
                              const Allocator &allocator)
-    : alloc{allocator}, allocated_space(n), last_valid_element(n) {
+    : allocated_space(n), last_valid_element(n), alloc{allocator} {
 
     object = allocator_traits<Allocator>::allocate(alloc, n);
 
@@ -74,8 +80,8 @@ vector<T, Allocator>::vector(const vector &other)
 /// Copia el other al vector, y copia el allocator
 template<class T, class Allocator>
 vector<T, Allocator>::vector(const vector &other, const Allocator &a)
-    : last_valid_element(other.last_valid_element),
-      allocated_space(other.allocated_space), alloc(a) {
+    : allocated_space(other.allocated_space),
+      last_valid_element(other.last_valid_element), alloc(a) {
 
     object = allocator_traits<Allocator>::allocate(alloc, allocated_space);
 
@@ -100,9 +106,7 @@ template<class T, class Allocator>
 vector<T, Allocator>::vector(vector &&other, const Allocator &a)
     : object(exchange(other.object, nullptr)),
       allocated_space(exchange(other.allocated_space, 0)),
-      last_valid_element(exchange(other.last_valid_element, 0)),
-      alloc(a) {}
-
+      last_valid_element(exchange(other.last_valid_element, 0)), alloc(a) {}
 
 }; // namespace psg
 

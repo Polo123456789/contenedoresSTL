@@ -18,7 +18,8 @@ Checklist:
 
 * [X] array.hpp
 * [ ] algorithm.hpp (Parcial)
-* [ ] vector.hpp (Parcial)
+* [ ] vector.hpp (Parcial: En rework para que siga RAII, que si los
+  constructores de los objetos tiran exceptiones deja un leak de memoria)
 * [ ] exception.hpp (Parcial)
 * [ ] iterator.hpp (Parcial)
 * [ ] memory.hpp (Parcial)

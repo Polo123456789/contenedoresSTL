@@ -23,7 +23,7 @@ namespace psg {
 ///
 /// Los elementos que almacenes en el vector tiene que:
 ///
-/// * Poder construirse por copia
+/// * Poder copiarse y moverse
 template<class T, class Allocator = psg::allocator<T>>
 class vector
     : public imp::random_access_functions<vector<T, Allocator>, T, size_t>,
