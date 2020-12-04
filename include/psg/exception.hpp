@@ -24,7 +24,7 @@
 namespace psg {
 
 class exception {
-    const char *message;
+    const char *message = "psg::exception";
 
    public:
     explicit exception(const char *message) : message(message) {}
