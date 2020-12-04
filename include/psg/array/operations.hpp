@@ -28,7 +28,7 @@ constexpr size_t array<T, arr_size>::max_size(void) const noexcept {
 
 /// Llena el array con el valor dado
 template<typename T, const size_t arr_size>
-void array<T, arr_size>::fill(const_reference value) {
+constexpr void array<T, arr_size>::fill(const_reference value) {
     auto assing_value = [&](reference element) -> void {
         element = value;
     };
@@ -39,7 +39,7 @@ void array<T, arr_size>::fill(const_reference value) {
 ///
 /// Este tambien se usa para especializar el psg::swap
 template<typename T, const size_t arr_size>
-void array<T, arr_size>::swap(array<T, arr_size> &other) noexcept {
+constexpr void array<T, arr_size>::swap(array<T, arr_size> &other) noexcept {
     array<T, arr_size> tmp = *this;
     *this = other;
     other = tmp;
@@ -47,13 +47,13 @@ void array<T, arr_size>::swap(array<T, arr_size> &other) noexcept {
 
 /// Regresa un puntero a los datos que este mantiene
 template<typename T, const size_t arr_size>
-T *array<T, arr_size>::data() noexcept {
+constexpr T *array<T, arr_size>::data() noexcept {
     return object;
 }
 
 /// Regresa un puntero constante a los datos que este sostiene
 template<typename T, const size_t arr_size>
-const T *array<T, arr_size>::data() const noexcept {
+constexpr const T *array<T, arr_size>::data() const noexcept {
     return object;
 }
 

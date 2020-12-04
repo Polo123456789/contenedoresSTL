@@ -34,9 +34,9 @@ class array
     using size_type = size_t;
     using difference_type = ptrdiff_t;
 
-    array(void) = default;
-    array(const array<T, arr_size> &rhs);
-    array &operator=(const array<T, arr_size> &rhs);
+    constexpr array(void) = default;
+    constexpr array(const array<T, arr_size> &rhs);
+    constexpr array &operator=(const array<T, arr_size> &rhs);
 
     // Estas salen de random_access_functions
     //
@@ -66,11 +66,11 @@ class array
     [[nodiscard]] constexpr size_t size(void) const noexcept;
     [[nodiscard]] constexpr size_t max_size(void) const noexcept;
 
-    void fill(const_reference value);
-    void swap(array<T, arr_size> &other) noexcept;
+    constexpr void fill(const_reference value);
+    constexpr void swap(array<T, arr_size> &other) noexcept;
 
-    pointer       data() noexcept;
-    const_pointer data() const noexcept;
+    constexpr pointer       data() noexcept;
+    constexpr const_pointer data() const noexcept;
 
    private:
     T object[arr_size]; // NOLINT Tiene que ser un array estilo C
