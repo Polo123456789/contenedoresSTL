@@ -1,21 +1,3 @@
-#include <psg/array.hpp>
-#include <array>
-
-using namespace psg;
-
-constexpr size_t s = 10;
-
-constexpr array<int, s> generate() {
-    array<int, s> a{};
-
-    a.fill(1);
-    //a.at(0) = 2;
-
-    return a;
-}
-
-constexpr array<int, s> data = generate();
-
 // #include <iostream>
 // #include <vector>
 // #include <psg/vector.hpp>
