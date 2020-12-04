@@ -11,22 +11,11 @@ namespace psg {
 template<class T, class Allocator>
 vector<T, Allocator>::vector(const Allocator &alloc) noexcept : alloc(alloc) {}
 
-// TODO(pablo): Que pasa si los constructores tiran??? Vamos a tener un leak de
-// memoria. El diseño que tengo del vector esta fundamentalmente mal, ya que no
-// termina de seguir RAII. No esta correcto que maneje el recurso. Vamos a
-// hecharle un vistaso a los smart pointers, a ver si alguno permite trabajar
-// con allocators, y si no vamos a tener que crear uno especifico para eso.
-
-// TODO(pablo): Evaluar si esta es una posible solucion a el problema.
+// TODO(Pablo): Es necesario implementar el psg::unique_ptr para continuar, este
+// se encargara eliminar los memory leaks que podamos tener.
 //
-// NOTE(pablo): Una solucion mejor parece ser el usar clear, y shrink_to_fit
-// para que destruya los elementos, y limpie la memoria. Parece un poco mas
-// claro que llamar al destructor. De hecho, creo pasar al desturctor esos dos
-// metodos, y especializar el shrink_to_fit para que si el tamaño es 0, solo
-// libere toda la memoria.
-//
-// NOTE(pablo): Para quitarmelo de la cabeza, solo preocupate de esto en los
-// constructores, en los demas si se llama al destructor.
+// NOTE: Todo lo que se lleva hecho del vector tendra que ser migrado para usar
+// el unique_ptr.
 
 /// Asigna n espacios en memoria y los llena con el valor default.
 template<class T, class Allocator>
