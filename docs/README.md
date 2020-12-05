@@ -13,6 +13,19 @@ include, añadala a el path de include en su compilador.
 
 Probado con clang y visual studio. Cada cierto tiempo con gcc
 
+Commits
+-------
+
+Formato: ("(%c)<%s>%s", tipo, donde, que)
+
+| Tipos | Significado           |
+|-------|-----------------------|
+| =     | Cambio trivial        |
+| ~     | Refactorizacion       |
+| +     | Nuevo                 |
+| -     | Correccion de error   |
+| *     | Modificacion a la API |
+
 Checklist:
 ==========
 
