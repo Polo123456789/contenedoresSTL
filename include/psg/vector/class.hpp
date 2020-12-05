@@ -68,7 +68,7 @@ class vector
     vector(vector &&other) noexcept;
     vector(const vector &other, const Allocator &a);
     vector(vector &&other, const Allocator &a);
-    ~vector();
+    ~vector() noexcept;
 
     vector &operator=(const vector &x);
     vector &operator=(vector &&x) noexcept;

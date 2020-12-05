@@ -7,7 +7,7 @@ namespace psg {
 
 /// Destruye los objetos, y libera la memoria asinada.
 template<class T, class Allocator>
-vector<T, Allocator>::~vector() {
+vector<T, Allocator>::~vector() noexcept {
     if (allocated_space == 0) {
         return;
     }
