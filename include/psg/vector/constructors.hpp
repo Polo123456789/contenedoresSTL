@@ -16,6 +16,9 @@ vector<T, Allocator>::vector(const Allocator &alloc) noexcept : alloc(alloc) {}
 //
 // NOTE: Todo lo que se lleva hecho del vector tendra que ser migrado para usar
 // el unique_ptr.
+//
+// TODO(Pablo): Eliminar memcpy, parece buena, pero te vas a fregar la vtable.
+//https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rc-eq-base
 
 /// Asigna n espacios en memoria y los llena con el valor default.
 template<class T, class Allocator>
