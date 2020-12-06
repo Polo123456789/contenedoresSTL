@@ -44,16 +44,7 @@ void destroy_range(ForwardIt first,
     for_each(first, last, destructor_function);
 }
 
-template<typename InputIt, typename OutputIt, typename UnaryFunc>
-void construct_range(InputIt   first,
-                     InputIt   last,
-                     OutputIt  o_first,
-                     UnaryFunc f) {
-
-    extra::for_each(first, last, o_first, f);
-}
-
-} // namespace imp
+};  // namespace imp
 
 /// Construye un elemento en p, con el paquete de argumentos que se le hayan
 /// dado.
