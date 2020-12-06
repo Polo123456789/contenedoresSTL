@@ -8,6 +8,8 @@
 #include <psg/utility.hpp>
 #include <psg/exception.hpp>
 
+#include <psg/memory/allocator_traits.hpp>
+
 namespace psg {
 
 /// Este es el encargado de asignar y limpiar memoria
@@ -64,6 +66,8 @@ class allocator {
     // [[deprecated]] void construct(U *p, Args &&... args);
     // template<typename U>
     // [[deprecated]] void destroy(U *p);
+   private:
+    static constexpr size_type max_alloc_size = size_type(-1) / sizeof(value_type);
 };
 
 /// Asinga la memoria para un puntero tipo T.
@@ -73,6 +77,12 @@ class allocator {
 /// memoria.
 template<typename T>
 [[nodiscard]] T *allocator<T>::allocate(size_type size) {
+    if (size > max_alloc_size) {
+        throw exception(
+            "psg::allocator::exception Bad alloc: No se pudo asignar la "
+            "memoria, ha solicitado mas de la que puede manejar.");
+    }
+
     T *ptr = nullptr;
     ptr = static_cast<T *>(malloc(sizeof(T) * size)); // NOLINT
     if (ptr == nullptr) {
