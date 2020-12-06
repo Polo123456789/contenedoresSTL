@@ -12,6 +12,24 @@ void swap(array<T, arr_size> &a, array<T, arr_size> &b) noexcept {
     a.swap(b);
 }
 
+template<typename T, const size_t arr_size>
+bool operator==(const array<T, arr_size>& a, const array<T, arr_size>& b) {
+    if (a.size() != b.size()) {
+        return false;
+    }
+
+    auto first_a = a.begin();
+    auto last_a = a.end();
+    auto first_b = b.begin();
+
+    while (first_a != last_a) {
+        if (*(first_a++) != *(first_b++)) {
+            return false;
+        }
+    }
+    return true;
+}
+
 }; // namespace psg
 
 #endif

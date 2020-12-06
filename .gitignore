@@ -1,7 +1,10 @@
 a.exe
 compile_flags.txt
 ejemplo*
-msvc\*
+msvc/*
 msvc
 .vs
 .vs/*
+tests/bin_gcc
+tests/bin_msv
+tests/bin_clang

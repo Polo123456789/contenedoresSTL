@@ -1,29 +1,33 @@
-// #include <iostream>
-// #include <vector>
-// #include <psg/vector.hpp>
+#define CATCH_CONFIG_MAIN
+#include "catch2/catch.hpp"
+
+// Test de ejemplo:
+//
+// unsigned int Factorial(unsigned int number) {
+//     return number > 1 ? Factorial(number - 1) * number : 1;
+// }
 // 
-// using namespace psg;
-// 
-// int main(void) {
-//     vector<int> a(static_cast<size_t>(5), static_cast<int>(1)); // NOLINT
-// 
-//     for (auto n : a) {
-//         std::cout << n << '\n';
+// SCENARIO("Factorials are computed", "[factorial]") {
+//     GIVEN("A Factorial function") {
+//         WHEN("We give it numbers") {
+//             THEN("It gives results") {
+//                 unsigned int fac_0 = Factorial(0);
+//                 REQUIRE(fac_0 == 1);
+//                 REQUIRE(Factorial(1) == 1);
+//                 REQUIRE(Factorial(2) == 2);
+//                 REQUIRE(Factorial(3) == 6);
+//                 REQUIRE(Factorial(10) == 3628800);
+//             }
+//         }
 //     }
+// }
 // 
-//     a.assign(static_cast<size_t>(3), static_cast<int>(2));
-// 
-//     for (auto n : a) {
-//         std::cout << n << '\n';
+// TEST_CASE("Factorials are computed", "[factorial]") {
+//     REQUIRE(Factorial(0) == 1);
+//     REQUIRE(Factorial(1) == 1);
+//     REQUIRE(Factorial(2) == 2);
+//     REQUIRE(Factorial(3) == 6);
+//     SECTION("Big Numbers") {
+//         REQUIRE(Factorial(10) == 3628800);
 //     }
-// 
-//     // try {
-//     //     std::cout << "A por los elemntos hasta pasarnos\n";
-//     //     for (size_t i = 0; i < a.size() + 1; i++) {
-//     //         std::cout << "[" << i << "]: " << a.at(i) << '\n';
-//     //     }
-//     // } catch (const exception &e) {
-//     //     std::cout << e.what() << '\n';
-//     // }
-//     return 0;
 // }
