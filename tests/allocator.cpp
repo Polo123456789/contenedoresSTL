@@ -1,32 +1,45 @@
-#include <iostream>
 #include <psg/memory.hpp>
+#include <memory>
 
-int main(void) {
-    try {
+#include "catch2/catch.hpp"
 
-        using ALI = psg::allocator<int>;
-        ALI a;
-        int *i = nullptr;
+bool element_constructed = false; // NOLINT
+bool element_destroyed = false;   // NOLINT
 
-        constexpr int allocated_size = 1;
-        constexpr int value_to_construt = 2;
-
-        std::cout << "Asingando espacio ...\n";
-        i = psg::allocator_traits<ALI>::allocate(a, allocated_size);
-        std::cout << "Construyendo ...\n";
-        psg::allocator_traits<ALI>::construct(a, i, value_to_construt);
-
-        std::cout << *i << '\n';
-
-        std::cout << "Destruyendo ...\n";
-        psg::allocator_traits<ALI>::destroy(a, i);
-        std::cout << "Liberando memoria ...\n";
-        psg::allocator_traits<ALI>::deallocate(a, i, allocated_size);
-
-    } catch (const psg::exception &e) {
-        std::cout << e.what() << '\n';
-    } catch (...) {
-        std::cout << "Excepcion que no agarre, tendre que revisar algo mas\n";
+// NOLINTNEXTLINE
+class AllocTest {
+   public:
+    explicit AllocTest(int num) {
+        val = num;
+        element_constructed = true;
     }
-    return 0;
+    ~AllocTest() {
+        element_destroyed = true;
+    }
+    bool operator==(int num) const noexcept {
+        return val == num;
+    }
+
+   private:
+    int val = 0;
+};
+
+TEST_CASE("psg::allocator", "[allocator]") {
+    using ALI = psg::allocator<AllocTest>;
+    ALI  a;
+    AllocTest *i = nullptr;
+
+    constexpr int allocated_size = 1;
+    constexpr int value_to_construt = 2;
+
+    i = psg::allocator_traits<ALI>::allocate(a, allocated_size);
+    REQUIRE(i != nullptr);
+
+    psg::allocator_traits<ALI>::construct(a, i, value_to_construt);
+    REQUIRE(element_constructed);
+    REQUIRE(*i == value_to_construt);
+
+    psg::allocator_traits<ALI>::destroy(a, i);
+    REQUIRE(element_destroyed);
+    psg::allocator_traits<ALI>::deallocate(a, i, allocated_size);
 }

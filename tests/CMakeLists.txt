@@ -6,6 +6,7 @@ include_directories("../include")
 
 add_executable(test
     "array.cpp"
+    "allocator.cpp"
     "test.cpp")
 
 set_target_properties(test
