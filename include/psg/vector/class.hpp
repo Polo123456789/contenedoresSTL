@@ -136,11 +136,6 @@ class vector
     constexpr void     clear() noexcept;
 
    private:
-    static constexpr size_type allocated_space_on_creation = 0;
-    // El valor por el que sera multiplicado el espacio que tengas asignado cada
-    // vez que que llenes el contenedor.
-    static constexpr size_type allocated_space_multiplier = 2;
-
     pointer        object = nullptr;
     size_type      allocated_space = 0;
     size_type      last_valid_element = 0;
