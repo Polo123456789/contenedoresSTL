@@ -10,11 +10,12 @@ cd bin_msv
 cmake .. -G "NMake Makefiles"
 cd ..
 
-rmdir bin_gcc /s /q
-mkdir bin_gcc
-cd bin_gcc
-cmake .. -G "Unix Makefiles"
-cd ..
+REM Ver compile_all.bat
+REM rmdir bin_gcc /s /q
+REM mkdir bin_gcc
+REM cd bin_gcc
+REM cmake .. -G "Unix Makefiles"
+REM cd ..
 
 rmdir bin_clang /s /q
 mkdir bin_clang
