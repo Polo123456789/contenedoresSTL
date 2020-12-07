@@ -22,8 +22,18 @@ struct enable_if<true, T> {
     using type = T;
 };
 
-template<bool, class T, class F>
+template<bool B, class T, class F>
 struct conditional;
+
+template<typename T, typename F>
+struct conditional<true, T, F> {
+    using type = T;
+};
+
+template<typename T, typename F>
+struct conditional<false, T, F> {
+    using type = F;
+};
 
 template<class... T>
 struct common_type;

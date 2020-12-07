@@ -7,6 +7,9 @@
 #include <psg/type_traits/primary_types.hpp>
 #include <psg/type_traits/transformations.hpp>
 
+// Copy paste grande desde cppreference, los ire incluyendo conforme me hagan
+// falta.
+
 namespace psg {
 
 // composite type categories:
