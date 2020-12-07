@@ -3,6 +3,20 @@
 
 #include <psg/iterator/reverse_iterator.hpp>
 
+namespace psg {
+    
+/// Especialisazion para poder usar los reverse_iterator con punteros
+template<typename T>
+struct iterator_traits<T*> {
+    using difference_type = ptrdiff_t;
+    using value_type = T;
+    using pointer = T*;
+    using reference = T&;
+    using iterator_category = random_acces_iterator_tag;
+};
+
+};  // namespace psg
+
 namespace psg::imp {
 
 /// Dado un contenedor, que mantiene sus objetos en memoria contigua, esta clase
