@@ -27,6 +27,7 @@ namespace psg::imp {
 template<typename Container, typename ValueType, typename SizeType>
 struct random_access_iterator_functions {
     // TODO(pablo): Simplificar los LRAI
+    // Necesitamos el psg::reverse_iterator
     using value_type = ValueType;
     using reference = value_type &;
     using const_reference = const value_type &;
