@@ -95,7 +95,7 @@ class reverse_random_access_iterator {
     }
 
     bool operator<=(const reverse_random_access_iterator &rhs) const noexcept {
-        normal_iterator > rhs.normal_iterator;
+        return normal_iterator > rhs.normal_iterator;
     }
 
     bool operator>=(const reverse_random_access_iterator &rhs) const noexcept {

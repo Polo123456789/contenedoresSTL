@@ -24,7 +24,7 @@ using reverse_iterator =
         imp::reverce_bidirecitional_iterator<Iter>,
         imp::reverse_random_access_iterator<Iter>
     >;
-// clang-format on
+    // clang-format on
 
 }; // namespace psg
 
