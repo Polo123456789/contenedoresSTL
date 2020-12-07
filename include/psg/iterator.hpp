@@ -6,6 +6,7 @@
 #include <psg/iterator/iterator_tags.hpp>
 #include <psg/iterator/iterator_helper.hpp>
 #include <psg/iterator/iterator_traits.hpp>
+#include <psg/iterator/reverse_iterator.hpp>
 
 namespace psg {
 
