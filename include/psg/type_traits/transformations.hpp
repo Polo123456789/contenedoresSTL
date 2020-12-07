@@ -1,6 +1,8 @@
 #ifndef PSG_TYPE_TRAITS_TRANSFORMATIONS_HPP
 #define PSG_TYPE_TRAITS_TRANSFORMATIONS_HPP
 
+#include <cstddef>
+
 namespace psg {
 
 // template<size_t Len, size_t Align = /*default-alignment*/>
