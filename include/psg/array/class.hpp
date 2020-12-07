@@ -16,14 +16,8 @@ template<typename T, const size_t arr_size>
 // NOLINTNEXTLINE No necesita los que son por movimiento
 class array
     : public imp::random_access_functions<array<T, arr_size>, T, size_t>,
-      public imp::random_access_iterator_functions<
-          array<T, arr_size>,
-          T,
-          size_t,
-          iterators::LegacyRandomAccesIterator<T>,
-          iterators::constant::LegacyRandomAccesIterator<T>,
-          iterators::LegacyRandomAccesIterator<T, psg::minus<T>>,
-          iterators::constant::LegacyRandomAccesIterator<T, psg::minus<T>>> {
+      public imp::
+          random_access_iterator_functions<array<T, arr_size>, T, size_t> {
 
    public:
     using value_type = T;
