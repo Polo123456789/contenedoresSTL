@@ -14,16 +14,12 @@ void swap(array<T, arr_size> &a, array<T, arr_size> &b) noexcept {
 
 template<typename T, const size_t arr_size>
 bool operator==(const array<T, arr_size>& a, const array<T, arr_size>& b) {
-    if (a.size() != b.size()) {
-        return false;
-    }
-
     auto first_a = a.begin();
     auto last_a = a.end();
     auto first_b = b.begin();
 
-    while (first_a != last_a) {
-        if (*(first_a++) != *(first_b++)) {
+    for (; first_a != last_a; ++first_a, ++first_b) {
+        if (*first_a != *first_b) {
             return false;
         }
     }
