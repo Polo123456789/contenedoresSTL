@@ -1,6 +1,8 @@
 #ifndef PSG_COMMON_RANDOM_ACCESS_ITERATOR_FUNCTIONS_HPP
 #define PSG_COMMON_RANDOM_ACCESS_ITERATOR_FUNCTIONS_HPP
 
+#include <psg/iterator/reverse_iterator.hpp>
+
 namespace psg::imp {
 
 /// Dado un contenedor, que mantiene sus objetos en memoria contigua, esta clase
@@ -65,16 +67,111 @@ struct random_access_iterator_functions {
     inline pointer underlying_data() {
         return this->underlying().data();
     }
-    inline const_pointer underlying_const_data() const {
+    inline const_pointer underlying_data() const {
         return this->underlying().data();
     }
     random_access_iterator_functions() = default;
     friend Container;
 };
 
-};  // namespace psg::imp
+template<typename Container, typename ValueType, typename SizeType>
+ValueType *
+    random_access_iterator_functions<Container, ValueType, SizeType>::begin(
+        void) noexcept {
 
-namespace psg::imp::unused {
+    return this->underlying_data();
+}
+
+template<typename Container, typename ValueType, typename SizeType>
+ValueType *
+    random_access_iterator_functions<Container, ValueType, SizeType>::end(
+        void) noexcept {
+    return this->underlying_data() + this->underlying_size();
+}
+
+template<typename Container, typename ValueType, typename SizeType>
+const ValueType *
+    random_access_iterator_functions<Container, ValueType, SizeType>::begin(
+        void) const noexcept {
+
+    return this->underlying_data();
+}
+
+template<typename Container, typename ValueType, typename SizeType>
+const ValueType *
+    random_access_iterator_functions<Container, ValueType, SizeType>::end(
+        void) const noexcept {
+
+    return this->underlying_data() + this->underlying_size();
+}
+
+template<typename Container, typename ValueType, typename SizeType>
+const ValueType *
+    random_access_iterator_functions<Container, ValueType, SizeType>::cbegin(
+        void) const noexcept {
+
+    return this->underlying_data();
+}
+
+template<typename Container, typename ValueType, typename SizeType>
+const ValueType *
+    random_access_iterator_functions<Container, ValueType, SizeType>::cend(
+        void) const noexcept {
+
+    return this->underlying_data() + this->underlying_size();
+}
+
+template<typename Container, typename ValueType, typename SizeType>
+reverse_iterator<ValueType *>
+    random_access_iterator_functions<Container, ValueType, SizeType>::rbegin(
+        void) noexcept {
+
+    return this->underlying_data() + this->underlying_size() - 1;
+}
+
+template<typename Container, typename ValueType, typename SizeType>
+reverse_iterator<ValueType *>
+    random_access_iterator_functions<Container, ValueType, SizeType>::rend(
+        void) noexcept {
+
+    return this->underlying_data() - 1;
+}
+
+template<typename Container, typename ValueType, typename SizeType>
+reverse_iterator<const ValueType *>
+    random_access_iterator_functions<Container, ValueType, SizeType>::rbegin(
+        void) const noexcept {
+
+    return this->underlying_data() + this->underlying_size() - 1;
+}
+
+template<typename Container, typename ValueType, typename SizeType>
+reverse_iterator<const ValueType *>
+    random_access_iterator_functions<Container, ValueType, SizeType>::rend(
+        void) const noexcept {
+
+    return this->underlying_data() - 1;
+}
+
+template<typename Container, typename ValueType, typename SizeType>
+reverse_iterator<const ValueType *>
+    random_access_iterator_functions<Container, ValueType, SizeType>::crbegin(
+        void) const noexcept {
+
+    return this->underlying_data() + this->underlying_size() - 1;
+}
+
+template<typename Container, typename ValueType, typename SizeType>
+reverse_iterator<const ValueType *>
+    random_access_iterator_functions<Container, ValueType, SizeType>::crend(
+        void) const noexcept {
+
+    return this->underlying_data() - 1;
+}
+
+}; // namespace psg::imp
+
+namespace psg::imp::deprecated {
 
 /// Dado un contenedor, que mantiene sus objetos en memoria contigua, esta clase
 /// da las funciones miembro para obtener el accesso random de los elementos.
@@ -412,6 +509,6 @@ ConstReverseIterator
     return ConstReverseIterator(last_element, this->underlying_size());
 }
 
-}; // namespace psg::imp::unused
+} // namespace psg::imp::deprecated
 
 #endif
