@@ -3,38 +3,11 @@
 
 #include <psg/type_traits/integral_constant.hpp>
 #include <psg/type_traits/reference_modifications.hpp>
+#include <psg/type_traits/const_volatile.hpp>
+#include <psg/type_traits/primary_types.hpp>
+#include <psg/type_traits/transformations.hpp>
 
 namespace psg {
-
-// primary type categories:
-template<class T>
-struct is_void;
-template<class T>
-struct is_null_pointer;
-template<class T>
-struct is_integral;
-template<class T>
-struct is_floating_point;
-template<class T>
-struct is_array;
-template<class T>
-struct is_pointer;
-template<class T>
-struct is_lvalue_reference;
-template<class T>
-struct is_rvalue_reference;
-template<class T>
-struct is_member_object_pointer;
-template<class T>
-struct is_member_function_pointer;
-template<class T>
-struct is_enum;
-template<class T>
-struct is_union;
-template<class T>
-struct is_class;
-template<class T>
-struct is_function;
 
 // composite type categories:
 template<class T>
@@ -177,32 +150,6 @@ struct is_nothrow_invocable;
 template<class R, class Fn, class... ArgTypes>
 struct is_nothrow_invocable_r;
 
-// const-volatile modifications:
-template<class T>
-struct remove_const;
-template<class T>
-struct remove_volatile;
-template<class T>
-struct remove_cv;
-template<class T>
-struct add_const;
-template<class T>
-struct add_volatile;
-template<class T>
-struct add_cv;
-template<class T>
-using remove_const_t = typename remove_const<T>::type;
-template<class T>
-using remove_volatile_t = typename remove_volatile<T>::type;
-template<class T>
-using remove_cv_t = typename remove_cv<T>::type;
-template<class T>
-using add_const_t = typename add_const<T>::type;
-template<class T>
-using add_volatile_t = typename add_volatile<T>::type;
-template<class T>
-using add_cv_t = typename add_cv<T>::type;
-
 // sign modifications:
 template<class T>
 struct make_signed;
@@ -233,29 +180,6 @@ using remove_pointer_t = typename remove_pointer<T>::type;
 template<class T>
 using add_pointer_t = typename add_pointer<T>::type;
 
-// other transformations:
-// template<size_t Len, size_t Align = /*default-alignment*/>
-// struct aligned_storage;
-template<size_t Len, class... Types>
-struct aligned_union;
-template<class T>
-struct decay;
-template<class T>
-struct remove_cvref;
-template<bool, class T = void>
-struct enable_if;
-template<bool, class T, class F>
-struct conditional;
-template<class... T>
-struct common_type;
-template<class T>
-struct underlying_type;
-template<class>
-class result_of; // not defined
-template<class F, class... ArgTypes>
-class result_of<F(ArgTypes...)>;
-template<class F, class... ArgTypes>
-class invoke_result;
 // template<size_t Len, size_t Align = /*default-alignment*/>
 // using aligned_storage_t = typename aligned_storage<Len, Align>::type;
 template<size_t Len, class... Types>
