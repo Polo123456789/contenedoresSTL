@@ -24,6 +24,78 @@ namespace psg::imp {
 /// * [[nodiscard]] size_type size(void) const noexcept;
 /// * pointer data() noexcept;
 /// * const_pointer data() const noexcept;
+template<typename Container, typename ValueType, typename SizeType>
+struct random_access_iterator_functions {
+    // TODO(pablo): Simplificar los LRAI
+    using value_type = ValueType;
+    using reference = value_type &;
+    using const_reference = const value_type &;
+    using pointer = value_type *;
+    using const_pointer = const value_type *;
+    using size_type = SizeType;
+    using iterator = pointer;
+    using const_iterator = const_pointer;
+    using reverse_iterator = psg::reverse_iterator<iterator>;
+    using const_reverse_iterator = psg::reverse_iterator<const_iterator>;
+
+    iterator               begin(void) noexcept;
+    iterator               end(void) noexcept;
+    const_iterator         begin(void) const noexcept;
+    const_iterator         end(void) const noexcept;
+    const_iterator         cbegin(void) const noexcept;
+    const_iterator         cend(void) const noexcept;
+    reverse_iterator       rbegin(void) noexcept;
+    reverse_iterator       rend(void) noexcept;
+    const_reverse_iterator rbegin(void) const noexcept;
+    const_reverse_iterator rend(void) const noexcept;
+    const_reverse_iterator crbegin(void) const noexcept;
+    const_reverse_iterator crend(void) const noexcept;
+
+   private:
+    inline Container &underlying(void) {
+        return static_cast<Container &>(*this);
+    }
+    inline const Container &underlying(void) const {
+        return static_cast<const Container &>(*this);
+    }
+    inline size_type underlying_size() const {
+        return this->underlying().size();
+    }
+    inline pointer underlying_data() {
+        return this->underlying().data();
+    }
+    inline const_pointer underlying_const_data() const {
+        return this->underlying().data();
+    }
+    random_access_iterator_functions() = default;
+    friend Container;
+};
+
+};  // namespace psg::imp
+
+namespace psg::imp::unused {
+
+/// Dado un contenedor, que mantiene sus objetos en memoria contigua, esta clase
+/// da las funciones miembro para obtener el accesso random de los elementos.
+///
+/// Da las funciones:
+///
+/// * iterator begin(void) noexcept;
+/// * iterator end(void) noexcept;
+/// * const_iterator begin(void) const noexcept;
+/// * const_iterator end(void) const noexcept;
+/// * const_iterator cbegin(void) const noexcept;
+/// * const_iterator cend(void) const noexcept;
+/// * reverse_iterator rbegin(void) noexcept;
+/// * reverse_iterator rend(void) noexcept;
+/// * const_reverse_iterator crbegin(void) const noexcept;
+/// * const_reverse_iterator crend(void) const noexcept;
+///
+/// Requiere que la clase que lo herede, tenga las siguientes funciones miebro:
+///
+/// * [[nodiscard]] size_type size(void) const noexcept;
+/// * pointer data() noexcept;
+/// * const_pointer data() const noexcept;
 template<typename Container,
          typename ValueType,
          typename SizeType,
@@ -339,6 +411,6 @@ ConstReverseIterator
     return ConstReverseIterator(last_element, this->underlying_size());
 }
 
-}; // namespace psg::imp
+}; // namespace psg::imp::unused
 
 #endif
