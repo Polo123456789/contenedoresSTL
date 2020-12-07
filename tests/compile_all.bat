@@ -6,11 +6,12 @@ nmake
 cd ..
 
 REM gcc no tiene ganas de colaborar, tendre que probar en otra maquina
-REM echo Construyendo para gcc
-REM cd bin_gcc
-REM make
-REM test.exe
-REM cd ..
+REM Pero aun asi lo quiero compilar, aunque no lo corra
+echo Construyendo para gcc
+cd bin_gcc
+make
+test.exe
+cd ..
 
 echo Construyendo para clang
 cd bin_clang
