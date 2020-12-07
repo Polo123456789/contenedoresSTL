@@ -15,7 +15,7 @@ class reverce_bidirecitional_iterator {
     using pointer = typename iterator_traits<Iter>::pointer;
     using difference_type = typename iterator_traits<Iter>::difference_type;
 
-    explicit reverce_bidirecitional_iterator(Iter normal_iterator)
+    reverce_bidirecitional_iterator(Iter normal_iterator) //NOLINT [[implicit]]
         : normal_iterator(normal_iterator) {}
 
     reverce_bidirecitional_iterator &operator--(void) noexcept {

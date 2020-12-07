@@ -17,7 +17,7 @@ class reverse_random_access_iterator {
     using pointer = typename iterator_traits<Iter>::pointer;
     using difference_type = typename iterator_traits<Iter>::difference_type;
 
-    explicit reverse_random_access_iterator(Iter normal_iterator)
+    reverse_random_access_iterator(Iter normal_iterator) //NOLINT [[implicit]]
         : normal_iterator(normal_iterator) {}
 
     reverse_random_access_iterator &operator--(void) noexcept {
