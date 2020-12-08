@@ -6,7 +6,6 @@
 #include <psg/utility.hpp>
 #include <psg/algorithm.hpp>
 #include <psg/exception.hpp>
-#include <psg/common/legacy_random_acces_iterator.hpp>
 #include <psg/common/random_access_iterator_functions.hpp>
 #include <psg/common/random_access_functions.hpp>
 
@@ -27,6 +26,10 @@ class array
     using const_reference = const T &;
     using size_type = size_t;
     using difference_type = ptrdiff_t;
+    using iterator = pointer;
+    using const_iterator = const_pointer;
+    using reverse_iterator = psg::reverse_iterator<iterator>;
+    using const_reverse_iterator = psg::reverse_iterator<const_iterator>;
 
     array(void) = default;
     array(const array<T, arr_size> &rhs);
