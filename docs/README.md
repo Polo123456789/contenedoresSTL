@@ -7,6 +7,7 @@ Nota
 * La carpeta `common` es para las funcionalidades comunes entre varios
   contenedores. Por ejemplo, el `array` y el `vector` tienen en común algunas
   funciones de acceso aleatorio.
+* Los `iterator_templates` estan solo de ejemplo, no se usan en nada
 
 La documentación puede generarla usando doxygen. Para usarla copie la carpteta
 include, añadala a el path de include en su compilador.
