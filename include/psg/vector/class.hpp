@@ -2,9 +2,10 @@
 #define PSG_VECTOR_CLASS_HPP
 
 #include <psg/memory.hpp>
-#include <psg/common/legacy_random_acces_iterator.hpp>
 #include <psg/common/random_access_functions.hpp>
 #include <psg/common/random_access_iterator_functions.hpp>
+
+#include <pgsl/gsl.hpp>
 
 namespace psg {
 
@@ -30,11 +31,7 @@ class vector
       public imp::random_access_iterator_functions<
           vector<T, Allocator>,
           T,
-          size_t,
-          iterators::LegacyRandomAccesIterator<T>,
-          iterators::constant::LegacyRandomAccesIterator<T>,
-          iterators::LegacyRandomAccesIterator<T, psg::minus<T>>,
-          iterators::constant::LegacyRandomAccesIterator<T, psg::minus<T>>> {
+          size_t> {
    public:
     using value_type = T;
     using allocator_type = Allocator;
@@ -44,12 +41,10 @@ class vector
     using const_reference = const value_type &;
     using size_type = size_t;
     using difference_type = ptrdiff_t;
-    using iterator = iterators::LegacyRandomAccesIterator<T>;
-    using const_iterator = iterators::constant::LegacyRandomAccesIterator<T>;
-    using reverse_iterator =
-        iterators::LegacyRandomAccesIterator<T, psg::minus<T>>;
-    using const_reverse_iterator =
-        iterators::constant::LegacyRandomAccesIterator<T, psg::minus<T>>;
+    using iterator = pointer;
+    using const_iterator = const_pointer;
+    using reverse_iterator = psg::reverse_iterator<iterator>;
+    using const_reverse_iterator = psg::reverse_iterator<const_iterator>;
 
     /// Llama al vector(const Allocator & alloc)
     vector() noexcept : vector(Allocator()) {}
@@ -136,10 +131,10 @@ class vector
     constexpr void     clear() noexcept;
 
    private:
-    pointer        object = nullptr;
-    size_type      allocated_space = 0;
-    size_type      last_valid_element = 0;
-    allocator_type alloc{};
+    pgsl::owner<pointer> object = nullptr;
+    size_type            allocated_space = 0;
+    size_type            last_valid_element = 0;
+    allocator_type       alloc{};
 };
 
 }; // namespace psg
