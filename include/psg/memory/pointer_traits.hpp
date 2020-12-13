@@ -25,9 +25,7 @@ struct pointer_traits {
 };
 
 template<typename Ptr>
-typename pointer_traits<Ptr>::pointer
-    pointer_traits<Ptr>::pointer_to(element_type &e) {
-
+auto pointer_traits<Ptr>::pointer_to(element_type &e) -> pointer {
     return Ptr::pointer_to(e);
 }
 
