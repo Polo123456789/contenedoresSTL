@@ -47,7 +47,7 @@ class allocator {
     /// Asigna sizeof(T)*size bytes de memoria
     [[nodiscard]] pointer allocate(size_type size);
     /// Regresa la memoria
-    void deallocate(T *ptr, size_type size [[maybe_unused]]);
+    void deallocate(T *ptr, size_type size [[maybe_unused]]) noexcept;
 
     // Puede que quieras declarar la siguiente funcion. Si
     // propagate_on_container_copy_assingment es verdadero y necesitas una forma
