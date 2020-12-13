@@ -61,7 +61,7 @@ T *construct_at(T *p, Args &&...args) {
 ///
 /// Este seria el complemento del el construct_at
 template<typename T>
-void destroy_at(T *p) {
+void destroy_at(T *p) noexcept {
     p->~T();
 }
 

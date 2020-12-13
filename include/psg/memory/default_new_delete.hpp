@@ -11,7 +11,8 @@ namespace psg {
 /// Borra unicamente objetos creados con el default_new.
 template<typename T>
 class default_delete {
-    void operator()(T *p) {
+
+    void operator()(T *p) noexcept {
         psg::allocator<T> a{};
         destroy_at(p);
         // It is unused because psg::allocator uses free, so the size of the
