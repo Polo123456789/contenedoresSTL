@@ -23,14 +23,13 @@
 
 namespace psg {
 
-template <typename MessageType = const char*>
 class exception {
-    MessageType message = "psg::exception";
+    const char* message = "psg::exception";
 
    public:
     exception() = default;
-    explicit exception(MessageType message) : message(message) {}
-    [[nodiscard]] virtual MessageType what(void) const noexcept {
+    explicit exception(const char* message) : message(message) {}
+    [[nodiscard]] virtual const char* what(void) const noexcept {
         return message;
     }
 };
