@@ -10,6 +10,8 @@
 
 #include <psg/memory/allocator_traits.hpp>
 
+#include <pgsl/gsl.hpp>
+
 namespace psg {
 
 /// Este es el encargado de asignar y limpiar memoria
@@ -86,7 +88,7 @@ template<typename T>
             "memoria, ha solicitado mas de la que puede manejar.");
     }
 
-    T *ptr = nullptr;
+    pgsl::owner<T*> ptr = nullptr;
     ptr = static_cast<T *>(malloc(sizeof(T) * size)); // NOLINT
     if (ptr == nullptr) {
         throw exception("psg::allocator::exception Bad alloc: No se pudo "
