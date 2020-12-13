@@ -87,24 +87,22 @@ struct random_access_iterator_functions {
 };
 
 template<typename Container, typename ValueType, typename SizeType>
-ValueType *
-    random_access_iterator_functions<Container, ValueType, SizeType>::begin(
-        void) noexcept {
+auto random_access_iterator_functions<Container, ValueType, SizeType>::begin(
+    void) noexcept -> iterator {
 
     return this->underlying_data();
 }
 
 template<typename Container, typename ValueType, typename SizeType>
-ValueType *
-    random_access_iterator_functions<Container, ValueType, SizeType>::end(
-        void) noexcept {
+auto random_access_iterator_functions<Container, ValueType, SizeType>::end(
+    void) noexcept -> iterator {
+
     return this->underlying_data() + this->underlying_size();
 }
 
 template<typename Container, typename ValueType, typename SizeType>
-const ValueType *
-    random_access_iterator_functions<Container, ValueType, SizeType>::begin(
-        void) const noexcept {
+auto random_access_iterator_functions<Container, ValueType, SizeType>::begin(
+    void) const noexcept -> const_iterator {
 
     return this->underlying_data();
 }
