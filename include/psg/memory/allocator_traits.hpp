@@ -54,10 +54,10 @@ struct allocator_traits {
     using rebind_traits = allocator_traits<rebind_alloc<T>>;
 
     [[nodiscard]] static pointer allocate(Alloc &a, size_type n);
-    static void deallocate(allocator_type &a, pointer p, size_type n);
+    static void deallocate(allocator_type &a, pointer p, size_type n) noexcept;
     template<typename... Args>
     static void construct(allocator_type &a, pointer p, Args &&...args);
-    static void destroy(allocator_type &a, pointer p);
+    static void destroy(allocator_type &a, pointer p) noexcept;
     static constexpr size_type max_size(const Alloc &a) noexcept;
     static Alloc select_on_container_copy_construction(const Alloc &a);
 };
@@ -75,7 +75,7 @@ template<typename Alloc>
 template<typename Alloc>
 void allocator_traits<Alloc>::deallocate(allocator_type &a,
                                          pointer         p,
-                                         size_type       n) {
+                                         size_type       n) noexcept {
     a.deallocate(p, n);
 }
 
@@ -99,7 +99,7 @@ void allocator_traits<Alloc>::construct(allocator_type &a,
 ///
 /// Usa allocator::destroy si existe, y si no usa destroy_at.
 template<typename Alloc>
-void allocator_traits<Alloc>::destroy(allocator_type &a, pointer p) {
+void allocator_traits<Alloc>::destroy(allocator_type &a, pointer p) noexcept {
 
     if constexpr (imp::allocator_has_destroy_v<Alloc>) {
         a.destroy(p);

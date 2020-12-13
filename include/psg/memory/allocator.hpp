@@ -102,7 +102,8 @@ template<typename T>
 /// estandar. Ademas de que si vas a usar un allocator tuyo, puede que si lo
 /// utilizes, asi que vamos a mantenerlo.
 template<typename T>
-void allocator<T>::deallocate(pointer ptr, size_type size [[maybe_unused]]) {
+void allocator<T>::deallocate(pointer   ptr,
+                              size_type size [[maybe_unused]]) noexcept {
     free(ptr);
 }
 
