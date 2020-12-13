@@ -67,7 +67,8 @@ class allocator {
     // template<typename U>
     // [[deprecated]] void destroy(U *p);
    private:
-    static constexpr size_type max_alloc_size = size_type(-1) / sizeof(value_type);
+    static constexpr size_type max_alloc_size =
+        size_type(-1) / sizeof(value_type);
 };
 
 /// Asinga la memoria para un puntero tipo T.
