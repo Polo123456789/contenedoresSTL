@@ -4,18 +4,18 @@
 #include <psg/iterator/reverse_iterator.hpp>
 
 namespace psg {
-    
+
 /// Especialisazion para poder usar los reverse_iterator con punteros
 template<typename T>
-struct iterator_traits<T*> {
+struct iterator_traits<T *> {
     using difference_type = ptrdiff_t;
     using value_type = T;
-    using pointer = T*;
-    using reference = T&;
+    using pointer = T *;
+    using reference = T &;
     using iterator_category = random_acces_iterator_tag;
 };
 
-};  // namespace psg
+}; // namespace psg
 
 namespace psg::imp {
 
@@ -108,73 +108,64 @@ auto random_access_iterator_functions<Container, ValueType, SizeType>::begin(
 }
 
 template<typename Container, typename ValueType, typename SizeType>
-const ValueType *
-    random_access_iterator_functions<Container, ValueType, SizeType>::end(
-        void) const noexcept {
+auto random_access_iterator_functions<Container, ValueType, SizeType>::end(
+    void) const noexcept -> const_iterator {
 
     return this->underlying_data() + this->underlying_size();
 }
 
 template<typename Container, typename ValueType, typename SizeType>
-const ValueType *
-    random_access_iterator_functions<Container, ValueType, SizeType>::cbegin(
-        void) const noexcept {
+auto random_access_iterator_functions<Container, ValueType, SizeType>::cbegin(
+    void) const noexcept -> const_iterator {
 
     return this->underlying_data();
 }
 
 template<typename Container, typename ValueType, typename SizeType>
-const ValueType *
-    random_access_iterator_functions<Container, ValueType, SizeType>::cend(
-        void) const noexcept {
+auto random_access_iterator_functions<Container, ValueType, SizeType>::cend(
+    void) const noexcept -> const_iterator {
 
     return this->underlying_data() + this->underlying_size();
 }
 
 template<typename Container, typename ValueType, typename SizeType>
-reverse_iterator<ValueType *>
-    random_access_iterator_functions<Container, ValueType, SizeType>::rbegin(
-        void) noexcept {
+auto random_access_iterator_functions<Container, ValueType, SizeType>::rbegin(
+    void) noexcept -> reverse_iterator {
 
     return this->underlying_data() + this->underlying_size() - 1;
 }
 
 template<typename Container, typename ValueType, typename SizeType>
-reverse_iterator<ValueType *>
-    random_access_iterator_functions<Container, ValueType, SizeType>::rend(
-        void) noexcept {
+auto random_access_iterator_functions<Container, ValueType, SizeType>::rend(
+    void) noexcept -> reverse_iterator {
 
     return this->underlying_data() - 1;
 }
 
 template<typename Container, typename ValueType, typename SizeType>
-reverse_iterator<const ValueType *>
-    random_access_iterator_functions<Container, ValueType, SizeType>::rbegin(
-        void) const noexcept {
+auto random_access_iterator_functions<Container, ValueType, SizeType>::rbegin(
+    void) const noexcept -> const_reverse_iterator {
 
     return this->underlying_data() + this->underlying_size() - 1;
 }
 
 template<typename Container, typename ValueType, typename SizeType>
-reverse_iterator<const ValueType *>
-    random_access_iterator_functions<Container, ValueType, SizeType>::rend(
-        void) const noexcept {
+auto random_access_iterator_functions<Container, ValueType, SizeType>::rend(
+    void) const noexcept -> const_reverse_iterator {
 
     return this->underlying_data() - 1;
 }
 
 template<typename Container, typename ValueType, typename SizeType>
-reverse_iterator<const ValueType *>
-    random_access_iterator_functions<Container, ValueType, SizeType>::crbegin(
-        void) const noexcept {
+auto random_access_iterator_functions<Container, ValueType, SizeType>::crbegin(
+    void) const noexcept -> const_reverse_iterator {
 
     return this->underlying_data() + this->underlying_size() - 1;
 }
 
 template<typename Container, typename ValueType, typename SizeType>
-reverse_iterator<const ValueType *>
-    random_access_iterator_functions<Container, ValueType, SizeType>::crend(
-        void) const noexcept {
+auto random_access_iterator_functions<Container, ValueType, SizeType>::crend(
+    void) const noexcept -> const_reverse_iterator {
 
     return this->underlying_data() - 1;
 }
