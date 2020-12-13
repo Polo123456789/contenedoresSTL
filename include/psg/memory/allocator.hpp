@@ -42,6 +42,8 @@ class allocator {
     using difference_type = ptrdiff_t;
     using is_allways_equal = true_type;
 
+    constexpr allocator() = default;
+
     /// Asigna sizeof(T)*size bytes de memoria
     [[nodiscard]] pointer allocate(size_type size);
     /// Regresa la memoria
