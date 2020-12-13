@@ -10,7 +10,7 @@ namespace psg {
 ///
 /// Borra unicamente objetos creados con el default_new.
 template<typename T>
-class default_delete {
+struct default_delete {
 
     void operator()(T *p) noexcept {
         psg::allocator<T> a{};
@@ -24,7 +24,7 @@ class default_delete {
 
 /// El reemplazo de el new estandar.
 template<typename T>
-class default_new {
+struct default_new {
     template<typename... Args>
     T *operator()(size_t size, Args &&...args) {
         psg::allocator<T> a{};

@@ -5,6 +5,10 @@
 
 namespace psg {
 
+/// Clase para manejar recursos.
+///
+/// A diferencia de la de el estandar, este no se puede crear a base de un
+/// puntero nada mas, ya que no usare new. Solo con make_unique
 template<class T, class Deleter = default_delete<T>>
 class unique_ptr {
    public:
@@ -13,9 +17,6 @@ class unique_ptr {
     using deleter_type = Deleter;
 
     constexpr unique_ptr() noexcept;
-    explicit unique_ptr(pointer p) noexcept;
-    unique_ptr(pointer p, const deleter_type &d) noexcept;
-    unique_ptr(pointer p, deleter_type &&d) noexcept;
     unique_ptr(unique_ptr &&u) noexcept;
     constexpr unique_ptr(nullptr_t) noexcept; // NOLINT [[implicit]]
     template<class U, class E>
@@ -27,7 +28,7 @@ class unique_ptr {
     unique_ptr &operator=(unique_ptr<U, E> &&u) noexcept;
     unique_ptr &operator=(nullptr_t) noexcept;
 
-    add_lvalue_reference_t<T> operator*() const;
+    //add_lvalue_reference_t<T> operator*() const;
     pointer                   operator->() const noexcept;
     pointer                   get() const noexcept;
     deleter_type &            get_deleter() noexcept;
@@ -35,14 +36,17 @@ class unique_ptr {
     explicit                  operator bool() const noexcept;
 
     pointer release() noexcept;
-    void    reset(pointer p = pointer()) noexcept;
     void    swap(unique_ptr &u) noexcept;
+    // El reset no, porque no lo haremos con punteros puros. Que use el
+    // operator=(unique_ptr&&)
+    // void    reset(pointer p = pointer()) noexcept;
 
     unique_ptr(const unique_ptr &) = delete;
     unique_ptr &operator=(const unique_ptr &) = delete;
 
    private:
-    pgsl::owner<T *> object = nullptr;
+    pgsl::owner<pointer> object = nullptr;
+    deleter_type         deleter{};
 };
 
 } // namespace psg
