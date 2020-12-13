@@ -65,8 +65,7 @@ struct allocator_traits {
 /// Asigna memoria utilizando el allocator.
 template<typename Alloc>
 [[nodiscard]] auto allocator_traits<Alloc>::allocate(allocator_type &a,
-                                                     size_type       n) ->
-    typename allocator_traits<Alloc>::pointer {
+                                                     size_type n) -> pointer {
 
     pointer ptr = a.allocate(n);
     return ptr;
@@ -111,8 +110,8 @@ void allocator_traits<Alloc>::destroy(allocator_type &a, pointer p) {
 
 /// Regresa el tamaño maximo que puede asignar de un tiron.
 template<typename Alloc>
-constexpr auto allocator_traits<Alloc>::max_size(const Alloc &a) noexcept ->
-    typename allocator_traits<Alloc>::size_type {
+constexpr auto allocator_traits<Alloc>::max_size(const Alloc &a) noexcept
+    -> size_type {
 
     if constexpr (imp::allocator_has_max_size_v<Alloc>) {
         return a.max_size();
