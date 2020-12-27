@@ -28,6 +28,23 @@ T narrow(Input x) {
     return narrowed;
 }
 
+template<typename FinalAction>
+class final_action { // NOLINT No los necesita
+   public:
+    explicit final_action(FinalAction f) : action(f) {}
+    ~final_action() {
+        action();
+    }
+
+   private:
+    FinalAction action;
+};
+
+template<typename FinalAction>
+final_action<FinalAction> finally(FinalAction f) {
+    return final_action(f);
+}
+
 } // namespace pgsl
 
 #endif
