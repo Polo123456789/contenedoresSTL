@@ -6,12 +6,6 @@
 namespace psg {
 
 template<class T, class Deleter>
-constexpr unique_ptr<T, Deleter>::unique_ptr() noexcept = default;
-
-template<class T, class Deleter>
-constexpr unique_ptr<T, Deleter>::unique_ptr(nullptr_t) noexcept = default;
-
-template<class T, class Deleter>
 unique_ptr<T, Deleter>::unique_ptr(pointer p) noexcept : object(p) {}
 
 template<class T, class Deleter>

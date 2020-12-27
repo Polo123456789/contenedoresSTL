@@ -4,6 +4,7 @@
 #include <psg/memory/unique_ptr/single_class.hpp>
 
 namespace psg {
+
 template<class T, class Deleter>
 auto unique_ptr<T, Deleter>::operator*() const -> add_lvalue_reference_t<T> {
     return *object;

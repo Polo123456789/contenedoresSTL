@@ -17,8 +17,8 @@ class unique_ptr {
     using element_type = T;
     using deleter_type = Deleter;
 
-    constexpr unique_ptr() noexcept;
-    constexpr unique_ptr(nullptr_t) noexcept; // NOLINT [[implicit]]
+    constexpr unique_ptr() noexcept = default;
+    constexpr unique_ptr(nullptr_t) noexcept {} // NOLINT [[implicit]]
     explicit unique_ptr(pointer p) noexcept;
     unique_ptr(pointer p, Deleter d) noexcept;
     template<class U, class E>
