@@ -8,6 +8,7 @@ add_executable(test
     "array.cpp"
     "allocator.cpp"
     "narrow_cast.cpp"
+    "unique_ptr.cpp"
     "test.cpp")
 
 set_target_properties(test
