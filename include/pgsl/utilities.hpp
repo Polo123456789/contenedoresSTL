@@ -9,7 +9,7 @@ namespace pgsl {
 using index = size_t;
 
 template<typename T, typename Input>
-T narrow_cast(Input x) {
+constexpr T narrow_cast(Input x) {
     return static_cast<T>(x);
 }
 
