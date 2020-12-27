@@ -1,6 +1,7 @@
 #ifndef PSG_MEMORY_UNIQUE_PTR_SINGLE_CLASS_HPP
 #define PSG_MEMORY_UNIQUE_PTR_SINGLE_CLASS_HPP
 
+#include <psg/type_traits/reference_modifications.hpp>
 #include <psg/memory/default_delete.hpp>
 
 namespace psg {
@@ -32,7 +33,7 @@ class unique_ptr {
     unique_ptr &operator=(nullptr_t) noexcept;
     unique_ptr &operator=(const unique_ptr &) = delete;
 
-    //add_lvalue_reference_t<T> operator*() const;
+    add_lvalue_reference_t<T> operator*() const;
     pointer                   operator->() const noexcept;
     pointer                   get() const noexcept;
     deleter_type &            get_deleter() noexcept;
