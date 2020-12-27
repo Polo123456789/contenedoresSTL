@@ -6,7 +6,7 @@
 
 namespace pgsl {
 
-using index = ptrdiff_t;
+using index = size_t;
 
 template<typename T, typename Input>
 T narrow_cast(Input x) {
