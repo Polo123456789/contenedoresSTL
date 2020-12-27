@@ -9,6 +9,8 @@ add_executable(test
     "allocator.cpp"
     "narrow_cast.cpp"
     "unique_ptr.cpp"
+    "final_action.cpp"
+    "type_traits.cpp"
     "test.cpp")
 
 set_target_properties(test

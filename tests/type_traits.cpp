@@ -1,6 +1,6 @@
 #include <psg/type_traits.hpp>
 
-void type_traits_assertions_test() {
+void type_traits_assertions_test_() {
     //clang-format off
     static_assert(
         psg::is_same_v<int, int> &&

@@ -31,7 +31,7 @@ T narrow(Input x) {
 template<typename FinalAction>
 class final_action { // NOLINT No los necesita
    public:
-    explicit final_action(FinalAction f) : action(f) {}
+    constexpr explicit final_action(FinalAction f) : action(f) {}
     ~final_action() {
         action();
     }
@@ -41,7 +41,7 @@ class final_action { // NOLINT No los necesita
 };
 
 template<typename FinalAction>
-final_action<FinalAction> finally(FinalAction f) {
+constexpr final_action<FinalAction> finally(FinalAction f) {
     return final_action(f);
 }
 
