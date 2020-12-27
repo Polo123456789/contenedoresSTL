@@ -5,15 +5,16 @@
 
 namespace psg {
 
-template<class T, class D>
-class unique_ptr<T[], D> // NOLINT Tiene que ser de estilo C
+template<class T, class Deleter>
+class unique_ptr<T[], Deleter> // NOLINT Tiene que ser de estilo C
 {
    public:
     using pointer = T *;
     using element_type = T;
-    using deleter_type = D;
+    using deleter_type = Deleter;
 
     constexpr unique_ptr() noexcept;
+    unique_ptr(const unique_ptr &) = delete;
     template<class U>
     explicit unique_ptr(U p) noexcept;
     template<class U>
@@ -27,6 +28,7 @@ class unique_ptr<T[], D> // NOLINT Tiene que ser de estilo C
     ~unique_ptr();
 
     // assignment
+    unique_ptr &operator=(const unique_ptr &) = delete;
     unique_ptr &operator=(unique_ptr &&u) noexcept;
     template<class U, class E>
     unique_ptr &operator=(unique_ptr<U, E> &&u) noexcept;
@@ -46,12 +48,9 @@ class unique_ptr<T[], D> // NOLINT Tiene que ser de estilo C
     void reset(nullptr_t = nullptr) noexcept;
     void swap(unique_ptr &u) noexcept;
 
-    // disable copy from lvalue
-    unique_ptr(const unique_ptr &) = delete;
-    unique_ptr &operator=(const unique_ptr &) = delete;
-
    private:
-    pgsl::owner<T *> object;
+    pgsl::owner<T *> object = nullptr;
+    deleter_type     deleter{};
 };
 
 } // namespace psg

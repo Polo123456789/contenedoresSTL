@@ -11,14 +11,11 @@ namespace psg {
 template<class T, class Allocator>
 vector<T, Allocator>::vector(const Allocator &alloc) noexcept : alloc(alloc) {}
 
-// TODO(Pablo): Es necesario implementar el psg::unique_ptr para continuar, este
-// se encargara eliminar los memory leaks que podamos tener.
-//
-// NOTE: Todo lo que se lleva hecho del vector tendra que ser migrado para usar
-// el unique_ptr.
+// TODO(Pablo): Vamos a meter un non_constructing_unique_ptr para manejar la
+// memoria, y la construccion y destruccion si la manejamos aqui
 //
 // TODO(Pablo): Eliminar memcpy, parece buena, pero te vas a fregar la vtable.
-//https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rc-eq-base
+// https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#Rc-eq-base
 
 /// Asigna n espacios en memoria y los llena con el valor default.
 template<class T, class Allocator>

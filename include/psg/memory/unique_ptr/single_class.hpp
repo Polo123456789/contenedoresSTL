@@ -1,7 +1,7 @@
 #ifndef PSG_MEMORY_UNIQUE_PTR_SINGLE_CLASS_HPP
 #define PSG_MEMORY_UNIQUE_PTR_SINGLE_CLASS_HPP
 
-#include <psg/memory/default_new_delete.hpp>
+#include <psg/memory/default_delete.hpp>
 
 namespace psg {
 
@@ -17,16 +17,20 @@ class unique_ptr {
     using deleter_type = Deleter;
 
     constexpr unique_ptr() noexcept;
-    unique_ptr(unique_ptr &&u) noexcept;
     constexpr unique_ptr(nullptr_t) noexcept; // NOLINT [[implicit]]
+    explicit unique_ptr(pointer p) noexcept;
+    unique_ptr(pointer p, Deleter d) noexcept;
     template<class U, class E>
     unique_ptr(unique_ptr<U, E> &&u) noexcept; // NOLINT [[implicit]]
+    unique_ptr(const unique_ptr &) = delete;
+    unique_ptr(unique_ptr &&u) noexcept;
     ~unique_ptr() noexcept;
 
     unique_ptr &operator=(unique_ptr &&u) noexcept;
     template<class U, class E>
     unique_ptr &operator=(unique_ptr<U, E> &&u) noexcept;
     unique_ptr &operator=(nullptr_t) noexcept;
+    unique_ptr &operator=(const unique_ptr &) = delete;
 
     //add_lvalue_reference_t<T> operator*() const;
     pointer                   operator->() const noexcept;
@@ -41,8 +45,6 @@ class unique_ptr {
     // operator=(unique_ptr&&)
     // void    reset(pointer p = pointer()) noexcept;
 
-    unique_ptr(const unique_ptr &) = delete;
-    unique_ptr &operator=(const unique_ptr &) = delete;
 
    private:
     pgsl::owner<pointer> object = nullptr;
