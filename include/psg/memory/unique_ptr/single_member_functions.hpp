@@ -9,16 +9,24 @@ template<class T, class Deleter>
 constexpr unique_ptr<T, Deleter>::unique_ptr() noexcept = default;
 
 template<class T, class Deleter>
-constexpr unique_ptr<T, Deleter>::unique_ptr(nullptr_t) noexcept {}
+constexpr unique_ptr<T, Deleter>::unique_ptr(nullptr_t) noexcept = default;
 
 template<class T, class Deleter>
-unique_ptr<T, Deleter>::unique_ptr(unique_ptr &&u) noexcept {
-    this->swap(u);
-}
+unique_ptr<T, Deleter>::unique_ptr(pointer p) noexcept : object(p) {}
+
+template<class T, class Deleter>
+unique_ptr<T, Deleter>::unique_ptr(pointer p, Deleter d) noexcept
+    : object(p), deleter(d) {}
 
 template<class T, class Deleter>
 template<class U, class E>
 unique_ptr<T, Deleter>::unique_ptr(unique_ptr<U, E> &&u) noexcept {
+    object = u.release();
+    deleter = u.get_deleter();
+}
+
+template<class T, class Deleter>
+unique_ptr<T, Deleter>::unique_ptr(unique_ptr &&u) noexcept {
     this->swap(u);
 }
 
@@ -40,16 +48,18 @@ template<class U, class E>
 auto unique_ptr<T, Deleter>::operator=(unique_ptr<U, E> &&u) noexcept
     -> unique_ptr & {
 
-    this->swap(u);
+    reset(nullptr);
+    object = u.release();
+    deleter = u.get_deleter();
     return *this;
 }
 
 template<class T, class Deleter>
 auto unique_ptr<T, Deleter>::operator=(nullptr_t) noexcept -> unique_ptr & {
-    *this = unique_ptr(nullptr);
+    reset(nullptr);
     return *this;
 }
 
-} // namespace psg
+}; // namespace psg
 
 #endif

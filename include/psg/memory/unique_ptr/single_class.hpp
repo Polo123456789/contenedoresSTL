@@ -41,9 +41,7 @@ class unique_ptr {
 
     pointer release() noexcept;
     void    swap(unique_ptr &u) noexcept;
-    // El reset no, porque no lo haremos con punteros puros. Que use el
-    // operator=(unique_ptr&&)
-    // void    reset(pointer p = pointer()) noexcept;
+    void    reset(pointer p = pointer()) noexcept;
 
 
    private:
