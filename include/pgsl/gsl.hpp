@@ -3,5 +3,6 @@
 
 #include <pgsl/views.hpp>
 #include <pgsl/utilities.hpp>
+#include <pgsl/owners.hpp>
 
 #endif

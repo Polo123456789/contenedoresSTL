@@ -5,7 +5,7 @@
 #include <psg/common/random_access_functions.hpp>
 #include <psg/common/random_access_iterator_functions.hpp>
 
-#include <pgsl/gsl.hpp>
+#include <pgsl/views.hpp>
 
 namespace psg {
 

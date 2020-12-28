@@ -10,7 +10,7 @@
 
 #include <psg/memory/allocator_traits.hpp>
 
-#include <pgsl/gsl.hpp>
+#include <pgsl/views.hpp>
 
 namespace psg {
 

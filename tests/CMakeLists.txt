@@ -11,6 +11,7 @@ add_executable(test
     "unique_ptr.cpp"
     "final_action.cpp"
     "type_traits.cpp"
+    "pgsl_views.cpp"
     "test.cpp")
 
 set_target_properties(test
