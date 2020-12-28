@@ -1,7 +1,7 @@
 #ifndef PSG_MEMORY_DEFAULT_NEW_DELETE_HPP
 #define PSG_MEMORY_DEFAULT_NEW_DELETE_HPP
 
-#include <pgsl/gsl.hpp>
+#include <pgsl/views.hpp>
 #include <psg/memory/allocator.hpp>
 
 namespace psg {
@@ -14,7 +14,7 @@ struct default_delete {
     }
     template<typename U>
     void operator()(pgsl::owner<U *> p) noexcept {
-        delete p; // NOLINT
+        operator()(static_cast<T*>(p));
     }
     template<typename U>
     default_delete &operator=(const default_delete<U> & /*unused*/) {
@@ -29,7 +29,7 @@ struct default_delete<T[]> { // NOLINT
     }
     template<typename U>
     void operator()(pgsl::owner<U *> p) noexcept {
-        delete[] p; // NOLINT
+        operator()(static_cast<T*>(p));
     }
     template<typename U>
     default_delete &operator=(const default_delete<U[]> & /*unused*/) {//NOLINT
