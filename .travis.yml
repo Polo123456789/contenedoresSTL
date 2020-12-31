@@ -3,5 +3,5 @@ dist: bionic
 compiler: gcc
 
 script: 
-  - g++ tests\*.cpp -std=c++17 -o run_tests
+  - g++ tests/*.cpp -std=c++17 -o run_tests
   - ./run_tests
