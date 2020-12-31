@@ -1,6 +1,10 @@
 Nota
 ====
 
+[![Build Status](https://travis-ci.com/Polo123456789/contenedoresSTL.svg?branch=main)](https://travis-ci.com/Polo123456789/contenedoresSTL)
+
+---
+
 * El `namespace imp` esta reservado para los detalles de la complementación.
 * El `namespace extra` tiene unos overloads que considero que serán útiles, pero
   no son estándar.
