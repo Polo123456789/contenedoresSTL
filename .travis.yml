@@ -1,18 +1,7 @@
-dist: trusty
-sudo: false
 language: cpp
-matrix:
-    include:
-    - os: linux
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - g++-9
-      env:
-        - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
-script:
-    - cmake tests
-    - make
-    - ./run_tests
+dist: bionic
+compiler: gcc
+
+script: 
+  - g++ tests\*.cpp -std=c++17 -o run_tests
+  - ./run_tests
