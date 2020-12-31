@@ -14,5 +14,5 @@ matrix:
         - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
 script:
     - cmake tests
-    - make -j 2
+    - make
     - ./run_tests
