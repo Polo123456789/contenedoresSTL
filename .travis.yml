@@ -3,5 +3,5 @@ sudo: false
 language: cpp
 script:
     - cmake tests
-    - cmake --build . -- j2
-    - ./test
+    - cmake --build .
+    - ./run_tests
