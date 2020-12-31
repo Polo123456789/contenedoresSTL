@@ -1,0 +1,8 @@
+dist: trusty
+sudo: false
+language: cpp
+script:
+    - cd tests
+    - ./scripts/generate_bin.sh
+    - ./scripts/compile_all.sh
+    - ./scripts/run_all.sh
