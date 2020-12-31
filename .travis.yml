@@ -9,9 +9,9 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - g++-9
+            - clang-10
       env:
-        - MATRIX_EVAL="CC=gcc-9 && CXX=g++-9"
+        - MATRIX_EVAL="CC=clang-10 && CXX=clang-10"
 script:
     - cmake tests
     - cmake --build .
