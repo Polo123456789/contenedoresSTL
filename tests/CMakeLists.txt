@@ -4,7 +4,7 @@ project(Tests)
 
 include_directories("../include")
 
-add_executable(test
+add_executable(run_tests
     "array.cpp"
     "allocator.cpp"
     "narrow_cast.cpp"
