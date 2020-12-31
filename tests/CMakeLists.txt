@@ -14,7 +14,7 @@ add_executable(test
     "pgsl_views.cpp"
     "test.cpp")
 
-set_target_properties(test
+set_target_properties(run_tests
     PROPERTIES
     CXX_STANDARD 17
     CXX_EXTENSIONS off

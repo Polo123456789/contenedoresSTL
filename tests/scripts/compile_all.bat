@@ -10,7 +10,6 @@ REM Pero aun asi lo quiero compilar, aunque no lo corra
 echo Construyendo para gcc
 cd bin_gcc
 make
-test.exe
 cd ..
 
 echo Construyendo para clang
