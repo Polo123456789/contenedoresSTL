@@ -11,13 +11,6 @@ OutputIt copy(InputIt first, InputIt last, OutputIt o_begin) {
     for (; first != last; ++first, ++o_begin) {
         *o_begin = *first;
     }
-
-    if constexpr (false) {
-        while (first != last) {
-            *(o_begin++) = *(first++);
-        }
-        return o_begin;
-    }
 }
 
 /// Copia n valores.
@@ -36,13 +29,6 @@ UnaryFunc for_each(InputIt first, InputIt last, UnaryFunc f) {
         f(*first);
     }
     return f;
-
-    if constexpr (false) {
-        while (first != last) {
-            f(*(first++));
-        }
-        return f;
-    }
 }
 
 namespace extra {
@@ -57,13 +43,6 @@ BinaryFunc
         f(*first, *other);
     }
     return f;
-
-    if constexpr (false) {
-        while (first != last) {
-            f(*(first++), *(other++));
-        }
-        return f;
-    }
 }
 
 } // namespace extra
