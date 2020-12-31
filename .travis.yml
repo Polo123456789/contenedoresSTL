@@ -5,3 +5,5 @@ compiler: gcc
 script: 
   - g++ tests/*.cpp -std=c++17 -o run_tests -Iinclude
   - ./run_tests
+  - clang++ tests/*.cpp -std=c++17 -o run_tests -Iinclude
+  - ./run_tests
