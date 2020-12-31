@@ -3,8 +3,6 @@ Nota
 
 [![Build Status](https://travis-ci.com/Polo123456789/contenedoresSTL.svg?branch=main)](https://travis-ci.com/Polo123456789/contenedoresSTL)
 
----
-
 * El `namespace imp` esta reservado para los detalles de la complementación.
 * El `namespace extra` tiene unos overloads que considero que serán útiles, pero
   no son estándar.
@@ -16,7 +14,7 @@ Nota
 La documentación puede generarla usando doxygen. Para usarla copie la carpteta
 include, añadala a el path de include en su compilador.
 
-Probado con clang y visual studio. Cada cierto tiempo con gcc
+Probado con clang y visual studio en mi pc y con gcc en travis
 
 Commits
 -------
