@@ -1,8 +1,8 @@
 dist: trusty
-sudo: false
+sudo: true
 language: cpp
 script:
     - cd tests
-    - ./scripts/generate_bin.sh
-    - ./scripts/compile_all.sh
-    - ./scripts/run_all.sh
+    - sudo ./scripts/generate_bin.sh
+    - sudo ./scripts/compile_all.sh
+    - sudo ./scripts/run_all.sh
