@@ -28,10 +28,8 @@ namespace psg {
 template<class T, class Allocator = psg::allocator<T>>
 class vector
     : public imp::random_access_functions<vector<T, Allocator>, T, size_t>,
-      public imp::random_access_iterator_functions<
-          vector<T, Allocator>,
-          T,
-          size_t> {
+      public imp::
+          random_access_iterator_functions<vector<T, Allocator>, T, size_t> {
    public:
     using value_type = T;
     using allocator_type = Allocator;
@@ -131,10 +129,13 @@ class vector
     constexpr void     clear() noexcept;
 
    private:
-    pgsl::owner<pointer> object = nullptr;
-    size_type            allocated_space = 0;
-    size_type            last_valid_element = 0;
-    allocator_type       alloc{};
+    void free_resource(pointer p) noexcept;
+    using resource_handler = psg::unique_ptr<T, decltype(&free_resource)>;
+
+    resource_handler object = nullptr;
+    size_type        allocated_space = 0;
+    size_type        last_valid_element = 0;
+    allocator_type   alloc{};
 };
 
 }; // namespace psg
