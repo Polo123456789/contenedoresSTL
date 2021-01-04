@@ -48,29 +48,12 @@ void vector<T, Allocator>::resize(size_type sz) {
 
 template<class T, class Allocator>
 void vector<T, Allocator>::resize(size_type sz, const T &c) {
-    if (allocated_space < sz) {
-        static_cast<void>(c);
-    }
+
 }
 
 template<class T, class Allocator>
 void vector<T, Allocator>::reserve(size_type n) {
-    if (n > allocated_space) {
-        // Creamos el nuevo objeto, y copiamos los elemtos
-        pointer new_object = allocator_traits<Allocator>::allocate(alloc, n);
-        memcpy(new_object, object, sizeof(value_type)*last_valid_element); 
 
-        // Liberamos el viejo
-        allocator_traits<Allocator>::deallocate(alloc, object, allocated_space);
-
-        // Actualizamos los datos
-        allocated_space = n;
-        object = new_object;
-    } else if (n < allocated_space) {
-
-    } else {
-        return;
-    }
 }
 
 template<class T, class Allocator>
