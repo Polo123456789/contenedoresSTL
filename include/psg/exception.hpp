@@ -21,15 +21,17 @@
 #ifndef PSG_EXCEPTION_HPP
 #define PSG_EXCEPTION_HPP
 
+#include <exception>
+
 namespace psg {
 
-class exception {
-    const char* message = "psg::exception";
+class exception : public std::exception {
+    const char *message = "psg::exception";
 
    public:
     exception() = default;
-    explicit exception(const char* message) : message(message) {}
-    [[nodiscard]] virtual const char* what(void) const noexcept {
+    explicit exception(const char *message) : message(message) {}
+    [[nodiscard]] const char *what(void) const noexcept override {
         return message;
     }
 };
