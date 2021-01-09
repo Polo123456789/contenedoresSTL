@@ -16,7 +16,7 @@ TEST_CASE("pgsl::at", "[gsl] [gsl_views]") {
     REQUIRE(array == psg::addressof(pgsl::at(array, 0)));
 
     for (pgsl::index i = 0; i < size; i++) {
-        pgsl::at(array, i) = i;
+        pgsl::at(array, i) = pgsl::narrow_cast<int>(i);
     }
 
     for (pgsl::index i = 0; i < size; i++) {
