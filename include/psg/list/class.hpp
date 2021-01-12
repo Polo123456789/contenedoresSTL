@@ -5,6 +5,8 @@
 #include <psg/memory.hpp>
 #include <psg/iterator.hpp>
 
+#include <psg/list/node.hpp>
+
 namespace psg {
 
 namespace imp {
@@ -17,6 +19,7 @@ class const_list_iterator;
 
 } // namespace imp
 
+/// Double linked list
 template<class T, class Allocator = allocator<T>>
 class list {
    public:
@@ -47,8 +50,7 @@ class list {
     list(list &&, const Allocator &);
     ~list();
     list &operator=(const list &x);
-    list &operator=(list &&x) noexcept(
-        allocator_traits<Allocator>::is_always_equal::value);
+    list &operator=(list &&x) noexcept;
     template<class InputIt>
     void           assign(InputIt first, InputIt last);
     void           assign(size_type n, const T &t);
@@ -104,8 +106,7 @@ class list {
 
     iterator erase(const_iterator position);
     iterator erase(const_iterator position, const_iterator last);
-    void     swap(list &) noexcept(
-        allocator_traits<Allocator>::is_always_equal::value);
+    void     swap(list &) noexcept;
     void clear() noexcept;
 
     // list operations
