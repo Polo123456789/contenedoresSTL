@@ -107,7 +107,7 @@ class list {
     iterator erase(const_iterator position);
     iterator erase(const_iterator position, const_iterator last);
     void     swap(list &) noexcept;
-    void clear() noexcept;
+    void     clear() noexcept;
 
     // list operations
     void splice(const_iterator position, list &x);
@@ -145,6 +145,14 @@ class list {
     void sort(Compare comp);
 
     void reverse() noexcept;
+
+   private:
+    using node = imp::list_node<T, Allocator>;
+
+    static constexpr auto node_insert_before =
+        imp::list_node<T, Allocator>::insert_before;
+    static constexpr auto node_insert_after =
+        imp::list_node<T, Allocator>::insert_after;
 };
 } // namespace psg
 
