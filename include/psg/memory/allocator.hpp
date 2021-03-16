@@ -99,10 +99,10 @@ template<typename T>
 
 /// Librera la memoria previamente asignada por el psg::allocator::allocate
 //
-/// El parametro de size es en relalidad uno que no utilizo, porque de fondo
-/// solo uso malloc y free, pero lo mantengo para ser consistente con el
-/// estandar. Ademas de que si vas a usar un allocator tuyo, puede que si lo
-/// utilizes, asi que vamos a mantenerlo.
+/// **Detalle de implemetacion:** El parametro de size es en relalidad uno que
+/// no utilizo, porque de fondo solo uso malloc y free, pero lo mantengo para
+/// ser consistente con el estandar. Ademas de que permite al usuario usar sus
+/// propios allocators en caso de que asi lo desee
 template<typename T>
 void allocator<T>::deallocate(pointer   ptr,
                               size_type size [[maybe_unused]]) noexcept {
