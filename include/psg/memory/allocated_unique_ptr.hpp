@@ -5,26 +5,14 @@
 
 #include <pgsl/owners.hpp>
 
+
+
 #include <psg/type_traits/reference_modifications.hpp>
 #include <psg/memory/allocator_traits.hpp>
 
-namespace psg::imp {
+#include <psg/utility/functions.hpp>
 
-//
-// TODO(Pablo): Implementar
-//
-// 1. Se le pide al vector x espacios
-// 2. El constructor llama al create resource_handler indicando la cantidad de
-//    elementos
-// 3. Usando los allocator_traits y el allocator creado se asigna la memoria
-// 4. El allocated_unique_ptr recive:
-//      * El puntero a la memoria asignada
-//      * Una referencia al allocator utilizado
-//      * La cantidad de memoria asignada
-// 5. ...
-// 6. El vector destruye los objetos
-// 7. El allocated_unique_ptr libera la memoria asignada
-//
+namespace psg::imp {
 
 ///
 /// Objeto encargado de manejar manejar memoria dada por un allocator.
@@ -45,37 +33,98 @@ class allocated_unique_ptr {
     using size_type = typename traits::size_type;
     using allocator_type = Allocator;
 
+    /// No hace nada
     constexpr allocated_unique_ptr() noexcept = default;
-    constexpr allocated_unique_ptr(nullptr_t) noexcept {} // NOLINT [[implicit]]
-    allocated_unique_ptr(pointer p, Allocator &d) noexcept;
-    template<typename U>
-    explicit allocated_unique_ptr(
-        allocated_unique_ptr<U> &&u) noexcept; // NOLINT [[implicit]]
-    allocated_unique_ptr(const allocated_unique_ptr &) = delete;
-    allocated_unique_ptr(allocated_unique_ptr &&u) noexcept;
-    ~allocated_unique_ptr() noexcept;
 
-    allocated_unique_ptr &operator=(allocated_unique_ptr &&u) noexcept;
-    template<typename U>
-    allocated_unique_ptr &operator=(allocated_unique_ptr<U> &&u) noexcept;
-    allocated_unique_ptr &operator=(nullptr_t) noexcept;
+    /// No hace nada
+    // NOLINTNEXTLINE [[implicit]]
+    constexpr allocated_unique_ptr(nullptr_t) noexcept {}
+
+    allocated_unique_ptr(pointer                    p,
+                         Allocator &                a,
+                         typename traits::size_type size) noexcept
+        : object(p), alloc(a), size(size) {}
+
+    allocated_unique_ptr(const allocated_unique_ptr &) = delete;
+
+    /// Mueve el allocated_unique_ptr que se le da
+    allocated_unique_ptr(allocated_unique_ptr &&u) noexcept {
+        alloc = u.alloc;
+        object = u.release();
+        size = u.size;
+    }
+
+    ~allocated_unique_ptr() noexcept {
+        this->reset();
+    }
+
+    allocated_unique_ptr &operator=(allocated_unique_ptr &&u) noexcept {
+        this->swap(u);
+    }
+
+    allocated_unique_ptr &operator=(nullptr_t) noexcept {
+        this->reset();
+    }
+
     allocated_unique_ptr &operator=(const allocated_unique_ptr &) = delete;
 
-    add_lvalue_reference_t<Allocator> operator*() const;
-    pointer                           operator->() const noexcept;
-    pointer                           get() const noexcept;
-    allocator_type &                  get_allocator() noexcept;
-    const allocator_type &            get_allocator() const noexcept;
-    explicit                          operator bool() const noexcept;
+    /// Dereferenciar al puntero
+    add_lvalue_reference_t<element_type> operator*() const {
+        return *object;
+    }
 
-    pointer release() noexcept;
-    void    swap(allocated_unique_ptr &u) noexcept;
-    void    reset(pointer p = pointer()) noexcept;
+    pointer operator->() const noexcept {
+        return object;
+    }
+
+    pointer get() const noexcept {
+        return object;
+    }
+    
+    typename traits::size_type get_size() const noexcept {
+        return size;
+    }
+
+    allocator_type &get_allocator() noexcept {
+        return alloc;
+    }
+
+    const allocator_type &get_allocator() const noexcept {
+        return alloc;
+    }
+
+    explicit operator bool() const noexcept {
+        return object != nullptr;
+    }
+
+    /// Libera la responsabilidad que tiene sobre el objeto asignado
+    pointer release() noexcept {
+        pointer copy = object;
+        object = nullptr;
+        size = 0;
+        return copy;
+    }
+
+    /// Intercambia los 2 allocated_unique_ptr
+    void swap(allocated_unique_ptr &u) noexcept {
+        psg::swap(object, u.object);
+        psg::swap(size, u.size);
+        psg::swap(alloc, u.alloc);
+    }
+
+    /// Libera el objeto que se tenga, y toma la responsabilidad por el nuevo
+    /// objeto
+    void reset(pointer p = pointer()) noexcept {
+        if (object != nullptr) {
+            traits::deallocate(alloc, object, size);
+        }
+        object = p;
+    }
 
    private:
     pgsl::owner<pointer> object = nullptr;
-    allocator_type &     deleter{};
-
+    allocator_type &     alloc{};
+    typename traits::size_type size;
 };
 
 } // namespace psg::imp
