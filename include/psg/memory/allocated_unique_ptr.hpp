@@ -78,7 +78,7 @@ class allocated_unique_ptr {
     pointer get() const noexcept {
         return object;
     }
-    
+
     typename traits::size_type get_size() const noexcept {
         return size;
     }
@@ -120,8 +120,8 @@ class allocated_unique_ptr {
     }
 
    private:
-    pgsl::owner<pointer> object = nullptr;
-    allocator_type &     alloc;
+    pgsl::owner<pointer>       object = nullptr;
+    allocator_type &           alloc;
     typename traits::size_type size;
 };
 
