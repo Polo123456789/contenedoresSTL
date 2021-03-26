@@ -33,7 +33,7 @@ template<class T, class Allocator>
     return allocated_space;
 }
 
-// TODO(pablo): Implementar las siguientes funciones.
+// NEXT_TODO(pablo): Implementar las siguientes funciones.
 //
 // NOTE: shrink_to_fit dice que la solicitud se puede cumplir opcionalemte.
 // Toca investigar que tan practico es en realidad. O dar un criterio. Ej:

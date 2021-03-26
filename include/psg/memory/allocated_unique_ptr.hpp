@@ -5,8 +5,6 @@
 
 #include <pgsl/owners.hpp>
 
-
-
 #include <psg/type_traits/reference_modifications.hpp>
 #include <psg/memory/allocator_traits.hpp>
 
@@ -123,7 +121,7 @@ class allocated_unique_ptr {
 
    private:
     pgsl::owner<pointer> object = nullptr;
-    allocator_type &     alloc{};
+    allocator_type &     alloc;
     typename traits::size_type size;
 };
 
