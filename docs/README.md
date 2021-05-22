@@ -2,6 +2,8 @@ Nota
 ====
 
 [![Build Status](https://travis-ci.com/Polo123456789/contenedoresSTL.svg?branch=main)](https://travis-ci.com/Polo123456789/contenedoresSTL)
+[![Total alerts](https://img.shields.io/lgtm/alerts/g/Polo123456789/contenedoresSTL.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Polo123456789/contenedoresSTL/alerts/)
+[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/Polo123456789/contenedoresSTL.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Polo123456789/contenedoresSTL/context:cpp)
 
 * El `namespace imp` esta reservado para los detalles de la complementación.
 * El `namespace extra` tiene unos overloads que considero que serán útiles, pero
