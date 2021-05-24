@@ -8,6 +8,5 @@
 #include <psg/memory/allocator_traits.hpp>
 #include <psg/memory/allocator.hpp>
 #include <psg/memory/unique_ptr.hpp>
-#include <psg/memory/non_constructing_unique_ptr.hpp>
 
 #endif
