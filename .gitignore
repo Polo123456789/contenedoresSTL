@@ -5,6 +5,8 @@ msvc/*
 msvc
 .vs
 .vs/*
+vs
+vs/*
 tests/bin_gcc
 tests/bin_msv
 tests/bin_clang

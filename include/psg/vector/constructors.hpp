@@ -9,15 +9,17 @@ namespace psg {
 
 /// Simplemente asigna el allocator.
 template<class T, class Allocator>
-vector<T, Allocator>::vector(const Allocator &alloc) noexcept : alloc(alloc) {}
+vector<T, Allocator>::vector(const Allocator &allocator) noexcept
+    : alloc(allocator) {
 
-/// Asigna n espacios en memoria y los llena con el valor default.
+    object = resource_handler(nullptr, alloc);
+}
+
+/// Asigna n espacios en memoria y los llena con el valor default.}
 template<class T, class Allocator>
 vector<T, Allocator>::vector(size_type n, const Allocator &allocator)
-    : alloc(allocator), allocated_space(n) {
-
-    pointer data = traits::allocate(alloc, allocated_space);
-    object = resource_handler(data, alloc, allocated_space);
+    : alloc(allocator), allocated_space(n),
+      object(traits::allocate(alloc, allocated_space), alloc, allocated_space) {
 }
 
 /// Asina n espacios en memoria y copia el valor
@@ -25,14 +27,12 @@ template<class T, class Allocator>
 vector<T, Allocator>::vector(size_type        n,
                              const T &        value,
                              const Allocator &allocator)
-    : alloc(allocator), allocated_space(n) {
+    : alloc(allocator), allocated_space(n),
+      object(traits::allocate(alloc, allocated_space), alloc, allocated_space) {
 
     try {
 
-        pointer data = traits::allocate(alloc, allocated_space);
-        object = resource_handler(data, alloc, allocated_space);
-
-        for_each(data, data + n, [&](reference r) {
+        for_each(this->begin(), this->begin() + 10, [&](reference r) {
             traits::construct(alloc, addressof(r), value);
             ++last_valid_element;
         });

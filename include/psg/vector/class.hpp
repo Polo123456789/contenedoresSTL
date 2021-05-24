@@ -46,8 +46,7 @@ class vector
     using reverse_iterator = psg::reverse_iterator<iterator>;
     using const_reverse_iterator = psg::reverse_iterator<const_iterator>;
 
-    /// Llama al vector(const Allocator & alloc)
-    vector() noexcept : vector(Allocator()) {}
+    vector(void) noexcept : alloc(Allocator{}), object(nullptr, alloc){};
     explicit vector(const Allocator &alloc) noexcept;
     explicit vector(size_type n, const Allocator &alloc = Allocator());
     vector(size_type        n,
@@ -128,7 +127,7 @@ class vector
     constexpr iterator erase(const_iterator position);
     constexpr iterator erase(const_iterator first, const_iterator last);
     void               swap(vector &) noexcept;
-    constexpr void     clear() noexcept;
+    void               clear(void) noexcept;
 
    private:
     using resource_handler = imp::allocated_unique_ptr<Allocator>;
@@ -136,7 +135,7 @@ class vector
 
     allocator_type   alloc{};
     size_type        allocated_space = 0;
-    resource_handler object = nullptr;
+    resource_handler object; // No default value, needs an allocator
     size_type        last_valid_element = 0;
 };
 

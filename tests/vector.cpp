@@ -5,5 +5,6 @@
 using namespace psg;
 
 int main(void) {
-    vector<int> v;
+    constexpr vector<int>::size_type size = 10;
+    vector<int>                      v(size, 10);
 }

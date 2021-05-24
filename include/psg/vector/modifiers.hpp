@@ -9,6 +9,15 @@ namespace psg {
 
 template<class T, class Allocator>
 void vector<T, Allocator>::swap(vector<T, Allocator> &v) noexcept {
+
+}
+
+
+template<class T, class Allocator>
+void vector<T, Allocator>::clear(void) noexcept {
+    for_each(this->begin(), this->end(), [&](reference r) {
+            traits::destroy(alloc, addressof(r));
+    });
 }
 
 }; // namespace psg
