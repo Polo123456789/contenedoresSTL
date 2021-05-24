@@ -2,6 +2,7 @@
 #define PSG_VECTOR_CLASS_HPP
 
 #include <psg/memory.hpp>
+#include <psg/memory/allocated_unique_ptr.hpp>
 #include <psg/common/random_access_functions.hpp>
 #include <psg/common/random_access_iterator_functions.hpp>
 
@@ -130,8 +131,7 @@ class vector
     constexpr void     clear() noexcept;
 
    private:
-    void free_resource(pointer p) noexcept;
-    using resource_handler = psg::unique_ptr<T, decltype(&free_resource)>;
+    using resource_handler = imp::allocated_unique_ptr<Allocator>;
 
     resource_handler object = nullptr;
     size_type        allocated_space = 0;

@@ -5,11 +5,6 @@
 
 namespace psg {
 
-template<class T, class Allocator>
-void vector<T, Allocator>::free_resource(pointer p) noexcept {
-    allocator_traits<Allocator>::deallocate(alloc, p);
-}
-
 /// Destruye los objetos, y libera la memoria asinada.
 template<class T, class Allocator>
 vector<T, Allocator>::~vector() noexcept {

@@ -3,7 +3,7 @@
 
 #include <cstddef>
 
-#include <pgsl/owners.hpp>
+#include <pgsl/views.hpp>
 
 #include <psg/type_traits/reference_modifications.hpp>
 #include <psg/memory/allocator_traits.hpp>
