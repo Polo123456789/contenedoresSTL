@@ -11,20 +11,38 @@ namespace psg {
 template<class T, class Allocator>
 vector<T, Allocator>::vector(const Allocator &alloc) noexcept : alloc(alloc) {}
 
-// NOTE: NO USES MEMCPY. TE VAS A FREGAR LA VTABLE
-
 /// Asigna n espacios en memoria y los llena con el valor default.
 template<class T, class Allocator>
-vector<T, Allocator>::vector(size_type n, const Allocator &allocator) {
+vector<T, Allocator>::vector(size_type n, const Allocator &allocator)
+    : alloc(allocator), allocated_space(n) {
 
+    pointer data = traits::allocate(alloc, allocated_space);
+    object = resource_handler(data, alloc, allocated_space);
 }
 
 /// Asina n espacios en memoria y copia el valor
 template<class T, class Allocator>
 vector<T, Allocator>::vector(size_type        n,
                              const T &        value,
-                             const Allocator &allocator) {
+                             const Allocator &allocator)
+    : alloc(allocator), allocated_space(n) {
 
+    try {
+
+        pointer data = traits::allocate(alloc, allocated_space);
+        object = resource_handler(data, alloc, allocated_space);
+
+        for_each(data, data + n, [&](reference r) {
+            traits::construct(alloc, addressof(r), value);
+            ++last_valid_element;
+        });
+
+    } catch (...) {
+        // Destroy constructed objects and free the memory
+        this->clear();
+        object.reset();
+        throw;
+    }
 }
 
 /// Asingna distance(first, last) espacios de memoria, y copia los elemtos en el
@@ -33,9 +51,7 @@ template<class T, class Allocator>
 template<class InputIt>
 vector<T, Allocator>::vector(InputIt          first,
                              InputIt          last,
-                             const Allocator &allocator) {
-
-}
+                             const Allocator &allocator) {}
 
 /// Copia el other a este vector.
 template<class T, class Allocator>
@@ -46,22 +62,16 @@ vector<T, Allocator>::vector(const vector &other)
 
 /// Copia el other al vector, y copia el allocator
 template<class T, class Allocator>
-vector<T, Allocator>::vector(const vector &other, const Allocator &a) {
-
-}
+vector<T, Allocator>::vector(const vector &other, const Allocator &a) {}
 
 /// Mueve el other a este vector, garantizando que other estara vacio.
 template<class T, class Allocator>
-vector<T, Allocator>::vector(vector &&other) noexcept {
-
-}
+vector<T, Allocator>::vector(vector &&other) noexcept {}
 
 /// Mueve el other a este vector, y copia el allocator garantizando que other
 /// estara vacio.
 template<class T, class Allocator>
-vector<T, Allocator>::vector(vector &&other, const Allocator &a) {
-
-}
+vector<T, Allocator>::vector(vector &&other, const Allocator &a) {}
 
 }; // namespace psg
 

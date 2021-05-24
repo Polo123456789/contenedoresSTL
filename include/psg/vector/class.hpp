@@ -132,11 +132,12 @@ class vector
 
    private:
     using resource_handler = imp::allocated_unique_ptr<Allocator>;
+    using traits = allocator_traits<Allocator>;
 
-    resource_handler object = nullptr;
-    size_type        allocated_space = 0;
-    size_type        last_valid_element = 0;
     allocator_type   alloc{};
+    size_type        allocated_space = 0;
+    resource_handler object = nullptr;
+    size_type        last_valid_element = 0;
 };
 
 }; // namespace psg
