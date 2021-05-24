@@ -38,9 +38,7 @@ class allocated_unique_ptr {
     // NOLINTNEXTLINE [[implicit]]
     constexpr allocated_unique_ptr(nullptr_t) noexcept {}
 
-    allocated_unique_ptr(pointer                    p,
-                         Allocator &                a,
-                         typename traits::size_type size) noexcept
+    allocated_unique_ptr(pointer p, Allocator &a, size_type size) noexcept
         : object(p), alloc(a), size(size) {}
 
     allocated_unique_ptr(const allocated_unique_ptr &) = delete;
@@ -79,8 +77,12 @@ class allocated_unique_ptr {
         return object;
     }
 
-    typename traits::size_type get_size() const noexcept {
+    size_type get_size() const noexcept {
         return size;
+    }
+
+    void set_size(size_type s) noexcept {
+        size = s;
     }
 
     allocator_type &get_allocator() noexcept {
@@ -120,9 +122,9 @@ class allocated_unique_ptr {
     }
 
    private:
-    pgsl::owner<pointer>       object = nullptr;
-    allocator_type &           alloc;
-    typename traits::size_type size;
+    pgsl::owner<pointer> object = nullptr;
+    allocator_type &     alloc;
+    size_type            size;
 };
 
 } // namespace psg::imp
