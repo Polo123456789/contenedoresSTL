@@ -2,17 +2,15 @@
 
 echo Construyendo para visual studio
 cd bin_msv
-nmake
+cmake --build .
 cd ..
 
-REM gcc no tiene ganas de colaborar, tendre que probar en otra maquina
-REM Pero aun asi lo quiero compilar, aunque no lo corra
-echo Construyendo para gcc
-cd bin_gcc
-make
-cd ..
+REM echo Construyendo para gcc
+REM cd bin_gcc
+REM cmake --build .
+REM cd ..
 
 echo Construyendo para clang
 cd bin_clang
-make
+cmake --build .
 cd ..

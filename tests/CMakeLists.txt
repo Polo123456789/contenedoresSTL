@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.9.0)
 project(Tests)
 
+LIST(APPEND CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/../cmake")
+
+include(CTest)
+include(Catch)
 
 include_directories("../include")
 
@@ -20,6 +24,8 @@ set_target_properties(run_tests
     CXX_STANDARD 17
     CXX_EXTENSIONS off
     )
+
+catch_discover_tests(run_tests)
 
 # https://stackoverflow.com/questions/2368811/how-to-set-warning-level-in-cmake
 if (MSVC)
