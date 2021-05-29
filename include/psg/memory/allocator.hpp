@@ -10,6 +10,7 @@
 
 #include <psg/memory/allocator_traits.hpp>
 
+#include <pgsl/assert.hpp>
 #include <pgsl/views.hpp>
 
 namespace psg {
@@ -28,15 +29,19 @@ class allocator {
     using reference = T &;
     using const_reference = const T &;
     using size_type = size_t;
+
     /// Indica si tiene que ser copiado el allocator cuando el contenedor es
     /// move assigned
     using propagate_on_container_move_assingment = false_type;
+
     /// Igual que antes pero para la copia
     using propagate_on_container_copy_assingment = false_type;
+
     template<typename U>
     struct _rebind {
         using other = allocator<U>;
     };
+
     /// El rebind nos da una forma para obtener un allocator para un tipo
     /// diferente
     template<typename U>
@@ -48,6 +53,7 @@ class allocator {
 
     /// Asigna sizeof(T)*size bytes de memoria
     [[nodiscard]] pointer allocate(size_type size);
+
     /// Regresa la memoria
     void deallocate(T *ptr, size_type size [[maybe_unused]]) noexcept;
 
@@ -70,6 +76,7 @@ class allocator {
     // [[deprecated]] void construct(U *p, Args &&... args);
     // template<typename U>
     // [[deprecated]] void destroy(U *p);
+
    private:
     static constexpr size_type max_alloc_size =
         size_type(-1) / sizeof(value_type);
@@ -106,6 +113,7 @@ template<typename T>
 template<typename T>
 void allocator<T>::deallocate(pointer   ptr,
                               size_type size [[maybe_unused]]) noexcept {
+    Expects(ptr != nullptr);
     free(ptr);
 }
 

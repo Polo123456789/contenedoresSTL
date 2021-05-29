@@ -9,6 +9,8 @@
 #include <psg/common/random_access_iterator_functions.hpp>
 #include <psg/common/random_access_functions.hpp>
 
+#include <pgsl/assert.hpp>
+
 namespace psg {
 
 template<typename T, const size_t arr_size>

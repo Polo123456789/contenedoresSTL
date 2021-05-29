@@ -40,6 +40,8 @@ void array<T, arr_size>::fill(const_reference value) {
 /// Este tambien se usa para especializar el psg::swap
 template<typename T, const size_t arr_size>
 void array<T, arr_size>::swap(array<T, arr_size> &other) noexcept {
+    Expects(this != &other);
+
     array<T, arr_size> tmp = *this;
     *this = other;
     other = tmp;
