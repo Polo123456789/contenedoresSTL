@@ -5,31 +5,11 @@ Nota
 [![Total alerts](https://img.shields.io/lgtm/alerts/g/Polo123456789/contenedoresSTL.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Polo123456789/contenedoresSTL/alerts/)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/Polo123456789/contenedoresSTL.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/Polo123456789/contenedoresSTL/context:cpp)
 
-* El `namespace imp` esta reservado para los detalles de la complementación.
-* El `namespace extra` tiene unos overloads que considero que serán útiles, pero
-  no son estándar.
-* La carpeta `common` es para las funcionalidades comunes entre varios
-  contenedores. Por ejemplo, el `array` y el `vector` tienen en común algunas
-  funciones de acceso aleatorio.
-* Los `iterator_templates` estan solo de ejemplo, no se usan en nada
+Una implementacion en C++17 de las librerias de contenedores, iteradores,
+algoritmos, y utilidades generales basado en [este draft del estandar de
+C++17](docs/cpp17-draft.pdf). Y la GSL basado en lo que se comenta en las [core
+guidelines](https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines#S-gsl)
 
-La documentación puede generarla usando doxygen. Para usarla copie la carpteta
-include, añadala a el path de include en su compilador.
-
-Probado con clang y visual studio en mi pc y con gcc en travis
-
-Commits
--------
-
-Formato: ("(%c)<%s>%s", tipo, donde, que)
-
-| Tipos | Significado           |
-|-------|-----------------------|
-| =     | Cambio trivial        |
-| ~     | Refactorizacion       |
-| +     | Nuevo                 |
-| -     | Correccion de error   |
-| *     | Modificacion a la API |
 
 Checklist:
 ==========

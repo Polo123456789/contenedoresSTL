@@ -13,9 +13,11 @@
 
 namespace psg {
 
+/**
+ * Contenedor que encapsula un array de tamaño fijo.
+ */
 template<typename T, const size_t arr_size>
-// NOLINTNEXTLINE No necesita los que son por movimiento
-class array
+class array // NOLINT No necesita los que son por movimiento
     : public imp::random_access_functions<array<T, arr_size>, T, size_t>,
       public imp::
           random_access_iterator_functions<array<T, arr_size>, T, size_t> {
@@ -61,14 +63,44 @@ class array
     // const_reverse_iterator crbegin(void) const noexcept;
     // const_reverse_iterator crend(void) const noexcept;
 
+    /**
+     * @return `true` si el contenedor esta vacio.
+     *
+     * **Nota:** Para el array esto solo aplica si tiene un tamaño de 0
+     */
     [[nodiscard]] constexpr bool   empty(void) const noexcept;
+
+    /**
+     * @return El tamaño del contenedor
+     */
     [[nodiscard]] constexpr size_t size(void) const noexcept;
+
+    /**
+     * @return El tamaño máximo del contenedor.
+     *
+     * **Nota:** En el caso del psg::array, siempre es verdadero que `a.size()
+     * == a.max_size()`.
+     */
     [[nodiscard]] constexpr size_t max_size(void) const noexcept;
 
+    /**
+     * @param value Valor a ser copiado en todas las posiciones del contendedor.
+     */
     void fill(const_reference value);
+
+    /**
+     * @param other psg::array con el que se intercambiaran los contenidos.
+     */
     void swap(array<T, arr_size> &other) noexcept;
 
+    /**
+     * @return Puntero a el array utilizado
+     */
     pointer       data() noexcept;
+
+    /**
+     * @return Puntero constante a el array utilizado
+     */
     const_pointer data() const noexcept;
 
    private:
