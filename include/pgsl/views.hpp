@@ -6,10 +6,20 @@
 
 namespace pgsl {
 
+/**
+ * Tag utilizado para indicar que el puntero es dueño de la memoria a la que
+ * apunta.
+ */
 template<typename T, psg::enable_if_t<psg::is_pointer_v<T>, bool> dummie = true>
 using owner = T;
 
-// https://stackoverflow.com/questions/10007986/c-pass-an-array-by-reference
+/**
+ * Funcion utilitaria para acceder seguramente a los elementos de un array
+ * estilo C
+ *
+ * @throws psg::exception En caso de que el elemento este fuera del rango del
+ * array.
+ */
 template<typename T, size_t size>
 constexpr T &at(T (&array)[size], size_t position) { // NOLINT
     if (position < size) {
