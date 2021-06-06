@@ -5,8 +5,6 @@
 #include <psg/memory.hpp>
 #include <psg/iterator.hpp>
 
-#include <psg/list/node.hpp>
-
 namespace psg {
 
 namespace imp {
@@ -147,12 +145,6 @@ class list {
     void reverse() noexcept;
 
    private:
-    using node = imp::list_node<T, Allocator>;
-
-    static constexpr auto node_insert_before =
-        imp::list_node<T, Allocator>::insert_before;
-    static constexpr auto node_insert_after =
-        imp::list_node<T, Allocator>::insert_after;
 };
 } // namespace psg
 
