@@ -3,13 +3,11 @@
 
 namespace psg {
 
-// Revisiones para ver si tienen los miembros
-//
-// Vamos a aprovechar SFINAE. Que es eso?
-//
-// Substitution Failure Is Not An Error. Tenemos varios templates para una
-// funcion. Si al sustituir los tipos falla, no marca como error sino que quita
-// esa funcion de los overloads disponibles. Saquemosle el jugo
+/*
+ * Lo mas facil es que busques en google SFINAE. De todas maneras el primer
+ * check se trata de explicar a si mismo.
+ */
+
 namespace imp {
 
 template<typename Alloc, typename... Args>

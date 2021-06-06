@@ -3,6 +3,10 @@
 
 namespace psg {
 
+/*
+ * Esta en realidad no sirve para nada, pero la pongo porque si.
+ */
+
 enum class pointer_safety {
     relaxed,   // Todos los punteros son validos
     preferred, // Todos los punteros son validos, puede que haya un leak

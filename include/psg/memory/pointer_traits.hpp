@@ -6,12 +6,17 @@
 
 namespace psg {
 
-/// Version no especializada, que requiere que se defina:
-///
-/// * Ptr::element_type
-/// * Ptr::difference_type
-/// * Ptr::rebind<U>
-/// * Ptr::pointer_to(element_type& e)
+/**
+ * La forma en la que la libreria estandar accede a las propiedades de los
+ * punteros. Por default requiere:
+ * 
+ * * Ptr::element_type
+ * * Ptr::difference_type
+ * * Ptr::rebind<U>
+ * * Ptr::pointer_to(element_type& e)
+ *
+ * Pero puede especializarla para que utilize sus punteros.
+ */
 template<typename Ptr>
 struct pointer_traits {
     using pointer = Ptr;
@@ -21,6 +26,9 @@ struct pointer_traits {
     template<typename U>
     using rebind = typename Ptr::template rebind<U>;
 
+    /**
+     * @return La direccion de memoria de `e`
+     */
     static pointer pointer_to(element_type& e);
 };
 
@@ -29,7 +37,10 @@ auto pointer_traits<Ptr>::pointer_to(element_type &e) -> pointer {
     return Ptr::pointer_to(e);
 }
 
-/// Version especializada para los punteros normales
+/**
+ * Especializacion de psg::pointer_traits para que funcione con punteros
+ * normales
+ */
 template <typename T>
 struct pointer_traits<T*> {
     using pointer = T*;
@@ -42,6 +53,9 @@ struct pointer_traits<T*> {
     static pointer pointer_to(element_type& e);
 };
 
+/**
+ * @return `psg::addressof(e)`
+ */
 template <typename T>
 T* pointer_traits<T*>::pointer_to(element_type& e) {
     return addressof(e);

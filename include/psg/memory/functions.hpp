@@ -12,17 +12,9 @@ constexpr bool addresof_by_casting = true;
 
 }
 
-/// Regresa la direccion de memoria de el argumento dado.
-///
-/// Sere completamente honesto, este lo copie de la posible implementacion que
-/// se coloca en cppreference. Se me occuria una implementacion que solo fuera
-/// `return &arg`, pero dice que tiene que funcionar aunque el operador & este
-/// sobrecargado. Por ende, en lugar de romperme la cabeza tratando de buscar
-/// como (Que no es el plan, el plan es implementar los contenedores), mejor
-/// hago el buen copy paste y damos creditos.
-///
-/// [Link a el articulo de
-/// cppreference](https://en.cppreference.com/w/cpp/memory/addressof)
+/**
+ * @return La direccion de memoria de `arg`
+ */
 template<typename T>
 T *addressof(T &arg) noexcept {
     if constexpr (imp::addresof_by_casting) {
@@ -34,44 +26,33 @@ T *addressof(T &arg) noexcept {
     }
 }
 
-namespace imp {
-
-template<typename ForwardIt, typename UnaryFunc>
-void destroy_range(ForwardIt first,
-                   ForwardIt last,
-                   UnaryFunc destructor_function) {
-
-    for_each(first, last, destructor_function);
-}
-
-};  // namespace imp
-
-/// Construye un elemento en p, con el paquete de argumentos que se le hayan
-/// dado.
-///
-/// Este recomendaria utilizarlo solo para elementos que asigno utilizando el
-/// psg::allocator. Tendria que llamar al psg::destroy_at si utiliza este.
+/**
+ * Contruye un elemento a en la direccion de memoria de `p` usando el paquete de
+ * argumentos que se le dio.
+ */
 template<typename T, typename... Args>
 T *construct_at(T *p, Args &&...args) {
     new (p) T(forward<Args>(args)...);
     return p;
 }
 
-/// Destruye el elemento en la direccion p.
-///
-/// Este seria el complemento del el construct_at
+/**
+ * Destruye un elemento a en la direccion de memoria de `p`.
+ */
 template<typename T>
 void destroy_at(T *p) noexcept {
     p->~T();
 }
 
-/// Destruye todos los elementos en el rango first - last
+/**
+ * Destruye todos los elementos en el rango first - last
+ */
 template<typename ForwardIt>
 void destroy(ForwardIt first, ForwardIt last) {
     auto destroy_element = [](ForwardIt it) {
         destroy_at(addressof(*it));
     };
-    imp::destroy_range(first, last, destroy_element);
+    for_each(first, last, destroy_element);
 }
 
 }; // namespace psg

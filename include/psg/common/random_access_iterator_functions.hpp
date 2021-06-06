@@ -5,7 +5,7 @@
 
 namespace psg {
 
-/// Especialisazion para poder usar los reverse_iterator con punteros
+/// Especialización para poder usar los reverse_iterator con punteros
 template<typename T>
 struct iterator_traits<T *> {
     using difference_type = ptrdiff_t;
