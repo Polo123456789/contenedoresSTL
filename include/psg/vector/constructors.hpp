@@ -7,7 +7,6 @@
 
 namespace psg {
 
-/// Simplemente asigna el allocator.
 template<class T, class Allocator>
 vector<T, Allocator>::vector(const Allocator &allocator) noexcept
     : alloc(allocator) {
@@ -15,14 +14,12 @@ vector<T, Allocator>::vector(const Allocator &allocator) noexcept
     object = resource_handler(nullptr, alloc);
 }
 
-/// Asigna n espacios en memoria y los llena con el valor default.}
 template<class T, class Allocator>
 vector<T, Allocator>::vector(size_type n, const Allocator &allocator)
     : alloc(allocator), allocated_space(n),
       object(traits::allocate(alloc, allocated_space), alloc, allocated_space) {
 }
 
-/// Asina n espacios en memoria y copia el valor
 template<class T, class Allocator>
 vector<T, Allocator>::vector(size_type        n,
                              const T &        value,
@@ -32,7 +29,7 @@ vector<T, Allocator>::vector(size_type        n,
 
     try {
 
-        for_each(this->begin(), this->begin() + 10, [&](reference r) {
+        for_each(this->begin(), this->begin() + n, [&](reference r) {
             traits::construct(alloc, addressof(r), value);
             ++last_valid_element;
         });
@@ -45,31 +42,24 @@ vector<T, Allocator>::vector(size_type        n,
     }
 }
 
-/// Asingna distance(first, last) espacios de memoria, y copia los elemtos en el
-/// rango [first, last)
 template<class T, class Allocator>
 template<class InputIt>
 vector<T, Allocator>::vector(InputIt          first,
                              InputIt          last,
                              const Allocator &allocator) {}
 
-/// Copia el other a este vector.
 template<class T, class Allocator>
 vector<T, Allocator>::vector(const vector &other)
     : vector(other,
              allocator_traits<Allocator>::select_on_container_copy_construction(
                  other.get_allocator())) {}
 
-/// Copia el other al vector, y copia el allocator
 template<class T, class Allocator>
 vector<T, Allocator>::vector(const vector &other, const Allocator &a) {}
 
-/// Mueve el other a este vector, garantizando que other estara vacio.
 template<class T, class Allocator>
 vector<T, Allocator>::vector(vector &&other) noexcept {}
 
-/// Mueve el other a este vector, y copia el allocator garantizando que other
-/// estara vacio.
 template<class T, class Allocator>
 vector<T, Allocator>::vector(vector &&other, const Allocator &a) {}
 

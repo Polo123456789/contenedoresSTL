@@ -10,6 +10,8 @@
 
 namespace psg {
 
+// TODO: Documentar correctamente al vector
+
 /// Array asignado dinamicamente, y que puede estar cambiando de tamaño
 /// constantemente.
 ///
