@@ -5,25 +5,27 @@
 
 namespace psg::imp {
 
-/// Dado un contenedor, que mantiene sus objetos en memoria contigua, esta clase
-/// da las funciones miembro para obtener el accesso random de los elementos.
-///
-/// Da las funciones:
-///
-/// * reference at(size_type position);
-/// * const_reference at(size_type position) const;
-/// * reference operator[](size_type position);
-/// * const_reference operator[](size_type position) const;
-/// * reference front(void);
-/// * const_reference front(void) const;
-/// * reference back(void);
-/// * const_reference back(void) const;
-///
-/// Requiere que la clase que lo herede, tenga las siguientes funciones miebro:
-///
-/// * [[nodiscard]] size_type size(void) const noexcept;
-/// * pointer data() noexcept;
-/// * const_pointer data() const noexcept;
+/**
+ *  Dado un contenedor, que mantiene sus objetos en memoria contigua, esta clase
+ *  da las funciones miembro para obtener el accesso aleatorio de los elementos.
+ *
+ *  Da las funciones:
+ *
+ *  * reference at(size_type position);
+ *  * const_reference at(size_type position) const;
+ *  * reference operator[](size_type position);
+ *  * const_reference operator[](size_type position) const;
+ *  * reference front(void);
+ *  * const_reference front(void) const;
+ *  * reference back(void);
+ *  * const_reference back(void) const;
+ *
+ *  Requiere que la clase que lo herede, tenga las siguientes funciones miebro:
+ *
+ *  * [[nodiscard]] size_type size(void) const noexcept;
+ *  * pointer data() noexcept;
+ *  * const_pointer data() const noexcept;
+ */
 template<typename Container, typename ValueType, typename SizeType>
 struct random_access_functions {
     using value_type = ValueType;
@@ -33,13 +35,52 @@ struct random_access_functions {
     using const_pointer = const value_type *;
     using size_type = SizeType;
 
-    reference       at(size_type position);
+    /**
+     * @param position Posicion de la que se quiere el elemento
+     * @return Una referencia al elemento en dicha posicion
+     * @throws psg::exception En caso de que `position` este fuera del rango del
+     *         contendedor.
+     */
+    reference at(size_type position);
+
+    /**
+     * @param position Posicion de la que se quiere el elemento
+     * @return Una referencia constante al elemento en dicha posicion
+     * @throws psg::exception En caso de que `position` este fuera del rango del
+     *         contendedor.
+     */
     const_reference at(size_type position) const;
+
+    /**
+     * @param position Posicion de la que se quiere el elemento
+     * @return Una referencia al elemento en dicha posicion
+     */
     reference       operator[](size_type position);
+
+    /**
+     * @param position Posicion de la que se quiere el elemento
+     * @return Una referencia constante al elemento en dicha posicion
+     */
     const_reference operator[](size_type position) const;
+
+    /**
+     * @return Una referencia al primer elemento del contendor
+     */
     reference       front(void);
+
+    /**
+     * @return Una referencia constante al primer elemento del contendor
+     */
     const_reference front(void) const;
+
+    /**
+     * @return Una referencia al ultimo elemento del contendor
+     */
     reference       back(void);
+
+    /**
+     * @return Una referencia constante al ultimo elemento del contendor
+     */
     const_reference back(void) const;
 
    private:
@@ -62,10 +103,6 @@ struct random_access_functions {
     friend Container;
 };
 
-/// Regresa el elemento en la posicion solicitada con checkeo.
-///
-/// Este regresa una referencia a el elemento revisando que este dentro del
-/// array, si el elemento esta fuera de rango, esta lanza un psg::exception.
 template<typename Container, typename ValueType, typename SizeType>
 ValueType &random_access_functions<Container, ValueType, SizeType>::at(
     size_type position) {
@@ -77,11 +114,6 @@ ValueType &random_access_functions<Container, ValueType, SizeType>::at(
                     "elemento fuera de rango. ");
 }
 
-/// Regresa el elemento en la posicion solicitada con checkeo.
-///
-/// Este regresa una referencia constante a el elemento revisando que este
-/// dentro del array, si el elemento esta fuera de rango, esta lanza un
-/// psg::exception.
 template<typename Container, typename ValueType, typename SizeType>
 const ValueType &random_access_functions<Container, ValueType, SizeType>::at(
     size_type position) const {
@@ -93,8 +125,6 @@ const ValueType &random_access_functions<Container, ValueType, SizeType>::at(
                     "elemento fuera de rango. ");
 }
 
-/// Regresa una referencia a el elemento en la posicion solicitada sin
-/// checkeo.
 template<typename Container, typename ValueType, typename SizeType>
 ValueType &random_access_functions<Container, ValueType, SizeType>::operator[](
     size_type position) {
@@ -102,8 +132,6 @@ ValueType &random_access_functions<Container, ValueType, SizeType>::operator[](
     return this->underlying_data()[position];
 }
 
-/// Regresa una referencia constante a el elemento en la posicion solicitada
-/// sin checkeo.
 template<typename Container, typename ValueType, typename SizeType>
 const ValueType &
     random_access_functions<Container, ValueType, SizeType>::operator[](
@@ -112,7 +140,6 @@ const ValueType &
     return this->underlying_const_data()[position];
 }
 
-/// Regresa una referencia al el primer elemento del array
 template<typename Container, typename ValueType, typename SizeType>
 ValueType &
     random_access_functions<Container, ValueType, SizeType>::front(void) {
@@ -120,7 +147,6 @@ ValueType &
     return this->underlying_data()[0];
 }
 
-/// Regresa una referencia constante al el primer elemento del array
 template<typename Container, typename ValueType, typename SizeType>
 const ValueType &
     random_access_functions<Container, ValueType, SizeType>::front(void) const {
@@ -128,14 +154,12 @@ const ValueType &
     return this->underlying_const_data()[0];
 }
 
-/// Regresa una referencia al el primer elemento del array
 template<typename Container, typename ValueType, typename SizeType>
 ValueType &random_access_functions<Container, ValueType, SizeType>::back(void) {
 
     return this->underlying_data()[underlying_size() - 1];
 }
 
-/// Regresa una referencia constante al el primer elemento del array
 template<typename Container, typename ValueType, typename SizeType>
 const ValueType &
     random_access_functions<Container, ValueType, SizeType>::back(void) const {
