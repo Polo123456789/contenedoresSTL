@@ -3,6 +3,9 @@
 
 namespace psg {
 
+/**
+ * Envuelve una constante de un tipo
+ */
 template<class T, T v>
 struct integral_constant {
     static constexpr T value = v;
@@ -11,15 +14,25 @@ struct integral_constant {
     constexpr value_type operator()() const noexcept {
         return value;
     }
-    // NOLINTNEXTLINE Este intencionalmente quiero que no sea explicito
-    constexpr operator value_type() const noexcept {
+    constexpr operator value_type() const noexcept /*NOLINT [[implicit]]*/ {
         return value;
     }
 };
 
+/**
+ * Envuelve una constante booleana
+ */
 template<bool B>
 using bool_constant = integral_constant<bool, B>;
+
+/**
+ * Tipo cuyo valor siempre evaluara a verdadero
+ */
 using true_type = bool_constant<true>;
+
+/**
+ * Tipo cuyo valor siempre evaluara a falso
+ */
 using false_type = bool_constant<false>;
 
 }; // namespace psg
