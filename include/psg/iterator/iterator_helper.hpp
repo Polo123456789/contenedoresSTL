@@ -5,10 +5,9 @@
 
 namespace psg {
 
-/// Es una clase base que sirve como ayuda para la creacion de los iteradores
-///
-/// Yo la verdad es que solo la declaro aqui, porque esta, porque la verdad es
-/// que no planeo usarla. El estandar tampoco, si la deprecaron en C++17
+/**
+ *  Clase base utilizada como ayuda para crear los iteradores.
+ */
 template<typename Category,
          typename T,
          typename Distance = ptrdiff_t,
