@@ -6,6 +6,9 @@
 
 namespace psg::imp {
 
+/**
+ * @see psg::reverse_iterator
+ */
 template<typename Iter>
 class reverce_bidirecitional_iterator {
    public:

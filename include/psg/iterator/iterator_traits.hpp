@@ -3,9 +3,10 @@
 
 namespace psg {
 
-/// Es la clase que se usa para acceder a las caracteristicas del iterador
-///
-/// Puede especializarla para usar sus propias clases como iteradores
+/**
+ * Clase utilizada por los contenedores de la libreria estandar para acceder a
+ * las propiedades de los iteradores.
+ */
 template<typename Iter>
 struct iterator_traits {
     using difference_type = typename Iter::difference_type;

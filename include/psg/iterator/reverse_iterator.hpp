@@ -11,8 +11,9 @@
 
 namespace psg {
 
-/// Adaptador para que cualquier iterador, ya sea bidirectional o de random
-/// access pueda utilizarse como iterador reverso
+/**
+ * Clase encargada de invertir la direccion de los iteradores.
+ */
 template<typename Iter>
 using reverse_iterator =
     // clang-format off

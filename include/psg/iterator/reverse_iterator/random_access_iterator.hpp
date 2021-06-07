@@ -7,6 +7,9 @@
 
 namespace psg::imp {
 
+/**
+ * @see psg::reverse_iterator
+ */
 template<typename Iter>
 class reverse_random_access_iterator {
 
