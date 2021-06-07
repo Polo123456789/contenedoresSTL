@@ -7,7 +7,7 @@
 namespace pgsl {
 
 /**
- * Tag para las variables que se usan para indexar
+ * Tag para las variables que se usan para indexar contenedores
  */
 using index = size_t;
 
