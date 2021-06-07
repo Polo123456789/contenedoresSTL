@@ -34,6 +34,9 @@ typename iterator_traits<InputIt>::difference_type
 
 }; // namespace imp
 
+/**
+ * @return La cantidad de elementos en el rango first - last
+ */
 template<typename InputIt>
 typename iterator_traits<InputIt>::difference_type distance(InputIt first,
                                                             InputIt last) {
