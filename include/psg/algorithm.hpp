@@ -3,9 +3,15 @@
 
 namespace psg {
 
-/// Copia los valores.
-///
-/// Copia tantos valores como haya distance(first, last)
+/**
+ * Copia los elementos en el rango [first - last) a el rango iniciado por
+ * `o_begin`
+ *
+ * @param first Inicio de el rango del que se copiara
+ * @param first Final de el rango del que se copiara
+ * @param o_begin Inicio del rango al que se copiaran
+ * @return El final de el rango al que se copiaron los valores
+ */
 template<typename InputIt, typename OutputIt>
 OutputIt copy(InputIt first, InputIt last, OutputIt o_begin) {
     for (; first != last; ++first, ++o_begin) {
@@ -13,16 +19,32 @@ OutputIt copy(InputIt first, InputIt last, OutputIt o_begin) {
     }
 }
 
-/// Copia n valores.
+/**
+ * Copia los elementos en desde `first` hasta `first + count` al rango iniciado
+ * por result
+ *
+ * @param first Inicio de el rango del que se copiara
+ * @param count Cantidad de elementos que se copiaran
+ * @param result Inicio del rango al que se copiara
+ * @return El final de el rango al que se copiaron los valores
+ */
 template<typename InputIt, typename Size, typename OutputIt>
-OutputIt copy_n(InputIt fist, Size count, OutputIt result) {
-    for (Size i = 0; i < count; i++, ++result, ++fist) {
-        *result = *fist;
+OutputIt copy_n(InputIt first, Size count, OutputIt result) {
+    for (Size i = 0; i < count; ++i, ++result, ++first) {
+        *result = *first;
     }
     return result;
 }
 
-/// Ejecuta la funcion que se le dio en cada uno de los valores.
+/**
+ * Ejecuta `f` en todos los elementos en el rango [first - last)
+ *
+ * @param first Inicio del rago
+ * @param last Final del rago
+ * @param f Una funcion, lambda, o functor que tome como parametro
+ *          InputIt::value_type, InputIt::reference, o InputIt::const_reference
+ * @return f
+ */
 template<typename InputIt, typename UnaryFunc>
 UnaryFunc for_each(InputIt first, InputIt last, UnaryFunc f) {
     for (; first != last; ++first) {
@@ -33,8 +55,9 @@ UnaryFunc for_each(InputIt first, InputIt last, UnaryFunc f) {
 
 namespace extra {
 
-/// Ejecuta la funcion para cada uno de los valores en el rango first, last. Va
-/// añadiendo como segundo parametro other, que se ira incrementando tambien.
+/**
+ * Igual que psg::for_each, pero con dos rangos.
+ */
 template<typename InputIt, typename OtherInputIt, typename BinaryFunc>
 BinaryFunc
     for_each(InputIt first, InputIt last, OtherInputIt other, BinaryFunc f) {
