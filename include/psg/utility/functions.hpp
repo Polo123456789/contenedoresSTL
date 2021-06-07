@@ -5,25 +5,33 @@
 
 namespace psg {
 
-/// Convierte un lvalue a un rvalue
+/**
+ * Indica que los recursos se pueden "mover" de un objeto a otro.
+ */
 template<typename T>
 remove_reference_t<T> move(T &&t) {
     return static_cast<remove_reference_t<T> &&>(t);
 }
 
-/// Hace un perfect forwarding en los argumentos dados
+/**
+ * @return lvalue o rvalue dependiendo de T
+ */
 template<typename T>
 T &&forward(remove_reference_t<T> &t) {
     return static_cast<T &&>(t);
 }
 
-/// Hace un perfect forwarding en los argumentos dados
+/**
+ * @return lvalue o rvalue dependiendo de T
+ */
 template<typename T>
 T &&forward(remove_reference_t<T> &&t) {
     return static_cast<T &&>(t);
 }
 
-/// Intercambia los valores
+/**
+ * Intercambia `a` y `b`
+ */
 template<typename T>
 void swap(T &a, T &b) noexcept {
     T tmp = move(a);
@@ -31,7 +39,11 @@ void swap(T &a, T &b) noexcept {
     b = move(tmp);
 }
 
-/// Le da a obj el valor dado, y regresa el valor anterior de obj
+/**
+ * @param obj Objeto al que se le cambiara el valor
+ * @param new_value Nuevo valor para objeto
+ * @return El viejo valor de objeto
+ */
 template<typename T, typename U = T>
 T exchange(T &obj, U &&new_value) {
     T tmp = move(obj);
