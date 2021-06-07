@@ -7,11 +7,11 @@ cmake ..
 cd ..
 
 REM Ver compile_all.bat
-REM rmdir bin_gcc /s /q
-REM mkdir bin_gcc
-REM cd bin_gcc
-REM cmake .. -G "Unix Makefiles" -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
-REM cd ..
+rmdir bin_gcc /s /q
+mkdir bin_gcc
+cd bin_gcc
+cmake .. -G "Unix Makefiles" -DCMAKE_C_COMPILER=gcc -DCMAKE_CXX_COMPILER=g++
+cd ..
 
 rmdir bin_clang /s /q
 mkdir bin_clang

@@ -49,7 +49,8 @@ auto unique_ptr<T, Deleter>::operator=(unique_ptr<U, E> &&u) noexcept
 }
 
 template<class T, class Deleter>
-auto unique_ptr<T, Deleter>::operator=(nullptr_t) noexcept -> unique_ptr & {
+auto unique_ptr<T, Deleter>::operator=(std::nullptr_t) noexcept
+    -> unique_ptr & {
     reset(nullptr);
     return *this;
 }

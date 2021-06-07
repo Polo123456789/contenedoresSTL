@@ -33,7 +33,7 @@ class allocated_unique_ptr {
     using size_type = typename traits::size_type;
     using allocator_type = Allocator;
 
-    constexpr allocated_unique_ptr(nullptr_t, allocator_type &a) noexcept
+    constexpr allocated_unique_ptr(std::nullptr_t, allocator_type &a) noexcept
         : alloc(a) {}
 
     allocated_unique_ptr(pointer p, Allocator &a, size_type size) noexcept
@@ -56,7 +56,7 @@ class allocated_unique_ptr {
         this->swap(u);
     }
 
-    allocated_unique_ptr &operator=(nullptr_t) noexcept {
+    allocated_unique_ptr &operator=(std::nullptr_t) noexcept {
         this->reset();
     }
 

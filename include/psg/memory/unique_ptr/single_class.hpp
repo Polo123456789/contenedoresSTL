@@ -1,6 +1,8 @@
 #ifndef PSG_MEMORY_UNIQUE_PTR_SINGLE_CLASS_HPP
 #define PSG_MEMORY_UNIQUE_PTR_SINGLE_CLASS_HPP
 
+#include <cstddef>
+
 #include <psg/type_traits/reference_modifications.hpp>
 #include <psg/memory/default_delete.hpp>
 
@@ -21,8 +23,8 @@ class unique_ptr {
     constexpr unique_ptr() noexcept = default;
     explicit unique_ptr(pointer p) noexcept;
 
-    constexpr unique_ptr(nullptr_t) noexcept {} // NOLINT [[implicit]]
-    unique_ptr &operator=(nullptr_t) noexcept;
+    constexpr unique_ptr(std::nullptr_t) noexcept {} // NOLINT [[implicit]]
+    unique_ptr &operator=(std::nullptr_t) noexcept;
 
     unique_ptr(pointer p, Deleter d) noexcept;
 

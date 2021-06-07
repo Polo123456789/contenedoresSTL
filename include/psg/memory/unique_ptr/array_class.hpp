@@ -24,7 +24,7 @@ class unique_ptr<T[], Deleter> // NOLINT Tiene que ser de estilo C
     unique_ptr(unique_ptr &&u) noexcept;
     template<class U, class E>
     unique_ptr(unique_ptr<U, E> &&u) noexcept; // NOLINT [[implicit]]
-    constexpr unique_ptr(nullptr_t) noexcept;  // NOLINT [[implicit]]
+    constexpr unique_ptr(std::nullptr_t) noexcept;  // NOLINT [[implicit]]
     ~unique_ptr();
 
     // assignment
@@ -32,7 +32,7 @@ class unique_ptr<T[], Deleter> // NOLINT Tiene que ser de estilo C
     unique_ptr &operator=(unique_ptr &&u) noexcept;
     template<class U, class E>
     unique_ptr &operator=(unique_ptr<U, E> &&u) noexcept;
-    unique_ptr &operator=(nullptr_t) noexcept;
+    unique_ptr &operator=(std::nullptr_t) noexcept;
 
     // observers
     T &                 operator[](size_t i) const;
@@ -45,7 +45,7 @@ class unique_ptr<T[], Deleter> // NOLINT Tiene que ser de estilo C
     pointer release() noexcept;
     template<class U>
     void reset(U p) noexcept;
-    void reset(nullptr_t = nullptr) noexcept;
+    void reset(std::nullptr_t = nullptr) noexcept;
     void swap(unique_ptr &u) noexcept;
 
    private:

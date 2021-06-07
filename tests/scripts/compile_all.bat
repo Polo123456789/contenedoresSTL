@@ -6,9 +6,9 @@ cmake --build .
 cd ..
 
 REM echo Construyendo para gcc
-REM cd bin_gcc
-REM cmake --build .
-REM cd ..
+cd bin_gcc
+cmake --build .
+cd ..
 
 echo Construyendo para clang
 cd bin_clang
