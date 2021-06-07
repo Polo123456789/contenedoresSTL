@@ -12,15 +12,17 @@
 
 namespace psg::imp {
 
-///
-/// Objeto encargado de manejar manejar memoria dada por un allocator.
-///
-/// **Nota:** Este no construye los elementos
-///
-/// Este tiene la responsabilidad unica de liberar la memoria asignada. El
-/// contenedor que lo utiliza sera responsable de la construccion y destruccion
-/// de los elementos.
-///
+/**
+ * 
+ *  Objeto encargado de manejar manejar memoria dada por un allocator.
+ * 
+ *  **Nota:** Este no construye los elementos
+ * 
+ *  Este tiene la responsabilidad unica de liberar la memoria asignada. El
+ *  contenedor que lo utiliza sera responsable de la construccion y destruccion
+ *  de los elementos.
+ * 
+ */
 template<typename Allocator>
 class allocated_unique_ptr {
     using traits = psg::allocator_traits<Allocator>;

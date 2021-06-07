@@ -23,9 +23,6 @@ struct default_free {
     }
 };
 
-
-/// Non constructing unique ptr. Es para usar con malloc y free, y que los
-/// necesito para el vector
 template<class T, class Deleter = default_free<T>>
 class nc_unique_ptr {
    public:
